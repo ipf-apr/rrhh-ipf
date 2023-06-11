@@ -2,16 +2,14 @@ const { Router } = require('express')
 
 const router = Router();
 
-const authController = require('../controllers/authcontrollers');
+const authController = require('../controllers/auth.controllers');
 
-const conection = require('../database/db');
-const res = require('express/lib/response');
 
 
 router.get('/login', authController.loginPage)
 
 router.get('/', authController.isAuthenticated,(req,res)=>{
-    console.log(req.username.role);
+    console.log(req.username);
     
     res.render('index')
 })

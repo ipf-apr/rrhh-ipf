@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const bcryptjs = require('bcryptjs');
-const conection = require('../database/db');
+const { User } = require('../models/index')
 const { promisify } = require('util');
 //procedimiento de registro
 
@@ -13,6 +13,8 @@ exports.register = async (req, res) => {
         const pass = req.body.password;
         const passConfirmation = req.body.passwordConfirmation;
         const rol = req.body.rol;
+
+
         if (!username || !pass) {
             if (fu) {
                 return res.render('auth/login', {
@@ -69,13 +71,18 @@ exports.register = async (req, res) => {
 
         console.log(passHash.length);
         // console.log(passHash);
-        conection.query('INSERT INTO users SET ?', { name: name, last_name: lastName, username: username, password: passHash, role: rol }, (error, results) => {
-            if (error) {
-                console.log(error);
-            } else {
-                res.redirect('/login')
-            }
+        User.create({
+            name: name,
+            lastName: lastName,
+            username: username,
+            password: passHash,
+            role: rol
+        }).then(user => {
+            res.redirect('/login')
+        }).catch(err => {
+            console.log(err);
         })
+
     } catch (error) {
         console.log(error);
     }
@@ -84,9 +91,8 @@ exports.register = async (req, res) => {
 
 exports.login = async (req, res) => {
     try {
-        const username = req.body.username;
-        const pass = req.body.password;
-        if (!username || !pass) {
+        const { username, password } = req.body;
+        if (!username || !password) {
             res.render('auth/login', {
                 alert: true,
                 alertTitle: "Advertencia",
@@ -97,8 +103,13 @@ exports.login = async (req, res) => {
                 ruta: 'login'
             })
         } else {
-            conection.query('SELECT * FROM users WHERE username = ?', [username], async (error, results) => {
-                if (results == 0 || !(await bcryptjs.compare(pass, results[0].password))) {
+
+            User.findOne({
+                where: {
+                    username
+                }
+            }).then(async function(user) {
+                if (user === null || user.username != username || !(await bcryptjs.compare(password, user.password))) {
                     res.render('auth/login', {
                         alert: true,
                         alertTitle: "Advertencia",
@@ -110,8 +121,8 @@ exports.login = async (req, res) => {
                         existUser: true
                     })
                 } else {
-                    const id = results[0].id;
-                    const role = results[0].role;
+                    const id = user.id;
+                    const role = user.role;
                     const token = jwt.sign({ id: id, rol: role }, process.env.JWT_SECRET, {
                         expiresIn: process.env.JWT_TIEMPO_EXPIRA
                     })
@@ -131,7 +142,9 @@ exports.login = async (req, res) => {
                         existUser: true
                     })
                 }
-            })
+            }).catch(err => {
+                res.status(500).json(err);
+            });
         }
     } catch (error) {
         console.log(error);
@@ -139,20 +152,22 @@ exports.login = async (req, res) => {
 }
 
 
-
 exports.isAuthenticated = async (req, res, next) => {
     if (req.cookies.jwt) {
-        try {
-            const jwtDecodificado = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRET)
-            conection.query('SELECT * FROM users WHERE id = ?', [jwtDecodificado.id], (error, results) => {
-                if (!results) { return next() }
-                req.username = results[0];
-                return next();
-            })
-        } catch (error) {
+        const jwtDecodificado = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRET)
+        User.findOne({
+            where: {
+                id: jwtDecodificado.id
+            }
+        }).then(user => {
+            if (!user) { return next() }
+            req.user = user;
+            return next();
+        }).catch(error => {
             console.log(error);
             return next();
-        }
+        });
+
     } else {
         res.redirect('/login');
     }
@@ -160,13 +175,18 @@ exports.isAuthenticated = async (req, res, next) => {
 
 exports.loginPage = async (req, res) => {
     try {
-        conection.query('SELECT id FROM users limit 1', (error, results) => {
-            if (results.length === 0) {
+        User.findAll({
+            where: {
+              id: 1
+            }
+          }).then(user => {
+            if (user.length === 0) {
                 res.render('auth/login', { alert: false, existUser: false })
             } else {
                 res.render('auth/login', { alert: false, existUser: true })
             }
-        })
+          });
+
 
     } catch (error) {
         console.log(error);
