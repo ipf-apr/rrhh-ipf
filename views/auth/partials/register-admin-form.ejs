@@ -1,0 +1,35 @@
+<form action="/register" method="POST" class="col-11 col-lg-4 text-start p-4 rounded border border-2 shadow-sm mx-auto gap-2">
+    
+    <div class="col mt-2">
+      <label  class="form-label">Apellido <small class="text-danger">(*)</small></label>
+      <input type="text" class="form-control" name="lastName" id="lastName" placeholder="Ingrese su apellido" required>
+    </div>
+    <div class="col  mt-2">
+      <label class="form-label">Nombres <small class="text-danger">(*)</small></label>
+      <input type="text" class="form-control" name="name" id="name" placeholder="Ingrese su nombre" required>
+    </div>
+    <div class="col  mt-2">
+      <label class="form-label">Usuario <small class=" text-danger">(*)</small></label>
+      <input type="text" class="form-control" name="username" id="username" placeholder="Ingrese su nombre de usuario" required>
+    </div>
+    <div class="d-flex gap-2  mt-2">
+      <div class="col">
+        <label class="form-label">Contraseña <small class=" text-danger">(*)</small></label>
+        <input type="password" class="form-control" name="password" id="password" placeholder="Ingrese su contraseña" required>
+      </div>
+      <div class="col">
+        <label class="form-label">Confirmar Contraseña <small class=" text-danger">(*)</small></label>
+        <input type="password" class="form-control" name="passwordConfirmation" id="passwordConfirmation" placeholder="Repetir su contraseña" required>
+      </div>
+    </div>
+      
+    <div class="col my-3">
+      <label class="form-label text-danger">El sistema no posee usuarios activos, por lo que se procederá a crear usuario con el ROL de Administrador</label>
+      <input name="rol" id="rol" type="hidden" value="admin">
+      <input name="fu" id="fu" type="hidden" value="true">
+    </div>
+    <div class="col-12">
+      <button class="btn btn-primary" type="submit">Guardar</button>
+      <button class="btn btn-secondary" type="reset">Borrar formulario</button>
+    </div>
+  </form>
