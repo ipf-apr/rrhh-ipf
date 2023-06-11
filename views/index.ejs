@@ -14,55 +14,8 @@
 <body class="h-100 d-flex flex-column">
     <%- include('layouts/nav'); %>
     <div id="height-cuerpo" class="row">
-        <aside id="aside" tabindex="-1" class="offcanvas-lg offcanvas-start bg-dark px-3 col-2">
-            <div class="offcanvas-header border-bottom text-white">
-                <h5 class="offcanvas-title" id="asideTitle">Menú</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"
-                    data-bs-target="#aside"></button>
-            </div>
-            <div class="offcanvas-body">
-                <ul class="nav nav-pills flex-column g-3">
-                    <li class="nav-item">
-                        <a href="../panel.html" class="nav-link active">
-                            Inicio
-                        </a>
-                    </li>
-                    <li>
-                        <a href="../employees/index.html" class="nav-link text-white" aria-current="page">
-                            Empleados
-                        </a>
-                    </li>
-                    <a class="nav-link text-white dropdown-toggle" 
-                    data-bs-toggle="collapse" href="#collapseMenuAdmin" role="button" aria-expanded="false" aria-controls="collapseMenuAdmin"
-                    aria-current="page">
-                        Administración 
-                    </a>
-                    <ul  class="collapse" id="collapseMenuAdmin">
-                        <li>
-                            <a href="categories/index.html" class="nav-link text-white">
-                                Categorías
-                            </a>
-                        </li>
-                        <li>
-                            <a href="skills/index.html" class="nav-link text-white">
-                                Habilidades
-                            </a>
-                        </li>
-                        <li>
-                            <a href="workstations/index.html" class="nav-link text-white">
-                                Puestos Laborales
-                            </a>
-                        </li>
-                        <li>
-                            <a href="users/index.html" class="nav-link text-white">
-                                Usuarios
-                            </a>
-                        </li>
-                    </ul>
-
-                </ul>
-            </div>
-        </aside>
+        
+        <%- include('layouts/menu-aside'); %>
         <div class="container-fluid py-5 px-md-5 col">
             <header class="d-flex align-items-center justify-content-between">
                 <h1>

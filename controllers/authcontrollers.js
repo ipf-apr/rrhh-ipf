@@ -28,6 +28,16 @@ exports.register = async (req, res) => {
                     existUser: false
                 })
             }
+
+            return res.render('/register', {
+                alert: true,
+                alertTitle: "Advertencia",
+                alertMessage: "Ingrese un usuario y contraseña",
+                alertIcon: 'info',
+                showConfirmButton: true,
+                timer: false,
+                ruta: 'register'
+            })
         }
 
 
@@ -44,6 +54,15 @@ exports.register = async (req, res) => {
                     existUser: false
                 })
             }
+            return res.render('/register', {
+                alert: true,
+                alertTitle: "Advertencia",
+                alertMessage: "Las contraseñas no coinciden",
+                alertIcon: 'info',
+                showConfirmButton: true,
+                timer: false,
+                ruta: 'register'
+            })
         }
 
 
@@ -105,11 +124,11 @@ exports.login = async (req, res) => {
                     res.cookie('jwt', token, cookiesOptions);
                     res.render('auth/login', {
                         alert: true,
-                        alertTitle: "Conexión exitosa",
-                        alertMessage: "login correcto",
-                        alertIcon: 'succes',
+                        alertTitle: "Inicio de sesión correcto",
+                        alertMessage: "Se redireccionará en unos momentos...",
+                        alertIcon: 'success',
                         showConfirmButton: false,
-                        timer: 800,
+                        timer: 2000,
                         ruta: '',
                         existUser: true
                     })

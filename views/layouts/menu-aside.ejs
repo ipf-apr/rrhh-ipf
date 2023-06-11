@@ -1,0 +1,25 @@
+<aside id="aside" tabindex="-1" class="offcanvas-lg offcanvas-start bg-dark px-3 col-2">
+    <div class="offcanvas-header border-bottom text-white">
+      <h5 class="offcanvas-title" id="asideTitle">Menú</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close" data-bs-target="#aside"></button>
+    </div>
+    <div class="offcanvas-body">
+      <ul class="nav nav-pills w-100 flex-column g-3">
+        <li class="nav-item">
+          <a href="/" class="nav-link active text-white">
+            Inicio
+          </a>
+        </li>
+        <li>
+          <a href="#" class="nav-link text-white"  aria-current="page">
+            Empleados
+          </a>
+        </li>
+      </ul>
+      <div class="position-absolute bottom-0 mb-5">
+        <form action="/logout" method="POST">
+            <button type="submit" class="btn btn-outline-primary">Cerrar sesión</button>
+        </form>
+      </div>
+    </div>      
+  </aside>
