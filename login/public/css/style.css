@@ -1,0 +1,7 @@
+#height-cuerpo{
+    height: calc(100vh - 56px);
+    margin: 0;
+}
+#btn-salir{
+    width: 155px;
+}
