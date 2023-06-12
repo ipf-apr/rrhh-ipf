@@ -21,9 +21,9 @@ module.exports = (sequelize, DataTypes) => {
   Employee.init({
     name: DataTypes.STRING,
     lastName: DataTypes.STRING,
-    fullName : {
+    fullName: {
       type: DataTypes.VIRTUAL,
-      get(){
+      get() {
         return this.lastName + ', ' + this.name
       }
     },
@@ -31,8 +31,12 @@ module.exports = (sequelize, DataTypes) => {
     phone: DataTypes.STRING,
     dateBirthday: DataTypes.DATE,
     profileNro: DataTypes.STRING,
-    address: DataTypes.STRING,
-    dateIn: DataTypes.DATE,
+    address: {
+      type: DataTypes.STRING,
+    },
+    dateIn: {
+      type: DataTypes.DATE,      
+    },
     promotion: DataTypes.INTEGER,
     age: {
       type: DataTypes.VIRTUAL,
@@ -41,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
         let date_b = new Date(this.dateBirthday);
         let age = today.getFullYear() - date_b.getFullYear();
         let m = today.getMonth() - date_b.getMonth();
-        
+
         if (m < 0 || (m === 0 && today.getDate() < date_b.getDate())) {
           age--;
         }
