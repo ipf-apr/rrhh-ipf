@@ -26,6 +26,7 @@ app.use(cookieParser());
 
 //llamar al router
 app.use('/', require('./routes/auth.routes'))
+app.use('/', require('./routes/employee.routes'))
 
 //eliminar la cache para que no se pueda volver atras
 app.use(function(req,res,next){

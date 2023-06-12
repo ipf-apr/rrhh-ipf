@@ -4,7 +4,7 @@ const { User } = require('../models/index')
 const { promisify } = require('util');
 //procedimiento de registro
 
-exports.register = async (req, res) => {
+const register = async (req, res) => {
     try {
         const fu = req.body.fu;
         const name = req.body.name;
@@ -89,7 +89,7 @@ exports.register = async (req, res) => {
 }
 
 
-exports.login = async (req, res) => {
+const login = async (req, res) => {
     try {
         const { username, password } = req.body;
         if (!username || !password) {
@@ -152,7 +152,7 @@ exports.login = async (req, res) => {
 }
 
 
-exports.isAuthenticated = async (req, res, next) => {
+const isAuthenticated = async (req, res, next) => {
     if (req.cookies.jwt) {
         const jwtDecodificado = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRET)
         User.findOne({
@@ -173,14 +173,14 @@ exports.isAuthenticated = async (req, res, next) => {
     }
 }
 
-exports.loginPage = async (req, res) => {
+const loginPage = async (req, res) => {
     try {
         User.findAll({
             where: {
               id: 1
             }
-          }).then(user => {
-            if (user.length === 0) {
+          }).then(users => {
+            if (users.length === 0) {
                 res.render('auth/login', { alert: false, existUser: false })
             } else {
                 res.render('auth/login', { alert: false, existUser: true })
@@ -193,7 +193,15 @@ exports.loginPage = async (req, res) => {
     }
 }
 
-exports.logout = (req, res) => {
+const logout = (req, res) => {
     res.clearCookie('jwt');
     return res.redirect('/');
+}
+
+module.exports = {
+    register,
+    login,
+    isAuthenticated,
+    loginPage,
+    logout,
 }
