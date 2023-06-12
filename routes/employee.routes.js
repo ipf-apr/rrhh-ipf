@@ -12,13 +12,13 @@ const {
 
 const router = Router()
 
-router.get('/employees', index)
-router.get('/employees/:id', show)
-router.get('/employees/:id/edit', edit)
-router.put('/employees/:id', update)
-router.get('/employees/create', create)
-router.post('/employees', store)
-router.delete('/employees/:id', destroy)
+router.get('', index)
+router.get('/:id', show)
+router.get('/:id/edit', edit)
+router.put('/:id', update)
+router.get('/create', create)
+router.post('', store)
+router.delete('/:id', destroy)
 
 
 module.exports = router

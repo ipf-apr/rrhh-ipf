@@ -12,7 +12,7 @@ module.exports = {
       name: {
         type: Sequelize.STRING(50)
       },
-      lastName: {
+      last_name: {
         type: Sequelize.STRING(50)
       },
       dni: {
@@ -21,22 +21,22 @@ module.exports = {
       phone: {
         type: Sequelize.STRING(10)
       },
-      dateBirthday: {
+      date_birthday: {
         type: Sequelize.DATE
       },
-      profileNro: {
+      profile_nro: {
         type: Sequelize.STRING(50)
       },
       address: {
         type: Sequelize.STRING
       },
-      dateIn: {
+      date_in: {
         type: Sequelize.DATE
       },
       promotion: {
         type: Sequelize.INTEGER(1)
       },
-      userId: {
+      user_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
@@ -44,15 +44,15 @@ module.exports = {
           key: 'id'
         }
       },
-      createdAt: {
+      created_at: {
         allowNull: false,
         type: Sequelize.DATE
       },
-      updatedAt: {
+      updated_at: {
         allowNull: false,
         type: Sequelize.DATE
       },
-      deletedAt: {
+      deleted_at: {
         type: Sequelize.DATE
       }
     });

@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Employee.belongsTo(models.User,
         {
-          as: 'user_create',
+          as: 'user_creator',
           foreignKey: 'userId',
         }
       );
@@ -57,6 +57,7 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Employee',
     tableName: 'employees',
+    underscored: true
   });
   return Employee;
 };

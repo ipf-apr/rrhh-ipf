@@ -1,9 +1,5 @@
 const { Employee } = require('../models/index');
 
-
-
-
-
 const index = (_req, res) => {
     try {
         Employee.findAll().then(employees => {
@@ -36,7 +32,7 @@ const store = (req, res) => {
 }
 
 const edit = (_req, res) => {
-
+    
 }
 
 const update = (req, res) => {
