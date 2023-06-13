@@ -13,12 +13,12 @@ const {
 const router = Router()
 
 router.get('', index)
-router.get('/:id', show)
+router.get('/:id/show', show)
 router.get('/:id/edit', edit)
-router.put('/:id', update)
 router.get('/create', create)
+router.put('/:id/update', update)
 router.post('', store)
-router.delete('/:id', destroy)
+router.delete('/:id/destroy', destroy)
 
-
+console.log(router.route)
 module.exports = router
