@@ -37,12 +37,14 @@ module.exports = {
         type: Sequelize.INTEGER(1)
       },
       user_id: {
+        allowNull: false,        
         type: Sequelize.INTEGER,
-        allowNull: false,
         references: {
-          model: 'User',
+          model: {
+            tableName: 'users',
+          },
           key: 'id'
-        }
+        },
       },
       created_at: {
         allowNull: false,
