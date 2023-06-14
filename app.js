@@ -5,11 +5,11 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const path = require("path");
+const methodOverride = require('method-override')
 const { isAuthenticated } = require("./controllers/auth.controllers");
 
 const app = express();
 
-var methodOverride = require('method-override')
 
 //configuración del motor de platillas
 app.set("views", path.join(__dirname, "views"));
