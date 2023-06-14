@@ -26,53 +26,7 @@
           </header>
           <main>
             <form action="/employees" method="POST" class="row g-3 needs-validation ">
-              <div class="col-md-4">
-                <label for="lastName" class="form-label">Apellido <small class="text-danger">(*)</small></label>
-                <input type="text" class="form-control" name="lastName" id="lastName" placeholder="Gabriel" required>
-              </div>
-              <div class="col-md-4">
-                <label for="name" class="form-label">Nombres <small class=" text-danger">(*)</small></label>
-                <input type="text" class="form-control" name="name" id="name" placeholder="Acosta" required>
-              </div>
-              <div class="col-md-3">
-                <label for="validationCustomUsername" class="form-label">DNI <small
-                    class=" text-danger">(*)</small></label>
-                <div class="input-group has-validation">
-                  <span class="input-group-text" id="inputGroupPrepend">Nro</span>
-                  <input type="number" class="form-control" name="dni" id="dni" aria-describedby="inputGroupPrepend"
-                    placeholder="41234789" required>
-                </div>
-              </div>
-              <div class="col-md-8">
-                <label for="domicilio" class="form-label">Domicilio <small class=" text-danger">(*)</small></label>
-                <input type="text" class="form-control" name="domicilio" id="domicilio"
-                  placeholder="Barrio San Martin calle Junin 1030" required>
-              </div>
-              <div class="col-md-3">
-                <label for="fechaNac" class="form-label">Fecha de Nacimiento <small
-                    class=" text-danger">(*)</small></label>
-                <input type="date" class="form-control" name="fechaNac" id="fechaNac" required>
-                <div class="invalid-feedback">
-                </div>
-              </div>
-              <div class="col-md-4">
-                <label for="validationCustomUsername" class="form-label">Celular <small
-                    class=" text-danger">(*)</small></label>
-                <div class="input-group has-validation">
-                  <span class="input-group-text" id="phone">+549</span>
-                  <input type="number" class="form-control" name="phone" id="phone" aria-describedby="inputGroupPrepend"
-                    placeholder="3704786500" required>
-                </div>
-              </div>
-              <div class="col-md-3">
-                <label for="nroLegajo" class="form-label">Nro. legajo <small class=" text-danger">(*)</small></label>
-                <input type="number" class="form-control" placeholder="01" name="nroLegajo" id="nroLegajo" required>
-              </div>
-              <div class="col-md-4">
-                <label for="ingreso" class="form-label">Fecha de Ingreso<small class=" text-danger">(*)</small></label>
-                <input type="date" class="form-control" name="ingreso" id="ingreso" required>
-
-              </div>
+              <%- include('partials/_form.ejs') ;%>
               <!-- <div class="col-md-3">
                 <label for="puestoLaboral" class="form-label">Puesto laboral <small
                     class=" text-danger">(*)</small></label>

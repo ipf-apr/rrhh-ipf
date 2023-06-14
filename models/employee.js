@@ -26,13 +26,15 @@ module.exports = (sequelize, DataTypes) => {
     },
     dni: DataTypes.STRING,
     phone: DataTypes.STRING,
-    dateBirthday: DataTypes.DATE,
+    dateBirthday:{ 
+      type: DataTypes.DATEONLY,            
+    },
     profileNro: DataTypes.STRING,
     address: {
       type: DataTypes.STRING,
     },
     dateIn: {
-      type: DataTypes.DATE,      
+      type: DataTypes.DATEONLY   
     },
     promotion: DataTypes.INTEGER,
     age: {

@@ -38,12 +38,12 @@
               <% employees.forEach(function(employee){ %>
                 <tr>
                   <th scope="row"><%= employee.id %></th>
-                  <td><%= employee.name %></td>
                   <td><%= employee.lastName %></td>
+                  <td><%= employee.name %></td>
                   <td><%= employee.age %></td>
                   <td>Categoria 1</td>
                   <td>
-                    <a class="btn btn-outline-success" href="edit.html">Editar</a>
+                    <a class="btn btn-outline-success" href="/employees/<%= employee.id %>/edit">Editar</a>
                     <a class="btn btn-outline-primary" href="/employees/<%= employee.id %>/show">Ver</a>
                     <a class="btn btn-outline-danger" href="">Eliminar</a>
                   </td>
