@@ -102,8 +102,9 @@ const login = async (req, res) => {
         alertMessage: "Ingrese un usuario y contraseña",
         alertIcon: "info",
         showConfirmButton: true,
-        timer: false,
+        timer: null,
         ruta: "login",
+        existUser: true,
       });
     } else {
       User.findOne({
@@ -116,10 +117,10 @@ const login = async (req, res) => {
             res.render("auth/login", {
               alert: true,
               alertTitle: "Advertencia",
-              alertMessage: "Usuario y/o Contraseña Incorrecto/s!",
+              alertMessage: "Los datos ingresados no corresponden a nuestros registros.",
               alertIcon: "info",
               showConfirmButton: true,
-              timer: false,
+              timer: null,
               ruta: "login",
               existUser: true,
             });
@@ -193,9 +194,8 @@ const isAuthenticated = async (req, res, next) => {
 const loginPage = async (req, res) => {
   try {
     User.findAll({
-      where: {
-        id: 1,
-      },
+      attributes: ["id"],
+      limit: 1,
     }).then((users) => {
       if (users.length === 0) {
         res.render("auth/login", { alert: false, existUser: false });
