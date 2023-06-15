@@ -32,7 +32,6 @@ app.use(morgan("dev"));
 app.use(express.static(path.join(__dirname, "public")));
 
 //variables de entorno
-console.log('variales')
 dotenv.config({ path: ".env" });
 
 //trabajar con las cookies
