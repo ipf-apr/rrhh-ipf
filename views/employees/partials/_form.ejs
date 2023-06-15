@@ -1,47 +1,51 @@
 <div class="col-md-4">
-    <label for="lastName" class="form-label">Apellido <small class="text-danger">(*)</small></label>
-    <input type="text" class="form-control" name="lastName" id="lastName" value="<%= employee.lastName %>" placeholder="Ingrese el nombre" required>
+  <label for="lastName" class="form-label">Apellido <small class="text-danger">(*)</small></label>
+  <input type="text" class="form-control" name="lastName" id="lastName" value="<%= employee.lastName %>"
+    placeholder="Ingrese el Apellido" required>
+</div>
+<div class="col-md-4">
+  <label for="name" class="form-label">Nombres <small class=" text-danger">(*)</small></label>
+  <input type="text" class="form-control" name="name" id="name" value="<%= employee.name %>"
+    placeholder="Ingrese los nombres" required>
+</div>
+<div class="col-md-3">
+  <label for="validationCustomUsername" class="form-label">DNI <small class=" text-danger">(*)</small></label>
+  <div class="input-group has-validation">
+    <span class="input-group-text" id="inputGroupPrepend">Nro</span>
+    <input type="number" class="form-control" name="dni" value="<%= employee.dni %>" id="dni"
+      aria-describedby="inputGroupPrepend" placeholder="Ingrese números" required>
   </div>
-  <div class="col-md-4">
-    <label for="name" class="form-label">Nombres <small class=" text-danger">(*)</small></label>
-    <input type="text" class="form-control" name="name" id="name" value="<%= employee.name %>"  placeholder="Acosta" required>
+</div>
+<div class="col-md-8">
+  <label for="domicilio" class="form-label">Domicilio <small class=" text-danger">(*)</small></label>
+  <input type="text" class="form-control" name="domicilio" value="<%= employee.address %>" id="domicilio"
+    placeholder="Barrio, calle, altura/Mz. Cs." required>
+</div>
+<div class="col-md-3">
+  <label for="fechaNac" class="form-label">Fecha de Nacimiento <small class=" text-danger">(*)</small></label>
+  <input type="date" class="form-control" name="fechaNac"
+    value="<%= employee.dateBirthday == null ? '' : new Date(employee.dateBirthday).toISOString().split('T')[0] %>"
+    id="fechaNac" required>
+  <div class="invalid-feedback">
   </div>
-  <div class="col-md-3">
-    <label for="validationCustomUsername" class="form-label">DNI <small
-        class=" text-danger">(*)</small></label>
-    <div class="input-group has-validation">
-      <span class="input-group-text" id="inputGroupPrepend">Nro</span>
-      <input type="number" class="form-control" name="dni" value="<%= employee.dni %>" id="dni" aria-describedby="inputGroupPrepend"
-        placeholder="41234789" required>
-    </div>
+</div>
+<div class="col-md-4">
+  <label for="validationCustomUsername" class="form-label">Celular <small class=" text-danger">(*)</small></label>
+  <div class="input-group has-validation">
+    <span class="input-group-text" id="phone">+549</span>
+    <input type="number" class="form-control" name="phone" value="<%= employee.phone %>" id="phone"
+      aria-describedby="inputGroupPrepend" placeholder="Ingrese números, sin cero ni quince" required>
   </div>
-  <div class="col-md-8">
-    <label for="domicilio" class="form-label">Domicilio <small class=" text-danger">(*)</small></label>
-    <input type="text" class="form-control" name="domicilio" value="<%= employee.address %>" id="domicilio"
-      placeholder="Barrio San Martin calle Junin 1030" required>
-  </div>
-  <div class="col-md-3">
-    <label for="fechaNac" class="form-label">Fecha de Nacimiento <small
-        class=" text-danger">(*)</small></label>
-    <input type="date" class="form-control" name="fechaNac" value="<%= employee.dateBirthday == null ? '' : new Date(employee.dateBirthday).toISOString().split('T')[0] %>" id="fechaNac" required>
-    <div class="invalid-feedback">
-    </div>
-  </div>
-  <div class="col-md-4">
-    <label for="validationCustomUsername" class="form-label">Celular <small
-        class=" text-danger">(*)</small></label>
-    <div class="input-group has-validation">
-      <span class="input-group-text" id="phone">+549</span>
-      <input type="number" class="form-control" name="phone" value="<%= employee.phone %>" id="phone" aria-describedby="inputGroupPrepend"
-        placeholder="3704786500" required>
-    </div>
-  </div>
-  <div class="col-md-3">
-    <label for="nroLegajo" class="form-label">Nro. legajo <small class=" text-danger">(*)</small></label>
-    <input type="number" class="form-control" placeholder="01" name="nroLegajo" value="<%= employee.profileNro %>" id="nroLegajo" required>
-  </div>
-  <div class="col-md-4">
-    <label for="ingreso" class="form-label">Fecha de Ingreso<small class=" text-danger">(*)</small></label>
-    <input type="date" class="form-control" name="ingreso" value="<%= employee.dateIn == null ? '' : new Date(employee.dateIn).toISOString().split('T')[0] %>" id="ingreso" required>
+</div>
+<div class="col-md-3">
+  <label for="nroLegajo" class="form-label">Nro. legajo <small class=" text-danger">(*)</small></label>
+  <input type="number" class="form-control" placeholder="-" name="nroLegajo" value="<%= employee.profileNro %>"
+    id="nroLegajo" required>
+</div>
+<div class="col-md-4">
+  <label for="ingreso" class="form-label">Fecha de Ingreso<small class=" text-danger">(*)</small></label>
+  <input type="date" class="form-control" name="ingreso"
+    value="<%= employee.dateIn == null ? '' : new Date(employee.dateIn).toISOString().split('T')[0] %>" id="ingreso"
+    required>
 
-  </div>
+</div>
