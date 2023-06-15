@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Jhon Doe - SiGeRH</title>
+    <title><%= employee.fullName %> - SiGeRH</title>
 
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
@@ -28,6 +28,7 @@
       <div class="container p-5 col">
         <header class="d-flex align-items-center justify-content-between">
           <h1><%= employee.fullName %></h1>
+          <a class="btn btn-outline-success" href="/employees/<%= employee.id %>/edit">Editar</a>
         </header>
         <main>
           <div class="d-flex display-6">
@@ -51,8 +52,8 @@
             <p class="mx-3"><%= employee.phone %></p>
           </div>
           <div class="d-flex">
-            <strong>Fecha Ingreso:</strong>
-            <p class="mx-3"><%= employee.dateIn %></p>
+            <strong>Año Ingreso:</strong>
+            <p class="mx-3"><%= new Date(employee.dateIn).getFullYear() %></p>
           </div>
           <div class="d-flex">
             <strong>Condición de promoción:</strong>

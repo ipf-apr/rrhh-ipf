@@ -6,7 +6,6 @@ const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const path = require("path");
 const methodOverride = require('method-override')
-const { isAuthenticated } = require("./controllers/auth.controllers");
 
 const app = express();
 
@@ -33,12 +32,15 @@ app.use(morgan("dev"));
 app.use(express.static(path.join(__dirname, "public")));
 
 //variables de entorno
+console.log('variales')
 dotenv.config({ path: ".env" });
 
 //trabajar con las cookies
 app.use(cookieParser());
 
 //llamar al router
+
+const { isAuthenticated } = require("./controllers/auth.controllers");
 app.use("/", require("./routes/auth.routes"));
 app.use("/employees", isAuthenticated, require("./routes/employee.routes"));
 
