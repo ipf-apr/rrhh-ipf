@@ -3,14 +3,14 @@ const { Employee } = require("../models/index");
 const jwt = require("jsonwebtoken");
 const { promisify } = require("util");
 
-const index = (_req, res) => {
-  try {
-    Employee.findAll().then((employees) => {
+const index = async (_req, res) => {
+  await Employee.findAll()
+    .then((employees) => {
       res.render("employees/index", { employees });
+    })
+    .catch((err) => {
+      throw err;
     });
-  } catch (error) {
-    throw error;
-  }
 };
 
 const show = async (req, res) => {
@@ -20,11 +20,14 @@ const show = async (req, res) => {
     .then((employee) => {
       res.render("employees/show", { employee });
     })
-    .catch((err) => { });
+    .catch((err) => {
+      throw err;
+    });
 };
 
 const create = (_req, res) => {
-  res.render("employees/create", { employee: Employee });
+  let employee = Employee.build();
+  res.render("employees/create", { employee });
 };
 
 const store = async (req, res) => {
@@ -71,12 +74,12 @@ const edit = async (req, res) => {
     .then((employee) => {
       res.render("employees/edit", { employee });
     })
-    .catch((err) => { });
+    .catch((error) => {
+      throw error;
+    });
 };
 
 const update = async (req, res) => {
-
-
   const employeeId = req.params.id;
   const {
     lastName,
@@ -100,15 +103,14 @@ const update = async (req, res) => {
       profileNro: nroLegajo,
       dateIn: ingreso,
       promotion: 1,
-    })
+    });
     res.render("employees/show", { employee });
   } catch (error) {
     throw error;
   }
-
 };
 
-const destroy = (req, res) => { };
+const destroy = (req, res) => {};
 
 module.exports = {
   index,

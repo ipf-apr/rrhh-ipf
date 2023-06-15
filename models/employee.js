@@ -40,8 +40,8 @@ module.exports = (sequelize, DataTypes) => {
     age: {
       type: DataTypes.VIRTUAL,
       get() {
-        let today = new Date();
-        let date_b = new Date(this.dateBirthday);
+        const today = new Date();
+        const date_b = new Date(this.dateBirthday);
         let age = today.getFullYear() - date_b.getFullYear();
         let m = today.getMonth() - date_b.getMonth();
 
