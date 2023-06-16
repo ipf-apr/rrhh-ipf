@@ -47,24 +47,26 @@ const store = async (req, res) => {
     process.env.JWT_SECRET
   );
 
-  Employee.create({
-    lastName,
-    name,
-    dni,
-    address: domicilio,
-    dateBirthday: fechaNac,
-    phone,
-    profileNro: nroLegajo,
-    dateIn: ingreso,
-    promotion: 1,
-    userId: jwtDecodificado.id,
-  })
-    .then((employee) => {
-      res.render("employees/show", { employee });
-    })
-    .catch((error) => {
-      throw error;
+  try {
+    const [ employee, created] = await Employee.findOrCreate({
+      where: { dni: dni },
+      defaults: {
+        lastName,
+        name,
+        address: domicilio,
+        dateBirthday: fechaNac,
+        phone,
+        profileNro: nroLegajo,
+        dateIn: ingreso,
+        promotion: 1,
+        userId: jwtDecodificado.id,
+      },
     });
+    
+    res.render("employees/show", { employee : employee });
+  } catch (error) {
+    throw error;
+  }
 };
 
 const edit = async (req, res) => {
