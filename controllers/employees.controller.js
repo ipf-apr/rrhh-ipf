@@ -1,4 +1,4 @@
-const { Employee } = require("../models/index");
+const { Employee, User } = require("../models/index");
 
 const jwt = require("jsonwebtoken");
 const { promisify } = require("util");
@@ -16,7 +16,7 @@ const index = async (_req, res) => {
 const show = async (req, res) => {
   const employeeId = req.params.id;
 
-  await Employee.findByPk(employeeId)
+  await Employee.findByPk(employeeId, {include: User})
     .then((employee) => {
       res.render("employees/show", { employee });
     })

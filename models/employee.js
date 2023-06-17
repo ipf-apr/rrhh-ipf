@@ -59,5 +59,8 @@ module.exports = (sequelize, DataTypes) => {
     tableName: 'employees',
     underscored: true
   });
+
+  Employee.sync()
+
   return Employee;
 };
