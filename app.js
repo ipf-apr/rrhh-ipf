@@ -7,6 +7,13 @@ const cookieParser = require("cookie-parser");
 const path = require("path");
 const methodOverride = require('method-override')
 
+
+//variables de entorno
+dotenv.config({ path: ".env" });
+
+// Se importa la instancia de conexión a la base de datos - (debe ser después de leer las variables de entorno)
+const { sequelize } = require('./database/config');
+
 const app = express();
 
 
@@ -31,13 +38,15 @@ app.use(
 app.use(morgan("dev"));
 app.use(express.static(path.join(__dirname, "public")));
 
-//variables de entorno
-dotenv.config({ path: ".env" });
 
 //trabajar con las cookies
 app.use(cookieParser());
 
-//llamar al router
+// Se ejecuta una instancia de conexión a la base de datos
+sequelize.authenticate()
+    .then(() => console.log('Conexión a base de datos exitosa'))
+    .catch((error) => console.log('Error al conectar a base de datos', error));
+
 
 const { isAuthenticated } = require("./controllers/auth.controllers");
 app.use("/", require("./routes/auth.routes"));

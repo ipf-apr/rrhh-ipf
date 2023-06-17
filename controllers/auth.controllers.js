@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const bcryptjs = require("bcryptjs");
-const { User } = require("../models/index");
+const User = require("../models/user");
 const { promisify } = require("util");
 //procedimiento de registro
 
@@ -192,6 +192,8 @@ const isAuthenticated = async (req, res, next) => {
 };
 
 const loginPage = async (req, res) => {
+
+  
   try {
     User.findAll({
       attributes: ["id"],

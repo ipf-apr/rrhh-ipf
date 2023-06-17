@@ -1,4 +1,4 @@
-const { Employee } = require("../models/index");
+const Employee = require("../models/employee");
 
 const jwt = require("jsonwebtoken");
 const { promisify } = require("util");
