@@ -4,20 +4,9 @@ const {
   Model, DataTypes, sequelize
 } = require('../database/config');
 
+const User = require('./user');
 
-class Employee extends Model {
-  /**
-   * Helper method for defining associations.
-   * This method is not a part of Sequelize lifecycle.
-   * The `models/index` file will call this method automatically.
-   */
-  static associate(models) {
-    this.belongsTo(models.User, {
-      foreignKey: 'id'
-  })
-  }
-}
-Employee.init({
+const Employee = sequelize.define('Employee', {
   name: DataTypes.STRING,
   lastName: DataTypes.STRING,
   fullName: {
@@ -28,15 +17,15 @@ Employee.init({
   },
   dni: DataTypes.STRING,
   phone: DataTypes.STRING,
-  dateBirthday:{ 
-    type: DataTypes.DATEONLY,            
+  dateBirthday: {
+    type: DataTypes.DATEONLY,
   },
   profileNro: DataTypes.STRING,
   address: {
     type: DataTypes.STRING,
   },
   dateIn: {
-    type: DataTypes.DATEONLY   
+    type: DataTypes.DATEONLY
   },
   promotion: DataTypes.INTEGER,
   age: {
@@ -53,7 +42,14 @@ Employee.init({
       return age;
     }
   },
-  userId: DataTypes.INTEGER
+  userId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: 'users', // nombre de tabla
+      key: 'id' // clave primaria
+    }
+  }
 }, {
   sequelize,
   paranoid: true,

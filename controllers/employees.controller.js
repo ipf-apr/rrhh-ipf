@@ -1,4 +1,5 @@
 const Employee = require("../models/employee");
+const User = require("../models/user");
 
 const jwt = require("jsonwebtoken");
 const { promisify } = require("util");
@@ -16,8 +17,10 @@ const index = async (_req, res) => {
 const show = async (req, res) => {
   const employeeId = req.params.id;
 
+
   await Employee.findByPk(employeeId)
     .then((employee) => {
+
       res.render("employees/show", { employee });
     })
     .catch((err) => {

@@ -170,13 +170,15 @@ const isAuthenticated = async (req, res, next) => {
       req.cookies.jwt,
       process.env.JWT_SECRET
     );
-    User.findOne({
+    console.log(User);
+    await User.findOne({
       where: {
         id: jwtDecodificado.id,
       },
     })
       .then((user) => {
         if (!user) {
+          res.redirect("/login");
           return next();
         }
         req.user = user;
