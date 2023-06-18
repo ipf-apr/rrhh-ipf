@@ -7,61 +7,38 @@ const index = (req, res) => {
   res.render("index");
 };
 
-const registerForm = (req, res) => {
-  res.render("auth/register");
-};
-
 const register = async (req, res) => {
   try {
-    const { fu, name, lastName, username, password, passwordConfirmation, rol } = req.body;
+    const { name, lastName, username, password, passwordConfirmation } = req.body;
 
     if (!username || !password) {
-      if (fu) {
-        return res.render("auth/login", {
-          alert: true,
-          alertTitle: "Advertencia",
-          alertMessage: "Ingrese un usuario y contraseña",
-          alertIcon: "info",
-          showConfirmButton: true,
-          timer: null,
-          ruta: "login",
-          existUser: false,
-        });
-      }
 
-      return res.render("/register", {
+      return res.render("auth/login", {
         alert: true,
         alertTitle: "Advertencia",
         alertMessage: "Ingrese un usuario y contraseña",
         alertIcon: "info",
         showConfirmButton: true,
         timer: null,
-        ruta: "register",
+        ruta: "login",
+        existUser: false,
       });
+
     }
-    
+
     if (password !== passwordConfirmation) {
-      if (fu) {
-        return res.render("auth/login", {
-          alert: true,
-          alertTitle: "Advertencia",
-          alertMessage: "Las contraseñas no coinciden",
-          alertIcon: "info",
-          showConfirmButton: true,
-          timer: null,
-          ruta: "login",
-          existUser: false,
-        });
-      }
-      return res.render("/register", {
+
+      return res.render("auth/login", {
         alert: true,
         alertTitle: "Advertencia",
         alertMessage: "Las contraseñas no coinciden",
         alertIcon: "info",
         showConfirmButton: true,
         timer: null,
-        ruta: "register",
+        ruta: "login",
+        existUser: false,
       });
+
     }
 
     let passHash = await bcryptjs.hash(password, 8);
@@ -72,7 +49,7 @@ const register = async (req, res) => {
       lastName: lastName,
       username: username,
       password: passHash,
-      role: rol,
+      role: 'admin',
     })
       .then((user) => {
         res.redirect("/login");
@@ -159,8 +136,8 @@ const login = async (req, res) => {
 
 
 const loginPage = async (_req, res) => {
-    try {
-          User.findAll({
+  try {
+    User.findAll({
       attributes: ["id"],
       limit: 1,
     }).then((users) => {
@@ -168,7 +145,7 @@ const loginPage = async (_req, res) => {
       if (users.length === 0) {
         res.render("auth/login", { alert: false, existUser: false });
       } else {
-         res.render("auth/login", { alert: false, existUser: true });
+        res.render("auth/login", { alert: false, existUser: true });
       }
     });
   } catch (error) {
