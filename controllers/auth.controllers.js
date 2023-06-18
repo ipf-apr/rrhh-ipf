@@ -1,77 +1,47 @@
 const jwt = require("jsonwebtoken");
 const bcryptjs = require("bcryptjs");
-const { User } = require("../models/index");
-const { promisify } = require("util");
+const User = require("../models/user");
 //procedimiento de registro
 
 const index = (req, res) => {
   res.render("index");
 };
 
-const registerForm = (req, res) => {
-  res.render("auth/register");
-};
-
 const register = async (req, res) => {
   try {
-    const fu = req.body.fu;
-    const name = req.body.name;
-    const lastName = req.body.lastName;
-    const username = req.body.username;
-    const pass = req.body.password;
-    const passConfirmation = req.body.passwordConfirmation;
-    const rol = req.body.rol;
+    const { name, lastName, username, password, passwordConfirmation } = req.body;
 
-    if (!username || !pass) {
-      if (fu) {
-        return res.render("auth/login", {
-          alert: true,
-          alertTitle: "Advertencia",
-          alertMessage: "Ingrese un usuario y contraseña",
-          alertIcon: "info",
-          showConfirmButton: true,
-          timer: false,
-          ruta: "login",
-          existUser: false,
-        });
-      }
+    if (!username || !password) {
 
-      return res.render("/register", {
+      return res.render("auth/login", {
         alert: true,
         alertTitle: "Advertencia",
         alertMessage: "Ingrese un usuario y contraseña",
         alertIcon: "info",
         showConfirmButton: true,
-        timer: false,
-        ruta: "register",
+        timer: null,
+        ruta: "login",
+        existUser: false,
       });
+
     }
 
-    if (pass !== passConfirmation) {
-      if (fu) {
-        return res.render("auth/login", {
-          alert: true,
-          alertTitle: "Advertencia",
-          alertMessage: "Las contraseñas no coinciden",
-          alertIcon: "info",
-          showConfirmButton: true,
-          timer: false,
-          ruta: "login",
-          existUser: false,
-        });
-      }
-      return res.render("/register", {
+    if (password !== passwordConfirmation) {
+
+      return res.render("auth/login", {
         alert: true,
         alertTitle: "Advertencia",
         alertMessage: "Las contraseñas no coinciden",
         alertIcon: "info",
         showConfirmButton: true,
-        timer: false,
-        ruta: "register",
+        timer: null,
+        ruta: "login",
+        existUser: false,
       });
+
     }
 
-    let passHash = await bcryptjs.hash(pass, 8);
+    let passHash = await bcryptjs.hash(password, 8);
 
     // console.log(passHash);
     User.create({
@@ -79,7 +49,7 @@ const register = async (req, res) => {
       lastName: lastName,
       username: username,
       password: passHash,
-      role: rol,
+      role: 'admin',
     })
       .then((user) => {
         res.redirect("/login");
@@ -125,8 +95,7 @@ const login = async (req, res) => {
               existUser: true,
             });
           } else {
-            const id = user.id;
-            const role = user.role;
+            const { id, role } = user;
             const token = jwt.sign(
               { id: id, rol: role },
               process.env.JWT_SECRET,
@@ -137,7 +106,7 @@ const login = async (req, res) => {
             const cookiesOptions = {
               expires: new Date(
                 Date.now() +
-                  process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
+                process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
               ),
               httpOnly: true,
             };
@@ -164,39 +133,15 @@ const login = async (req, res) => {
   }
 };
 
-const isAuthenticated = async (req, res, next) => {
-  if (req.cookies.jwt) {
-    const jwtDecodificado = await promisify(jwt.verify)(
-      req.cookies.jwt,
-      process.env.JWT_SECRET
-    );
-    User.findOne({
-      where: {
-        id: jwtDecodificado.id,
-      },
-    })
-      .then((user) => {
-        if (!user) {
-          return next();
-        }
-        req.user = user;
-        return next();
-      })
-      .catch((error) => {
-        console.log(error);
-        return next();
-      });
-  } else {
-    res.redirect("/login");
-  }
-};
 
-const loginPage = async (req, res) => {
+
+const loginPage = async (_req, res) => {
   try {
     User.findAll({
       attributes: ["id"],
       limit: 1,
     }).then((users) => {
+      console.log(users.length);
       if (users.length === 0) {
         res.render("auth/login", { alert: false, existUser: false });
       } else {
@@ -218,7 +163,6 @@ module.exports = {
   registerForm,
   register,
   login,
-  isAuthenticated,
   loginPage,
   logout,
 };
