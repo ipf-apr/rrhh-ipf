@@ -21,7 +21,11 @@ const User = sequelize.define('User', {
 })
 
 User.hasMany(Employee);
-Employee.belongsTo(User);
+Employee.belongsTo(User, {
+  foreignKey: {
+    name: 'userId'
+  }
+});
 
 module.exports = User;
 
