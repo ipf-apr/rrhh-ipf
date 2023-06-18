@@ -3,14 +3,15 @@ const { Router } = require('express')
 const router = Router();
 
 const authController = require('../controllers/auth.controllers');
+const { isAuthenticated } = require('../middleware/is_authenticate');
 
 
 
 router.get('/login', authController.loginPage)
 
-router.get('/', authController.isAuthenticated, authController.index)
+router.get('/', isAuthenticated, authController.index)
 
-router.get('/register', authController.isAuthenticated, authController.registerForm)
+router.get('/register', isAuthenticated, authController.registerForm)
 
 router.post('/register',authController.register);
 router.post('/login',authController.login);

@@ -1,7 +1,6 @@
 const jwt = require("jsonwebtoken");
 const bcryptjs = require("bcryptjs");
 const User = require("../models/user");
-const { promisify } = require("util");
 //procedimiento de registro
 
 const index = (req, res) => {
@@ -14,15 +13,9 @@ const registerForm = (req, res) => {
 
 const register = async (req, res) => {
   try {
-    const fu = req.body.fu;
-    const name = req.body.name;
-    const lastName = req.body.lastName;
-    const username = req.body.username;
-    const pass = req.body.password;
-    const passConfirmation = req.body.passwordConfirmation;
-    const rol = req.body.rol;
+    const { fu, name, lastName, username, password, passConfirmation, rol } = req.body;
 
-    if (!username || !pass) {
+    if (!username || !password) {
       if (fu) {
         return res.render("auth/login", {
           alert: true,
@@ -47,7 +40,7 @@ const register = async (req, res) => {
       });
     }
 
-    if (pass !== passConfirmation) {
+    if (password !== passConfirmation) {
       if (fu) {
         return res.render("auth/login", {
           alert: true,
@@ -71,7 +64,7 @@ const register = async (req, res) => {
       });
     }
 
-    let passHash = await bcryptjs.hash(pass, 8);
+    let passHash = await bcryptjs.hash(password, 8);
 
     // console.log(passHash);
     User.create({
@@ -125,8 +118,7 @@ const login = async (req, res) => {
               existUser: true,
             });
           } else {
-            const id = user.id;
-            const role = user.role;
+            const { id, role } = user;
             const token = jwt.sign(
               { id: id, rol: role },
               process.env.JWT_SECRET,
@@ -137,7 +129,7 @@ const login = async (req, res) => {
             const cookiesOptions = {
               expires: new Date(
                 Date.now() +
-                  process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
+                process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
               ),
               httpOnly: true,
             };
@@ -164,38 +156,11 @@ const login = async (req, res) => {
   }
 };
 
-const isAuthenticated = async (req, res, next) => {
-  if (req.cookies.jwt) {
-    const jwtDecodificado = await promisify(jwt.verify)(
-      req.cookies.jwt,
-      process.env.JWT_SECRET
-    );
-    console.log(User);
-    await User.findOne({
-      where: {
-        id: jwtDecodificado.id,
-      },
-    })
-      .then((user) => {
-        if (!user) {
-          res.redirect("/login");
-          return next();
-        }
-        req.user = user;
-        return next();
-      })
-      .catch((error) => {
-        console.log(error);
-        return next();
-      });
-  } else {
-    res.redirect("/login");
-  }
-};
+
 
 const loginPage = async (req, res) => {
 
-  
+
   try {
     User.findAll({
       attributes: ["id"],
@@ -222,7 +187,6 @@ module.exports = {
   registerForm,
   register,
   login,
-  isAuthenticated,
   loginPage,
   logout,
 };

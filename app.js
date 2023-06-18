@@ -48,7 +48,8 @@ sequelize.authenticate()
     .catch((error) => console.log('Error al conectar a base de datos', error));
 
 
-const { isAuthenticated } = require("./controllers/auth.controllers");
+const { isAuthenticated } = require('./middleware/is_authenticate');
+
 app.use("/", require("./routes/auth.routes"));
 app.use("/employees", isAuthenticated, require("./routes/employee.routes"));
 

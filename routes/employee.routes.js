@@ -10,6 +10,7 @@ const {
     destroy
 } = require('../controllers/employees.controller')
 
+
 const router = Router()
 
 router.get('', index)
