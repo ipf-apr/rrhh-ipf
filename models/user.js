@@ -4,15 +4,14 @@ const {
   Model, DataTypes, sequelize
 } = require('../database/config');
 
-const Employee = require('./employee')
-
+const Employee = require('./employee');
 
 const User = sequelize.define('User', {
-  name: { type: DataTypes.STRING },
+  name: DataTypes.STRING,
   lastName: { type: DataTypes.STRING },
-  username: { type: DataTypes.STRING },
-  password: { type: DataTypes.STRING },
-  role: { type: DataTypes.STRING }
+  username: { type: DataTypes.STRING(50) },
+  password: { type: DataTypes.STRING(20) },
+  role: { type: DataTypes.STRING(20) }
 }, {
   sequelize,
   paranoid: true,
@@ -21,12 +20,8 @@ const User = sequelize.define('User', {
   underscored: true
 })
 
-User.hasMany(Employee, {
-  foreignKey: 'user_id'
-});
+User.hasMany(Employee);
 Employee.belongsTo(User);
-
-User.sync();
 
 module.exports = User;
 

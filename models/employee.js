@@ -27,7 +27,10 @@ const Employee = sequelize.define('Employee', {
   dateIn: {
     type: DataTypes.DATEONLY
   },
-  promotion: DataTypes.INTEGER,
+  promotion: { 
+    type: DataTypes.INTEGER, 
+    defaultValue: 1 
+  },
   age: {
     type: DataTypes.VIRTUAL,
     get() {
@@ -42,14 +45,6 @@ const Employee = sequelize.define('Employee', {
       return age;
     }
   },
-  userId: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-      model: 'users', // nombre de tabla
-      key: 'id' // clave primaria
-    }
-  }
 }, {
   sequelize,
   paranoid: true,
@@ -57,7 +52,5 @@ const Employee = sequelize.define('Employee', {
   tableName: 'employees',
   underscored: true
 });
-
-Employee.sync();
 
 module.exports = Employee;
