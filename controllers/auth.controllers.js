@@ -13,7 +13,7 @@ const registerForm = (req, res) => {
 
 const register = async (req, res) => {
   try {
-    const { fu, name, lastName, username, password, passConfirmation, rol } = req.body;
+    const { fu, name, lastName, username, password, passwordConfirmation, rol } = req.body;
 
     if (!username || !password) {
       if (fu) {
@@ -23,7 +23,7 @@ const register = async (req, res) => {
           alertMessage: "Ingrese un usuario y contraseña",
           alertIcon: "info",
           showConfirmButton: true,
-          timer: false,
+          timer: null,
           ruta: "login",
           existUser: false,
         });
@@ -35,12 +35,12 @@ const register = async (req, res) => {
         alertMessage: "Ingrese un usuario y contraseña",
         alertIcon: "info",
         showConfirmButton: true,
-        timer: false,
+        timer: null,
         ruta: "register",
       });
     }
-
-    if (password !== passConfirmation) {
+    
+    if (password !== passwordConfirmation) {
       if (fu) {
         return res.render("auth/login", {
           alert: true,
@@ -48,7 +48,7 @@ const register = async (req, res) => {
           alertMessage: "Las contraseñas no coinciden",
           alertIcon: "info",
           showConfirmButton: true,
-          timer: false,
+          timer: null,
           ruta: "login",
           existUser: false,
         });
@@ -59,7 +59,7 @@ const register = async (req, res) => {
         alertMessage: "Las contraseñas no coinciden",
         alertIcon: "info",
         showConfirmButton: true,
-        timer: false,
+        timer: null,
         ruta: "register",
       });
     }
@@ -158,18 +158,17 @@ const login = async (req, res) => {
 
 
 
-const loginPage = async (req, res) => {
-
-
-  try {
-    User.findAll({
+const loginPage = async (_req, res) => {
+    try {
+          User.findAll({
       attributes: ["id"],
       limit: 1,
     }).then((users) => {
+      console.log(users.length);
       if (users.length === 0) {
         res.render("auth/login", { alert: false, existUser: false });
       } else {
-        res.render("auth/login", { alert: false, existUser: true });
+         res.render("auth/login", { alert: false, existUser: true });
       }
     });
   } catch (error) {
