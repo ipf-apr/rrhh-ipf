@@ -147,7 +147,11 @@ const update = async (req, res) => {
 const destroy = async (req, res) => {
   const employeeId = req.params.id;
   try {
-    const employee = await Employee.delete(employeeId);
+    const employee = await Employee.destroy({
+      where: {
+        id: employeeId
+      }
+    });
     return res.json({ employee, message: "Empleado eliminado correctamente." });
   } catch (error) {
     return res

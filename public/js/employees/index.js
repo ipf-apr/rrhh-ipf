@@ -14,6 +14,7 @@ const fetchEmployees = async () => {
   const data = response.json();
   return data;
 };
+
 const showEmployees = (employees) => {
   if (employees.length === 0) {
     employeesList.innerHTML = `
@@ -49,6 +50,56 @@ const showEmployees = (employees) => {
             `;
   });
 };
+
+const deleteEmployee = async (event) => {
+  const id = event.target.dataset.id;
+
+
+  Swal.fire({
+    title: 'Estás seguro?',
+    text: `Estás por eliminar a un empleado del sistema!` ,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Estoy seguro!',
+    cancelButtonText: 'Cancelar'
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+
+      try {
+        const res = await fetch(`http://localhost:8000/api/employees/${id}/destroy`, {
+          method: 'DELETE'
+        });
+
+        const data = await res.json();
+        console.log(data);
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Empleado eliminado',
+          text: data.message,
+        });
+
+        setTimeout(() => {
+          window.location.reload();
+        }, 2200);
+
+      } catch (error) {
+        console.log(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: error.message,
+        })
+      }
+    }
+  })
+
+
+
+}
+
 
 document.addEventListener("DOMContentLoaded", async () => {
   console.log("DOM Cargado");
