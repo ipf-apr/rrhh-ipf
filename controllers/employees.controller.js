@@ -113,27 +113,28 @@ const store = async (req, res) => {
 const update = async (req, res) => {
   const employeeId = req.params.id;
   const {
+    address,
+    dateBirthday,
+    dateIn,
+    dni,
     lastName,
     name,
-    dni,
-    domicilio,
-    fechaNac,
     phone,
-    nroLegajo,
-    ingreso,
+    profileNro,
+    promotion
   } = req.body;
   try {
     const employee = await Employee.findByPk(employeeId);
     employee.update({
       lastName,
       name,
+      dateBirthday,
+      address,
       dni,
-      address: domicilio,
-      dateBirthday: fechaNac,
       phone,
-      profileNro: nroLegajo,
-      dateIn: ingreso,
-      promotion: 1,
+      profileNro,
+      dateIn,
+      promotion
     });
     return res.json(employee);
   } catch (error) {
