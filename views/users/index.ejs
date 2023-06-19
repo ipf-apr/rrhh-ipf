@@ -88,45 +88,26 @@
                 <th scope="col">#</th>
                 <th scope="col">Apellidos</th>
                 <th scope="col">Nombres</th>
-                <th scope="col">Usuario</th>
-                <th scope="col">Rol</th>
+                <th scope="col">Edad</th>
+                <th scope="col">Categoría</th>
                 <th scope="col">Acciones</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>admin</td>
-                <td>admin</td>
-                <td>
-                  <a class="btn btn-outline-success" href="edit.html">Editar</a>
-                  <a class="btn btn-outline-danger" href="">Eliminar</a>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>user1</td>
-                <td>user</td>
-                <td>
-                  <a class="btn btn-outline-success" href="edit.html">Editar</a>
-                  <a class="btn btn-outline-danger" href="">Eliminar</a>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>Jhon</td>
-                <td>Master</td>
-                <td>user2</td>
-                <td>user</td>
-                <td>
-                  <a class="btn btn-outline-success" href="edit.html">Editar</a>
-                  <a class="btn btn-outline-danger" href="">Eliminar</a>
-                </td>
-              </tr>
+              <% employees.forEach(function(employee){ %>
+                <tr>
+                  <th scope="row"><%= employee.id %></th>
+                  <td><%= employee.lastName %></td>
+                  <td><%= employee.name %></td>
+                  <td><%= employee.age %></td>
+                  <td>Categoria 1</td>
+                  <td>
+                    <a class="btn btn-outline-success" href="/users/<%= user.id %>/edit">Editar</a>
+                    <a class="btn btn-outline-primary" href="/users/<%= user.id %>/show">Ver</a>
+                    <a class="btn btn-outline-danger" href="">Eliminar</a>
+                  </td>
+                </tr>                
+              <% }); %>
             </tbody>
           </table>
         </div>       
