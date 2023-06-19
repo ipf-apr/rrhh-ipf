@@ -41,8 +41,8 @@ const showEmployees = (employees) => {
                     </td>
                     <td>Categoria 1</td>
                     <td>
-                      <a href="/employee/${employee.id}/edit" class="btn btn-outline-success">Editar</a>
-                      <a href="/employee/${employee.id}/show" class="btn btn-outline-primary">Ver</a>
+                      <a href="/employees/${employee.id}/edit" class="btn btn-outline-success">Editar</a>
+                      <a href="/employees/${employee.id}/show" class="btn btn-outline-primary">Ver</a>
                       <button onclick=deleteEmployee(event) class="btn btn-outline-danger" data-id="${employee.id}">Eliminar</button>
                     </td>
                  </tr>
