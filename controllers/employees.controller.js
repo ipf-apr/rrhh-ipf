@@ -10,7 +10,7 @@ const indexView = (_req, res) => {
 
 const showView = (req, res) => {
   const employeeId = req.params.id;
-  res.render('employees/edit', { id: employeeId });
+  res.render('employees/show', { id: employeeId });
 };
 
 const createView = (_req, res) => {
