@@ -1,25 +1,30 @@
-const { Router } = require('express')
+const { Router } = require("express");
 
 const {
-    index,
-    show,
-    edit,
-    update,
-    create,
-    store,
-    destroy
-} = require('../controllers/employees.controller')
+  indexView,
+  index,
+  showView,
+  show,
+  editView,
+  update,
+  createView,
+  store,
+  destroy,
+} = require("../controllers/employees.controller");
 
+const router = Router();
 
-const router = Router()
+//Vistas
+router.get("/employees", indexView);
+router.get("/employees/:id/show", showView);
+router.get("/employees/:id/edit", editView);
+router.get("/employees/create", createView);
 
-router.get('', index)
-router.get('/:id/show', show)
-router.get('/:id/edit', edit)
-router.get('/create', create)
-router.put('/:id/update', update)
-router.post('', store)
-router.delete('/:id/destroy', destroy)
+// API CRUD
+router.get("/api/employees", index);
+router.get("/api/employees/:id/show", show);
+router.post("/api/employees", store);
+router.put("/api/employees/:id/update", update);
+router.delete("/api/employees/:id/destroy", destroy);
 
-console.log(router.route)
-module.exports = router
+module.exports = router;

@@ -1,37 +1,66 @@
 const Employee = require("../models/employee");
-const User = require("../models/user");
 
 const jwt = require("jsonwebtoken");
 const { promisify } = require("util");
 
+//VISTAS
+const indexView = (_req, res) => {
+  res.render("employees/index");
+};
+
+const showView = (req, res) => {
+  const employeeId = req.params.id;
+  res.render('employees/edit', { id: employeeId });
+};
+
+const createView = (_req, res) => {
+  res.render("employees/create");
+};
+
+const editView = (req, res) => {
+  const employeeId = req.params.id;
+  res.render("employees/edit", { id: employeeId });
+};
+
+//APIS
 const index = async (_req, res) => {
-  await Employee.findAll()
-    .then((employees) => {
-      res.render("employees/index", { employees });
-    })
-    .catch((err) => {
-      throw err;
+  try {
+    const employees = await Employee.findAll();
+    if (!employees || employees.length === 0) {
+      throw {
+        status: 404,
+        message: "No hay empleados registrados aún.",
+      };
+    }
+    return res.json(employees);
+  } catch (error) {
+    return res.status(error.status || 500).json({
+      message: error.message || "Error interno del servidor",
     });
+  }
 };
 
 const show = async (req, res) => {
   const employeeId = req.params.id;
 
+  try {
+    const employee = await Employee.findByPk(employeeId);
 
-  await Employee.findByPk(employeeId)
-    .then((employee) => {
+    if (!employee) {
+      throw {
+        status: 404,
+        message: "No existe el empleado con el id " + employeeId,
+      };
+    }
 
-      res.render("employees/show", { employee });
-    })
-    .catch((err) => {
-      throw err;
-    });
+    return res.json(employee);
+  } catch (error) {
+    return res
+      .status(error.status || 500)
+      .json(error.message || "Error interno del servidor");
+  }
 };
 
-const create = (_req, res) => {
-  let employee = Employee.build();
-  res.render("employees/create", { employee });
-};
 
 const store = async (req, res) => {
   const {
@@ -51,7 +80,7 @@ const store = async (req, res) => {
   );
 
   try {
-    const [ employee, created] = await Employee.findOrCreate({
+    const [employee, created] = await Employee.findOrCreate({
       where: { dni: dni },
       defaults: {
         lastName,
@@ -65,23 +94,20 @@ const store = async (req, res) => {
         userId: jwtDecodificado.id,
       },
     });
-    
-    res.render("employees/show", { employee : employee });
+
+    if (!employee) {
+      throw {
+        status: 400,
+        message: "No se pudo crear el empleado.",
+      };
+    }
+
+    return res.json(employee);
   } catch (error) {
-    throw error;
+    return res
+      .status(error.status || 500)
+      .json(error.message || "Error interno del servidor");
   }
-};
-
-const edit = async (req, res) => {
-  const employeeId = req.params.id;
-
-  await Employee.findByPk(employeeId)
-    .then((employee) => {
-      res.render("employees/edit", { employee });
-    })
-    .catch((error) => {
-      throw error;
-    });
 };
 
 const update = async (req, res) => {
@@ -109,20 +135,34 @@ const update = async (req, res) => {
       dateIn: ingreso,
       promotion: 1,
     });
-    res.render("employees/show", { employee });
+    return res.json(employee);
   } catch (error) {
-    throw error;
+    return res
+      .status(error.status || 500)
+      .json(error.message || "Error interno del servidor");
   }
 };
 
-const destroy = (req, res) => {};
+const destroy = async (req, res) => {
+  const employeeId = req.params.id;
+  try {
+    const employee = await Employee.delete(employeeId);
+    return res.json({ employee, message: "Empleado eliminado correctamente." });
+  } catch (error) {
+    return res
+      .status(error.status || 500)
+      .json(error.message || "Error interno del servidor");
+  }
+};
 
 module.exports = {
+  indexView,
   index,
+  showView,
   show,
-  edit,
+  editView,
   update,
-  create,
+  createView,
   store,
   destroy,
 };

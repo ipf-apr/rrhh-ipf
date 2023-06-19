@@ -160,7 +160,6 @@ const logout = (req, res) => {
 
 module.exports = {
   index,
-  registerForm,
   register,
   login,
   loginPage,
