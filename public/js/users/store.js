@@ -24,27 +24,27 @@ formNewUser.addEventListener('submit', async (e) => {
         }),
     });
 
-    const respToJson = await response.json();
+    const responseJson = await response.json();
     
     if(response.status !== 201 && response.status !== 200) {
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: respToJson.message,
+            text: responseJson.message,
         });
         return;
     }
 
     Swal.fire({
         icon: 'success',
-        title: 'Usuario creado Correctamente',
-        text: respToJson.message,
+        title: 'Muy bien!',
+        text: responseJson.message,
     });
 
     formNewUser.reset();
 
     setTimeout(() => {
-        window.location.href = '/users/'+ respToJson.id+'/show';
+        window.location.href = '/users/'+ responseJson.user.id+'/show';
     }, 2000);
 
 });

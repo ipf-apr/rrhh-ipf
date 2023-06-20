@@ -43,13 +43,22 @@ const index = async (req, res) => {
 const show = async (req, res) => {
   const userId = req.params.id;
 
-  await User.findByPk(userId)
-    .then((users) => {
-      res.render('users/show', { usuarios });
-    })
-    .catch((error) => {
-      throw error;
-    });
+  try {
+    const user = await User.findByPk(userId);
+
+    if (!user) {
+      throw {
+        status: 404,
+        message: "No existe el usuario con el id " + userId,
+      };
+    }
+
+    return res.json(user);
+  } catch (error) {
+    return res
+      .status(error.status || 500)
+      .json(error.message || "Error interno del servidor");
+  }
 };
 
 const store = async (req, res) => {
@@ -79,7 +88,7 @@ const store = async (req, res) => {
       })
     }
 
-    return res.json(user);
+    return res.json({user, message : 'El usuario se creó correctamente.'});
 
   } catch (error) {
     console.log(error);
@@ -102,12 +111,13 @@ const update = async (req, res) => {
       name,
       lastName,
       username: username,
-      role: role,
-      userId: jwtDecodificado.id,
+      role: role
     });
-    res.render("users/show", { usuarios });
+    return res.json({user, message : 'El usuario se editó correctamente.'});
   } catch (error) {
-    throw error;
+    return res
+      .status(error.status || 500)
+      .json(error.message || "Error interno del servidor");
   }
 };
 

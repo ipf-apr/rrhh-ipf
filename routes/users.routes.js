@@ -18,6 +18,8 @@ const router = Router()
 // Vistas
 router.get('/users', indexView)
 router.get('/users/create', createView)
+router.get('/users/:id/show', showView)
+router.get('/users/:id/edit', editView)
 
 // API
 router.get('/api/users', index)
