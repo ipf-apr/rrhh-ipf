@@ -45,6 +45,10 @@ const Employee = sequelize.define('Employee', {
       return age;
     }
   },
+  userId:{
+    type: DataTypes.INTEGER,
+    allowNull: false
+  }
 }, {
   sequelize,
   paranoid: true,
