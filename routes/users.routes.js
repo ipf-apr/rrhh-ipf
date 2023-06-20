@@ -23,10 +23,10 @@ router.get('/users/:id/edit', editView)
 
 // API
 router.get('/api/users', index)
+router.post('/api/users', store)
 router.get('/api/users/:id/show', show)
 router.put('/api/users/:id/update', update)
-router.delete('users/:id/destroy', destroy)
-router.post('/api/users', store)
+router.delete('/api/users/:id/destroy', destroy)
 
 console.log(router.route)
 module.exports = router

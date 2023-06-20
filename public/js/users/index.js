@@ -59,7 +59,7 @@ const deleteUser = async (event) => {
 
   Swal.fire({
     title: 'Estás seguro?',
-    text: `Estás por eliminar a un usuario del sistema!` ,
+    text: `Estás por eliminar a un usuario del sistema!`,
     icon: 'warning',
     showCancelButton: true,
     confirmButtonColor: '#3085d6',
@@ -71,11 +71,23 @@ const deleteUser = async (event) => {
 
       try {
         const res = await fetch(`http://localhost:8000/api/users/${id}/destroy`, {
-          method: 'DELETE'
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          }, method: 'DELETE'
         });
 
         const data = await res.json();
+
         console.log(data);
+
+        if (data.status === 401) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Acción no autorizada.',
+            text: data.message,
+          });
+          return;  
+        }
 
         Swal.fire({
           icon: 'success',

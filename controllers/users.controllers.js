@@ -20,7 +20,7 @@ const editView = (req, res) => {
   res.render('users/edit', { id: userId })
 }
 
-//obteneer usuarios
+
 const index = async (req, res) => {
   try {
     const users = await User.findAll();
@@ -122,7 +122,30 @@ const update = async (req, res) => {
 };
 
 
-const destroy = (req, res) => { };
+const destroy = async (req, res) => {
+  const userId = req.params.id;
+  try {
+
+    if (userId == 1) {
+      throw ({
+        status: 401,
+        message: 'No podes eliminar el primer usuario administrador.'
+      })
+    }
+
+    const user = await User.destroy({
+      where: {
+        id: userId
+      }
+    });
+    return res.json({ user, message: "Usuario eliminado correctamente." });
+
+  } catch (error) {
+    return res
+      .status(error.status || 500)
+      .json({status : error.status,message : error.message || "Error interno del servidor"});
+  }
+ };
 
 module.exports = {
   indexView,
