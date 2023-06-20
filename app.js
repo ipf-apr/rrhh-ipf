@@ -55,6 +55,7 @@ const { isAuthenticated } = require('./middleware/is_authenticate');
 
 app.use("/", require("./routes/auth.routes"));
 app.use("/", isAuthenticated, require("./routes/employee.routes"));
+app.use("/users", isAuthenticated, require("./routes/users.routes"));
 
 //eliminar la cache para que no se pueda volver atras
 app.use(function (req, res, next) {
