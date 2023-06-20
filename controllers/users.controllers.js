@@ -1,7 +1,5 @@
-const { error } = require('console');
 const User = require('../models/user');
-const jwt = require('jsonwebtoken');
-const { promisify } = require('util');
+const bcryptjs = require("bcryptjs");
 
 
 
@@ -59,44 +57,37 @@ const store = async (req, res) => {
     name,
     lastName,
     username,
+    password,
     role
   } = req.body;
-}
-// const jwtDecodificado = await promisify(jwt.verify)(
-//   req.cookies.jwt,
-//   process.env.JWT_SECRET
-// );
-// Ctrl para crear una tarea
-const create = async (req, res) => {
-  const {
-    name,
-    lastName,
-    username,
-    role
-  } = req.body;
+
+  let passHash = await bcryptjs.hash(password, 8);
 
   try {
     const user = await User.create({
       name,
       lastName,
       username,
-      role,
-      id: req.usuario.id
+      password: passHash,
+      role
     });
 
     if (!user) {
       throw ({
         status: 400,
-        message: 'No se pudo crear la tarea'
+        message: 'No se pudo crear el usuario'
       })
     }
 
-    return res.json(tarea);
+    return res.json(user);
+
   } catch (error) {
     console.log(error);
     return res.status(error.status || 500).json(error.message || 'Error interno del servidor');
   }
 }
+
+
 const update = async (req, res) => {
   const userId = req.params.id;
   const {
