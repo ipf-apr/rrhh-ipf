@@ -1,10 +1,13 @@
 const { Router } = require('express')
 
 const {
+    indexView,
+    showView,
+    editView,
+    createView,
     index,
     show,
     update,
-    created,
     store,
     destroy
 } = require('../controllers/users.controllers')
@@ -12,12 +15,16 @@ const {
 
 const router = Router()
 
-router.get('', index)
-router.get('/:id/show', show)
-router.get('/created', created)
-router.put('/:id/update', update)
-router.post('', store)
-router.delete('/:id/destroy', destroy)
+// Vistas
+router.get('/users', indexView)
+router.get('/users/create', createView)
+
+// API
+router.get('/api/users', index)
+router.get('/api/users/:id/show', show)
+router.put('/api/users/:id/update', update)
+router.delete('users/:id/destroy', destroy)
+router.post('/api/users', store)
 
 console.log(router.route)
 module.exports = router
