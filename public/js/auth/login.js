@@ -30,7 +30,7 @@ formLogin.addEventListener('submit', async (e) => {
     localStorage.setItem('token', token);
 
     setTimeout(() => {
-        window.location.href = '/?token=' + token;
+        window.location.href = '/';
     }, 2000);
 
 });
