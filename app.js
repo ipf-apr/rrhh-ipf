@@ -54,6 +54,7 @@ sequelize.authenticate()
 const { isAuthenticated } = require('./middleware/is_authenticate');
 
 app.use("/", require("./routes/auth.routes"));
+app.use("/",isAuthenticated, require("./routes/dashboard.routes"));
 app.use("/", isAuthenticated, require("./routes/employee.routes"));
 app.use("/", isAuthenticated, require("./routes/users.routes"));
 
