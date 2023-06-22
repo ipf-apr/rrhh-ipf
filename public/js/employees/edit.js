@@ -49,9 +49,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         inputDni.value = dni;
         inputProfileNro.value = profileNro;
         inputAddress.value = address;
-        inputDateBirthday.value = dateBirthday;
+        inputDateBirthday.value = dateBirthday.split('T')[0];
         inputPhone.value = phone;
-        inputdateIn.value = dateIn;
+        inputdateIn.value = dateIn.split('T')[0];
         promotion == 1 ? inputRadioHabilitado.checked  = true : inputRadioInhabilitado.checked = true;
 
     } catch (error) {
