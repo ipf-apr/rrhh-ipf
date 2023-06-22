@@ -17,18 +17,17 @@ const { sequelize } = require('./database/config');
 const app = express();
 
 
-//configuración del motor de platillas
+//configuración del motor de plantillas
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
 //Carpeta public para archivos estaticos
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "public")));
 
 //procesamiento de datos
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(methodOverride('_method'))
 app.use(cors());
 app.use(
   helmet({
@@ -36,7 +35,7 @@ app.use(
   })
 );
 app.use(morgan("dev"));
-app.use(express.static(path.join(__dirname, "public")));
+
 
 
 //trabajar con las cookies
