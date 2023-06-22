@@ -1,7 +1,7 @@
-const employeesList = document.querySelector("#employeesList");
+const usersList = document.querySelector("#usersList");
 
-const fetchEmployees = async () => {
-  const response = await fetch("http://localhost:8000/api/employees", {
+const fetchUsers = async () => {
+  const response = await fetch("http://localhost:8000/api/users", {
     headers: {
       Authorization: localStorage.getItem("token"),
     },
@@ -15,49 +15,51 @@ const fetchEmployees = async () => {
   return data;
 };
 
-const showEmployees = (employees) => {
-  if (employees.length === 0) {
-    employeesList.innerHTML = `
+const showUsers = (users) => {
+  if (users.length === 0) {
+    usersList.innerHTML = `
         <tr>
-            <td colspan="6" class="text-center">No hay empleados registrados aún.</td>
+            <td colspan="6" class="text-center">No hay usuarios registrados</td>
         </tr>
     `;
     return;
   }
 
-  employees.forEach((employee) => {
-    employeesList.innerHTML += `
+  users.forEach((user) => {
+    usersList.innerHTML += `
                 <tr>
                     <th scope="row">
-                      ${employee.id}
+                      ${user.id}
                     </th>
                     <td>
-                      ${employee.lastName}
+                      ${user.lastName}
                     </td>
                     <td>
-                      ${employee.name}
+                      ${user.name}
                     </td>
                     <td>
-                      ${employee.age}
+                      ${user.username}
                     </td>
-                    <td>Categoria 1</td>
                     <td>
-                      <a href="/employees/${employee.id}/edit" class="btn btn-outline-success">Editar</a>
-                      <a href="/employees/${employee.id}/show" class="btn btn-outline-primary">Ver</a>
-                      <button onclick=deleteEmployee(event) class="btn btn-outline-danger" data-id="${employee.id}">Eliminar</button>
+                      ${user.role}
+                    </td>
+                    <td>
+                      <a href="/users/${user.id}/edit" class="btn btn-outline-success">Editar</a>
+                      <a href="/users/${user.id}/show" class="btn btn-outline-primary">Ver</a>
+                      <button onclick=deleteUser(event) class="btn btn-outline-danger" data-id="${user.id}">Eliminar</button>
                     </td>
                  </tr>
             `;
   });
 };
 
-const deleteEmployee = async (event) => {
+const deleteUser = async (event) => {
   const id = event.target.dataset.id;
 
 
   Swal.fire({
     title: 'Estás seguro?',
-    text: `Estás por eliminar a un empleado del sistema!` ,
+    text: `Estás por eliminar a un usuario del sistema!`,
     icon: 'warning',
     showCancelButton: true,
     confirmButtonColor: '#3085d6',
@@ -68,16 +70,28 @@ const deleteEmployee = async (event) => {
     if (result.isConfirmed) {
 
       try {
-        const res = await fetch(`http://localhost:8000/api/employees/${id}/destroy`, {
-          method: 'DELETE'
+        const res = await fetch(`http://localhost:8000/api/users/${id}/destroy`, {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          }, method: 'DELETE'
         });
 
         const data = await res.json();
+
         console.log(data);
+
+        if (data.status === 401) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Acción no autorizada.',
+            text: data.message,
+          });
+          return;  
+        }
 
         Swal.fire({
           icon: 'success',
-          title: 'Empleado eliminado',
+          title: 'Usuario eliminado',
           text: data.message,
         });
 
@@ -105,8 +119,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   console.log("DOM Cargado");
 
   try {
-    const employees = await fetchEmployees();
-    showEmployees(employees);
+    const users = await fetchUsers();
+    showUsers(users);
   } catch (error) {
     Swal.fire({
       icon: "error",

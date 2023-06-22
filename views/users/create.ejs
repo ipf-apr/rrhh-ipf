@@ -1,0 +1,33 @@
+<%- include('../layouts/head.ejs', {title : 'Crear usuarios'}) ;%>
+<body class="h-100 d-flex flex-column">
+  <%- include('../layouts/nav.ejs') ;%> 
+  <div id="height-cuerpo" class="row">
+    <%- include('../layouts/menu-aside.ejs') ;%>    
+    <div class="container-fluid py-5 px-md-5 col">
+      <header>
+        <h1>
+          Nuevo Usuario
+        </h1>
+        <br><br>
+      </header>
+      <main>
+        <form action="#" id="formNewUser" class="row g-3 ">
+          <%- include('../users/partials/_form.ejs') ;%>
+          <p class="text-danger">La contraseña se asignará automáticamente a "password"</p>
+          <div class="col-12">
+            <button class="btn btn-primary" type="submit">Guardar</button>
+            <button class="btn btn-secondary" onclick="history.back()">Cancelar</button>
+          </div>
+        </form>
+      </main>
+    </div>
+  </div>
+  <%- include('../layouts/footer.ejs') ;%>
+</div>
+<script src="/js/bootstrap/popper.min.js"></script>
+<script src="/js/bootstrap/bootstrap.min.js"></script>    
+<script src="/js/sweetalert2/all.min.js"></script>
+<script src="/js/users/store.js"></script>
+</body>
+
+</html>

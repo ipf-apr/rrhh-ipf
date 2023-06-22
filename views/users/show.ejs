@@ -1,0 +1,30 @@
+<%- include('../layouts/head.ejs', {title : 'Detalle de usuario'}) ;%>
+<body class="h-100 d-flex flex-column">
+  <%- include('../layouts/nav.ejs') ;%> 
+  <div id="height-cuerpo" class="row">
+    <%- include('../layouts/menu-aside.ejs') ;%>    
+    <div class="container-fluid py-5 px-md-5 col" id="id" data-id="<%= id  %>">
+        <header class="d-flex align-items-center justify-content-between">
+          <h1 id="fullName"></h1>
+          <a id="btnEdit" class="btn btn-outline-success" href="">Editar</a>
+        </header>
+        <main>
+          <div class="d-flex display-6">
+            <strong>Nombre de usuario:</strong>
+            <p id="username" class="mx-3"></p>
+          </div>
+          <div class="d-flex display-6">
+            <strong>Rol:</strong>
+            <p id="role" class="mx-3"></p>
+          </div>
+         
+        </main>
+      </div>
+      <%- include('../layouts/footer.ejs') ;%>
+    </div>
+    <script src="/js/bootstrap/popper.min.js"></script>
+    <script src="/js/bootstrap/bootstrap.min.js"></script>    
+    <script src="/js/sweetalert2/all.min.js"></script>
+    <script src="/js/users/show.js"></script>  
+  </body>
+</html>
