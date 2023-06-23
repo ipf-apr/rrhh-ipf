@@ -4,8 +4,6 @@ const {
   Model, DataTypes, sequelize
 } = require('../database/config');
 
-const User = require('./user');
-
 const Employee = sequelize.define('Employee', {
   name: DataTypes.STRING,
   lastName: DataTypes.STRING,
@@ -26,6 +24,20 @@ const Employee = sequelize.define('Employee', {
   },
   dateIn: {
     type: DataTypes.DATEONLY
+  },
+  antiquity:{
+    type: DataTypes.VIRTUAL,
+    get() {
+      const today = new Date();
+      const date_in = new Date(this.dateIn);
+      let antiquity = today.getFullYear() - date_in.getFullYear();
+      let m = today.getMonth() - date_in.getMonth();
+
+      if (m < 0 || (m === 0 && today.getDate() < date_in.getDate())) {
+        antiquity--;
+      }
+      return antiquity;
+    }
   },
   promotion: { 
     type: DataTypes.INTEGER, 
