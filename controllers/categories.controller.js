@@ -1,9 +1,6 @@
 const Category = require("../models/category");
-const Employee = require("../models/employee");
 const { Op } = require("sequelize");
 
-const jwt = require("jsonwebtoken");
-const { promisify } = require("util");
 
 //VISTAS
 const indexView = (_req, res) => {

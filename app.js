@@ -55,6 +55,7 @@ app.use("/", require("./routes/auth.routes"));
 app.use("/",isAuthenticated, require("./routes/dashboard.routes"));
 app.use("/", isAuthenticated, require("./routes/employees.routes"));
 app.use("/", isAuthenticated, require("./routes/users.routes"));
+app.use("/", isAuthenticated, require("./routes/categories.routes"));
 
 //eliminar la cache para que no se pueda volver atras
 app.use(function (req, res, next) {
