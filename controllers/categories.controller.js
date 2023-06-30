@@ -7,19 +7,6 @@ const indexView = (_req, res) => {
   res.render("categories/index");
 };
 
-const showView = (req, res) => {
-  const categoryId = req.params.id;
-  res.render('categories/show', { id: categoryId });
-};
-
-const createView = (_req, res) => {
-  res.render("categories/create");
-};
-
-const editView = (req, res) => {
-  const categoryId = req.params.id;
-  res.render("categories/edit", { id: categoryId });
-};
 
 //APIS
 const index = async (req, res) => {
@@ -28,13 +15,13 @@ const index = async (req, res) => {
 
   try {
     const categories = await Category.findAll({
-      where:{       
+      where: {
         name: {
-          [Op.like] : `%${name}%`
+          [Op.like]: `%${name}%`
         }
       }
     });
-    
+
     if (!categories || categories.length === 0) {
       throw {
         status: 404,
@@ -54,7 +41,7 @@ const show = async (req, res) => {
 
   try {
     const category = await Category.findByPk(categoryId);
-    
+
 
     if (!category) {
       throw {
@@ -74,8 +61,10 @@ const show = async (req, res) => {
 
 const store = async (req, res) => {
   const {
-    name,permanency
+    name, permanency
   } = req.body;
+
+  console.log(req.body);
 
   try {
     const [category, created] = await Category.findOrCreate({
@@ -92,7 +81,8 @@ const store = async (req, res) => {
       };
     }
 
-    return res.json(category);
+    return res.status(201).json({ category, message: 'Categoría creada correctamente.' });
+
   } catch (error) {
     return res
       .status(error.status || 500)
@@ -108,9 +98,9 @@ const update = async (req, res) => {
   try {
     const category = await Category.findByPk(categoryId);
     category.update({
-        name, permanency
+      name, permanency
     });
-    return res.json(category);
+    return res.json({ category, message: 'Categoría se editó correctamente.' });
   } catch (error) {
     return res
       .status(error.status || 500)
@@ -137,11 +127,8 @@ const destroy = async (req, res) => {
 module.exports = {
   indexView,
   index,
-  showView,
   show,
-  editView,
   update,
-  createView,
   store,
   destroy,
 };
