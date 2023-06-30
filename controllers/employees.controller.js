@@ -1,4 +1,6 @@
 const Employee = require("../models/employee");
+const User = require("../models/user");
+const { Op } = require("sequelize");
 
 const jwt = require("jsonwebtoken");
 const { promisify } = require("util");
@@ -23,9 +25,22 @@ const editView = (req, res) => {
 };
 
 //APIS
-const index = async (_req, res) => {
+const index = async (req, res) => {
+
+  const { lastName, name} = req.query;
+
   try {
-    const employees = await Employee.findAll();
+    const employees = await Employee.findAll({
+      where:{
+        lastName:{
+          [Op.like] : `%${lastName}%`
+        }, 
+        name: {
+          [Op.like] : `%${name}%`
+        }
+      }
+    });
+    
     if (!employees || employees.length === 0) {
       throw {
         status: 404,
@@ -44,7 +59,12 @@ const show = async (req, res) => {
   const employeeId = req.params.id;
 
   try {
-    const employee = await Employee.findByPk(employeeId);
+    const employee = await Employee.findByPk(employeeId,{
+      include: User
+    });
+
+    console.log('employee')
+    console.log(employee.User.name)
 
     if (!employee) {
       throw {

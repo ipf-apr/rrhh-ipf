@@ -27,6 +27,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       address,
       phone,
       dateIn,
+      antiquity,
       promotion,
     } = await response.json();
 
@@ -38,6 +39,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       address,
       phone,
       dateIn,
+      antiquity,
       promotion,
     });
 
@@ -48,6 +50,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const laddress = document.querySelector("#address");
     const lphone = document.querySelector("#phone");
     const ldateIn = document.querySelector("#dateIn");
+    const lantiquity = document.querySelector("#antiquity");
     const lpromotion = document.querySelector("#promotion");
 
     lfullName.innerHTML = fullName;
@@ -56,7 +59,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     lage.innerHTML = age;
     laddress.innerHTML = address;
     lphone.innerHTML = phone;
-    ldateIn.innerHTML = new Date(dateIn).getFullYear();
+    ldateIn.innerHTML = dateIn.split('T')[0].split('-')[2]+'/'+dateIn.split('T')[0].split('-')[1]+'/'+dateIn.split('T')[0].split('-')[0];
+    lantiquity.innerHTML = antiquity;
     lpromotion.innerHTML = promotion == 1 ? 'Habilidato' : 'Inhabilitado';
 
   } catch (error) {

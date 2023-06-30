@@ -1,0 +1,31 @@
+<%- include('../layouts/head.ejs', {title : 'Editar usuario'}) ;%>
+<body class="h-100 d-flex flex-column">
+  <%- include('../layouts/nav.ejs') ;%> 
+  <div id="height-cuerpo" class="row">
+    <%- include('../layouts/menu-aside.ejs') ;%>    
+    <div class="container-fluid py-5 px-md-5 col">
+      <header>
+        <h1>
+          Editar Usuario
+        </h1>
+        <br><br>
+      </header>
+      <main>
+        <form action="#" id="formEditUser"  class="row g-3" data-id="<%= id%>">
+          <%- include('../users/partials/_form.ejs') ;%>         
+         <div class="col-12">
+            <button class="btn btn-primary" type="submit">Guardar</button>
+            <button class="btn btn-secondary" onclick="history.back()">Cancelar</button>
+          </div>
+        </form>
+      </main>
+    </div>
+    <%- include('../layouts/footer.ejs') ;%>
+  </div>
+  <script src="/js/bootstrap/popper.min.js"></script>
+  <script src="/js/bootstrap/bootstrap.min.js"></script>    
+  <script src="/js/sweetalert2/all.min.js"></script>
+  <script src="/js/users/edit.js"></script>
+</body>
+
+</html>
