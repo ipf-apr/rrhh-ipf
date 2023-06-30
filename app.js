@@ -45,7 +45,6 @@ app.use(cookieParser());
 sequelize.authenticate()
   .then(() => { 
     console.log('Conexión a base de datos exitosa');
-    sequelize.sync();
  })
   .catch((error) => console.log('Error al conectar a base de datos', error));
 
@@ -54,7 +53,7 @@ const { isAuthenticated } = require('./middleware/is_authenticate');
 
 app.use("/", require("./routes/auth.routes"));
 app.use("/",isAuthenticated, require("./routes/dashboard.routes"));
-app.use("/", isAuthenticated, require("./routes/employee.routes"));
+app.use("/", isAuthenticated, require("./routes/employees.routes"));
 app.use("/", isAuthenticated, require("./routes/users.routes"));
 
 //eliminar la cache para que no se pueda volver atras
