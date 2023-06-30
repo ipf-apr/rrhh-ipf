@@ -31,9 +31,8 @@ const isAuthenticated = async (req, res, next) => {
             }
             return decoded;
         });
-        console.log(decoded);
         // Leer el usuario que corresponde al id
-        const user = await User.findByPk(decoded.id);
+        const user = await User.findByPk(decoded?.id);
 
         if (!user) {
             return res.status(401).json({
