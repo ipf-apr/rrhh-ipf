@@ -4,7 +4,9 @@ const User = require("../models/user");
 const isAuthenticated = async (req, res, next) => {
     // Leer el token
 
-    let token = req.header('Authorization');
+    let token;
+    
+    token = req.header('Authorization');
 
     //esta parte se agregó para las páginas, ya que no se puede agregar el header a la petición GET
     if (!token) {
@@ -30,10 +32,10 @@ const isAuthenticated = async (req, res, next) => {
                 return res.redirect("/login");
             }
             return decoded;
-        });
-        console.log(decoded);
+        })
+
         // Leer el usuario que corresponde al id
-        const user = await User.findByPk(decoded.id);
+        const user = await User.findByPk(decoded?.id);
 
         if (!user) {
             return res.status(401).json({
