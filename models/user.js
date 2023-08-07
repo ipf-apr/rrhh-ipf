@@ -1,10 +1,7 @@
 'use strict';
 
-const {
-  Model, DataTypes, sequelize
+const {DataTypes, sequelize
 } = require('../database/config');
-
-const Employee = require('./employee');
 
 const User = sequelize.define('User', {
   name: DataTypes.STRING,
@@ -25,6 +22,10 @@ const User = sequelize.define('User', {
   tableName: 'users',
   underscored: true
 })
+
+console.log('User');
+User.sync();
+const Employee = require('./employee');
 
 User.hasMany(Employee);
 Employee.belongsTo(User, {

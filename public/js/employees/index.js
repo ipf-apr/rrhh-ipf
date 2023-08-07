@@ -4,11 +4,13 @@ const btnCleanSearch = document.querySelector("#btnCleanSearch");
 
 const fetchEmployees = async (formData) => {
 
+  const searchParams = {
+    lastName : formData?.lastName ?? '',
+    name : formData?.name ?? ''
+  };
 
-  const response = await fetch("http://localhost:8000/api/employees?" + new URLSearchParams({
-    lastName : formData?.lastName ?? '%%',
-    name : formData?.name ?? '%%'
-  }), {
+
+  const response = await fetch("http://localhost:8000/api/employees?" + new URLSearchParams(searchParams), {
     headers: {
       Authorization: localStorage.getItem("token"),
     },

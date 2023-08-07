@@ -63,9 +63,6 @@ const show = async (req, res) => {
       include: User
     });
 
-    console.log('employee')
-    console.log(employee.User.name)
-
     if (!employee) {
       throw {
         status: 404,

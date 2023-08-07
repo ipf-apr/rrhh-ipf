@@ -1,7 +1,8 @@
 'use strict';
 
+
 const {
-  Model, DataTypes, sequelize
+  DataTypes, sequelize
 } = require('../database/config');
 
 const Employee = sequelize.define('Employee', {
@@ -68,5 +69,18 @@ const Employee = sequelize.define('Employee', {
   tableName: 'employees',
   underscored: true
 });
+
+
+console.log('Employee');
+Employee.sync()
+
+const Category = require('./category');
+const CategoryEmployee = require('./categoryEmployee');
+
+// Category.sync();
+// CategoryEmployee.sync();
+
+Employee.belongsToMany(Category, { through: CategoryEmployee });
+Category.belongsToMany(Employee, { through: CategoryEmployee });
 
 module.exports = Employee;

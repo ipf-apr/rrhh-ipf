@@ -8,32 +8,22 @@ const register = async (req, res) => {
   try {
     const { name, lastName, username, password, passwordConfirmation } = req.body;
 
-    if (!username || !password) {
-
-      return res.render("auth/login", {
-        alert: true,
-        alertTitle: "Advertencia",
-        alertMessage: "Ingrese un usuario y contraseña",
-        alertIcon: "info",
-        showConfirmButton: true,
-        timer: null,
-        ruta: "login",
-        existUser: false,
+    if (!name || !lastName) {
+      return res.status(400).json({
+        message: 'Tenes que tu nombre y apellido.',
       });
+    }
 
+    if (!username || !password) {
+      return res.status(400).json({
+        message: 'Tenes que ingresar el usuario y la contraseña.',
+      });
     }
 
     if (password !== passwordConfirmation) {
 
-      return res.render("auth/login", {
-        alert: true,
-        alertTitle: "Advertencia",
-        alertMessage: "Las contraseñas no coinciden",
-        alertIcon: "info",
-        showConfirmButton: true,
-        timer: null,
-        ruta: "login",
-        existUser: false,
+      return res.status(400).json({
+        message: 'La contraseña y la confirmación no coinciden.',
       });
 
     }
@@ -41,21 +31,25 @@ const register = async (req, res) => {
     let passHash = await bcryptjs.hash(password, 8);
 
     // console.log(passHash);
-    User.create({
+    const user = await User.create({
       name: name,
       lastName: lastName,
       username: username,
       password: passHash,
       role: 'admin',
-    })
-      .then((user) => {
-        res.redirect("/login");
-      })
-      .catch((err) => {
-        console.log(err);
+    });
+    
+    if (user) {
+      return res.json({
+        message: 'Usuario Administrador creado correctamente, se redireccionará en unos momentos.',
       });
+    }
+
   } catch (error) {
     console.log(error);
+    res.status(500).json({
+      message: 'Error al registrar usuario.',
+    });
   }
 };
 
