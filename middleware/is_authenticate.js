@@ -32,12 +32,7 @@ const isAuthenticated = async (req, res, next) => {
                 return res.redirect("/login");
             }
             return decoded;
-<<<<<<< HEAD
         })
-
-=======
-        });
->>>>>>> 48153153cfaa47bde6f54a35e88e72aee7af61c0
         // Leer el usuario que corresponde al id
         const user = await User.findByPk(decoded?.id);
 
