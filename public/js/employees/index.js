@@ -3,14 +3,22 @@ const formSearch = document.querySelector("#formSearch");
 const btnCleanSearch = document.querySelector("#btnCleanSearch");
 
 const fetchEmployees = async (formData) => {
+  
 
+  let url = 'http://localhost:8000/api/employees';
   const searchParams = {
     lastName : formData?.lastName ?? '',
-    name : formData?.name ?? ''
+    name : formData?.name ?? '',
+    promotion : formData?.promotion ?? ''
   };
 
+  if(formData)
+  {
+    url = "http://localhost:8000/api/employees?" + new URLSearchParams(searchParams);
+  }
 
-  const response = await fetch("http://localhost:8000/api/employees?" + new URLSearchParams(searchParams), {
+   
+  const response = await fetch(url, {
     headers: {
       Authorization: localStorage.getItem("token"),
     },
@@ -28,12 +36,10 @@ const fetchEmployees = async (formData) => {
 btnCleanSearch.addEventListener("click", async (e)=> {
   document.querySelector("#sLastName").value = '';
   document.querySelector("#sName").value = '';
-
-  const lastName = '%';
-  const name = '%';
+  document.querySelector("#sPromotion").value = '';
 
   try {
-    const employees = await fetchEmployees({ lastName, name });
+    const employees = await fetchEmployees();
     if (employees.length != 0) {
       employeesList.innerHTML = "";
       showEmployees(employees);
@@ -53,9 +59,10 @@ formSearch.addEventListener("submit", async (e) => {
 
   const lastName = document.querySelector("#sLastName").value;
   const name = document.querySelector("#sName").value;
+  const promotion = document.querySelector("#sPromotion").value;
  
   try {
-    const employees = await fetchEmployees({ lastName, name });
+    const employees = await fetchEmployees({ lastName, name, promotion });
     if (employees.length != 0) {
       employeesList.innerHTML = "";
       showEmployees(employees);
@@ -80,6 +87,12 @@ const showEmployees = (employees) => {
   }
 
   employees.forEach((employee) => {
+    // console.log(employee);
+    const dateIn = employee.Categories[0]?.CategoryEmployee.datePromotion;
+    let date;
+    if (dateIn) {
+      date = dateIn?.split('T')[0].split('-')[2]+'/'+dateIn?.split('T')[0].split('-')[1]+'/'+dateIn?.split('T')[0].split('-')[0];      
+    }
     employeesList.innerHTML += `
                 <tr>
                     <th scope="row">
@@ -94,7 +107,11 @@ const showEmployees = (employees) => {
                     <td>
                       ${employee.age}
                     </td>
-                    <td>Categoria 1</td>
+                    <td>${employee.Categories[0]?.name ?? 'No asignado'}</td>
+                    <td>${date ?? '-'}</td>
+                    <td>
+                      ${employee.promotion ? 'Habilitado' : ' Inhabilitado'}
+                    </td>
                     <td>
                       <a href="/employees/${employee.id}/edit" class="btn btn-outline-success">Editar</a>
                       <a href="/employees/${employee.id}/show" class="btn btn-outline-primary">Ver</a>

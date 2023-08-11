@@ -37,7 +37,7 @@ const isAuthenticated = async (req, res, next) => {
         const user = await User.findByPk(decoded?.id);
 
         if (!user) {
-            return res.status(401).json({
+            res.status(401).json({
                 message: 'Token no válido - usuario no existe en la base de datos',
             });
         }

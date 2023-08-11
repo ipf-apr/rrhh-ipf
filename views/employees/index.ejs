@@ -28,6 +28,13 @@
                     <input placeholder="Apellidos" class="form-control col" type="search" name="sLastName"
                       id="sLastName">
                     <input placeholder="Nombres" class="form-control col" type="search" name="sName" id="sName">
+                    <div class="form-control col">
+                      <select class="form-select" name="promotion" id="sPromotion">
+                        <option value="" selected>--Seleccionar Condición Promocion--</option>
+                        <option value="1">Habilitado</option>
+                        <option value="0">Inhabilitado</option>
+                      </select>
+                    </div>
                     <div class="d-flex flex-row m-2  justify-content-end gap-2">
                       <button type="submit" class="btn btn-outline-primary align-items-end">
                         <span>Buscar</span>
@@ -58,6 +65,8 @@
                       <th scope="col">Nombres</th>
                       <th scope="col">Edad</th>
                       <th scope="col">Categoría</th>
+                      <th scope="col">Fecha Promocion</th>
+                      <th scope="col">Condición de ascenso Actual</th>
                       <th scope="col">Acciones</th>
                     </tr>
                   </thead>
