@@ -41,9 +41,9 @@ const index = async (req, res) => {
         [Op.like]: `%${name}%`,
       },
       promotion,
-    }
+    };
   }
-  
+
   try {
     const employees = await Employee.findAll({
       where: whereClausule,
@@ -73,8 +73,13 @@ const show = async (req, res) => {
 
   try {
     const employee = await Employee.findByPk(employeeId, {
-      include: User,
+      include: {
+        model: Category
+      },
+      order: [[Category, CategoryEmployee, "datePromotion", "DESC"]],
     });
+
+    console.log(employee);
 
     if (!employee) {
       throw {
@@ -85,6 +90,7 @@ const show = async (req, res) => {
 
     return res.json(employee);
   } catch (error) {
+    console.log(error)
     return res
       .status(error.status || 500)
       .json(error.message || "Error interno del servidor");
