@@ -1,66 +1,72 @@
-<%- include('../layouts/head.ejs', {title : 'Detalle de empleados'}) ;%>
+<%- include('../layouts/head.ejs', {title : 'Detalle de empleados' }) ;%>
+
   <body class="h-100 d-flex flex-column">
     <%- include('../layouts/nav.ejs') ;%>
 
-    <div id="height-cuerpo" class="row">
-      <%- include('../layouts/menu-aside.ejs') ;%>
-      <div class="container p-5 col" id="id" data-id="<%= id  %>">
-        <header class="d-flex align-items-center justify-content-between">
-          <h1 id="fullName"></h1>
-          <a class="btn btn-outline-success" id="btnEdit" href="">Editar</a>
-        </header>
-        <main>
-          <div class="d-flex display-6">
-            <strong>Nro. documento:</strong>
-            <p class="mx-3" id="dni"></p>
+      <div id="height-cuerpo" class="row">
+        <%- include('../layouts/menu-aside.ejs') ;%>
+          <div class="container p-5 col" id="id" data-id="<%= id  %>">
+            <main class="row gap-2">
+              <div class="col rounded shadow p-3">
+                <a class="btn btn-outline-success relative float-end" id="btnEdit">Editar</a>
+                <div class="d-flex fs-6">
+                  <span id="fullName" class="fs-2"></span>
+                </div>
+                <div class="d-flex fs-6">
+                  <strong>Nro. documento:</strong>
+                  <p class="mx-3" id="dni"></p>
+                </div>
+                <div class="d-flex">
+                  <strong>Nro. Legajo:</strong>
+                  <p class="mx-3" id="profileNro"></p>
+                </div>
+                <div class="d-flex">
+                  <strong>Edad:</strong>
+                  <p class="mx-3" id="age"></p>
+                </div>
+                <div class="d-flex">
+                  <strong>Domicilio:</strong>
+                  <p class="mx-3" id="address"></p>
+                </div>
+                <div class="d-flex">
+                  <strong>Teléfono:</strong>
+                  <p class="mx-3" id="phone"></p>
+                </div>
+                <div class="d-flex">
+                  <strong>Año Ingreso:</strong>
+                  <p class="mx-3" id="dateIn"></p>
+                </div>
+                <div class="d-flex">
+                  <strong>Antiguedad:</strong>
+                  <p class="mx-3" id="antiquity"></p>
+                </div>
+                <div class="d-flex">
+                  <strong>Condición de promoción:</strong>
+                  <p class="mx-3" id="promotion"></p>
+                </div>
+              </div>
+              <div class="col">
+                <div class="d-flex rounded shadow p-2 mb-2">
+                  <strong>Categoría:</strong>
+                  <p class="mx-3" id="category"></p>
+                </div>
+                <div class="d-flex rounded shadow p-2 mb-2">
+                  <strong>Puesto laboral:</strong>
+                  <p class="mx-3">Puesto Laboral(h)</p>
+                </div>
+                <div class="rounded shadow p-2 mb-2">
+                  <strong>Habilidades / Skills: (h)</strong>
+                  <ul>
+                    <li>Excel avanzado</li>
+                    <li>Word avanzado</li>
+                    <li>Electricista</li>
+                  </ul>
+                </div>
+              </div>
+            </main>
           </div>
-          <div class="d-flex">
-            <strong>Nro. Legajo:</strong>
-            <p class="mx-3" id="profileNro"></p>
-          </div>
-          <div class="d-flex">
-            <strong>Edad:</strong>
-            <p class="mx-3" id="age"></p>
-          </div>
-          <div class="d-flex">
-            <strong>Domicilio:</strong>
-            <p class="mx-3" id="address"></p>
-          </div>
-          <div class="d-flex">
-            <strong>Teléfono:</strong>
-            <p class="mx-3" id="phone"></p>
-          </div>
-          <div class="d-flex">
-            <strong>Año Ingreso:</strong>
-            <p class="mx-3" id="dateIn"></p>
-          </div>
-          <div class="d-flex">
-            <strong>Antiguedad:</strong>
-            <p class="mx-3" id="antiquity"></p>
-          </div>
-          <div class="d-flex">
-            <strong>Condición de promoción:</strong>
-            <p class="mx-3" id="promotion"></p>
-          </div>
-          <div class="d-flex">
-            <strong>Puesto laboral:</strong>
-            <p class="mx-3">Puesto Laboral(h)</p>
-          </div>
-          <div class="d-flex">
-            <strong>Categoría:</strong>
-            <p class="mx-3">Categoria 2(h)</p>
-          </div>
-          <div>
-            <strong>Habilidades / Skills: (h)</strong>
-            <ul>
-              <li>Excel avanzado</li>
-              <li>Word avanzado</li>
-              <li>Electricista</li>
-            </ul>
-          </div>
-        </main>
-      </div>
-      <%- include('../layouts/footer.ejs') ;%>
-    <script src="/js/employees/show.js"></script>
+          <%- include('../layouts/footer.ejs') ;%>
+            <script src="/js/employees/show.js"></script>
   </body>
-</html>
+
+  </html>
