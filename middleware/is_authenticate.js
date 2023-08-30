@@ -27,6 +27,7 @@ const isAuthenticated = async (req, res, next) => {
 
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET, function (error, decoded) {
+            console.log("este es el error: ",error,decoded);
             if (error) {
                 res.clearCookie("jwt");
                 return res.redirect("/login");
@@ -50,7 +51,6 @@ const isAuthenticated = async (req, res, next) => {
         }
 
         req.user = user;
-
         next();
     } catch (error) {
         console.log('catch (error)');
