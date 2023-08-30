@@ -2,12 +2,12 @@ const { Router } = require("express");
 
 const {
   indexView,
-  index,
   showView,
-  show,
   editView,
-  update,
   createView,
+  index,
+  show,
+  update,
   store,
   destroy,
 } = require("../controllers/employees.controller");

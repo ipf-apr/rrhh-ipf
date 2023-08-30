@@ -1,42 +1,29 @@
 const jwt = require("jsonwebtoken");
 const bcryptjs = require("bcryptjs");
 const User = require("../models/user");
-//procedimiento de registro
 
-const index = (req, res) => {
-  res.render("index");
-};
+
 
 const register = async (req, res) => {
   try {
     const { name, lastName, username, password, passwordConfirmation } = req.body;
 
-    if (!username || !password) {
-
-      return res.render("auth/login", {
-        alert: true,
-        alertTitle: "Advertencia",
-        alertMessage: "Ingrese un usuario y contraseña",
-        alertIcon: "info",
-        showConfirmButton: true,
-        timer: null,
-        ruta: "login",
-        existUser: false,
+    if (!name || !lastName) {
+      return res.status(400).json({
+        message: 'Tenes que tu nombre y apellido.',
       });
+    }
 
+    if (!username || !password) {
+      return res.status(400).json({
+        message: 'Tenes que ingresar el usuario y la contraseña.',
+      });
     }
 
     if (password !== passwordConfirmation) {
 
-      return res.render("auth/login", {
-        alert: true,
-        alertTitle: "Advertencia",
-        alertMessage: "Las contraseñas no coinciden",
-        alertIcon: "info",
-        showConfirmButton: true,
-        timer: null,
-        ruta: "login",
-        existUser: false,
+      return res.status(400).json({
+        message: 'La contraseña y la confirmación no coinciden.',
       });
 
     }
@@ -44,92 +31,86 @@ const register = async (req, res) => {
     let passHash = await bcryptjs.hash(password, 8);
 
     // console.log(passHash);
-    User.create({
+    const user = await User.create({
       name: name,
       lastName: lastName,
       username: username,
       password: passHash,
       role: 'admin',
-    })
-      .then((user) => {
-        res.redirect("/login");
-      })
-      .catch((err) => {
-        console.log(err);
+    });
+    
+    if (user) {
+      return res.json({
+        message: 'Usuario Administrador creado correctamente, se redireccionará en unos momentos.',
       });
+    }
+
   } catch (error) {
     console.log(error);
+    res.status(500).json({
+      message: 'Error al registrar usuario.',
+    });
   }
 };
 
 const login = async (req, res) => {
+  const { username, password } = req.body;
+
   try {
-    const { username, password } = req.body;
     if (!username || !password) {
-      res.render("auth/login", {
-        alert: true,
-        alertTitle: "Advertencia",
-        alertMessage: "Ingrese un usuario y contraseña",
-        alertIcon: "info",
-        showConfirmButton: true,
-        timer: null,
-        ruta: "login",
-        existUser: true,
+
+      return res.status(400).json({
+        message: 'Ingrese un usuario y contraseña.',
       });
     } else {
-      User.findOne({
+
+      const user = await User.findOne({
         where: {
           username,
         },
-      })
-        .then(async function (user) {
-          if (!user || !(await bcryptjs.compare(password, user.password))) {
-            res.render("auth/login", {
-              alert: true,
-              alertTitle: "Advertencia",
-              alertMessage: "Los datos ingresados no corresponden a nuestros registros.",
-              alertIcon: "info",
-              showConfirmButton: true,
-              timer: null,
-              ruta: "login",
-              existUser: true,
-            });
-          } else {
-            const { id, role } = user;
-            const token = jwt.sign(
-              { id: id, rol: role },
-              process.env.JWT_SECRET,
-              {
-                expiresIn: process.env.JWT_TIEMPO_EXPIRA,
-              }
-            );
-            const cookiesOptions = {
-              expires: new Date(
-                Date.now() +
-                process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
-              ),
-              httpOnly: true,
-            };
-            res.cookie("jwt", token, cookiesOptions);
-            res.render("auth/login", {
-              alert: true,
-              alertTitle: "Inicio de sesión correcto",
-              alertMessage: "Se redireccionará en unos momentos...",
-              alertIcon: "success",
-              showConfirmButton: false,
-              timer: 2000,
-              ruta: "",
-              existUser: true,
-            });
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-          res.status(500).json(err);
+      });
+
+
+      const validPassword = await bcryptjs.compare(password, user.password);
+
+      if (!user || !validPassword) {
+        return res.status(400).json({
+          message: 'Los datos ingresados no corresponden a nuestros registros.',
         });
+      } else {
+        const { id, role } = user;
+
+
+        const token = jwt.sign(
+          { id: id, rol: role },
+          process.env.JWT_SECRET,
+          {
+            expiresIn: process.env.JWT_TIEMPO_EXPIRA,
+          });
+
+        //se agregó cookies para poder navegar con autorización, ya que se verifica en todas las páginas protegidas
+        const cookiesOptions = {
+          expires: new Date(
+            Date.now() +
+            process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
+          ),
+          httpOnly: true,
+        };
+        res.cookie("jwt", token, cookiesOptions);
+
+
+        return res.json({
+          message: 'Inicio de sesión correcto, se redireccionará en unos momentos',
+          token,
+        });
+
+      }
     }
   } catch (error) {
     console.log(error);
+    return res.status(500).json({
+      message: 'Error al iniciar sesión',
+    });
   }
 };
 
@@ -159,7 +140,6 @@ const logout = (req, res) => {
 };
 
 module.exports = {
-  index,
   register,
   login,
   loginPage,

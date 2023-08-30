@@ -19,6 +19,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     // Se obtienen los datos de la respuesta (fetch)
+    const data = await response.json();
+
+    
+
     const {
       fullName,
       dni,
@@ -27,19 +31,11 @@ document.addEventListener("DOMContentLoaded", async () => {
       address,
       phone,
       dateIn,
+      antiquity,
       promotion,
-    } = await response.json();
+      Categories
+    } = data;
 
-    console.log({
-      fullName,
-      dni,
-      profileNro,
-      age,
-      address,
-      phone,
-      dateIn,
-      promotion,
-    });
 
     const lfullName = document.querySelector("#fullName");
     const ldni = document.querySelector("#dni");
@@ -48,7 +44,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     const laddress = document.querySelector("#address");
     const lphone = document.querySelector("#phone");
     const ldateIn = document.querySelector("#dateIn");
+    const lantiquity = document.querySelector("#antiquity");
     const lpromotion = document.querySelector("#promotion");
+    const lcategory = document.querySelector("#category");
 
     lfullName.innerHTML = fullName;
     ldni.innerHTML = dni;
@@ -56,8 +54,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     lage.innerHTML = age;
     laddress.innerHTML = address;
     lphone.innerHTML = phone;
-    ldateIn.innerHTML = new Date(dateIn).getFullYear();
+    ldateIn.innerHTML = dateIn.split('T')[0].split('-')[2]+'/'+dateIn.split('T')[0].split('-')[1]+'/'+dateIn.split('T')[0].split('-')[0];
+    lantiquity.innerHTML = antiquity;
     lpromotion.innerHTML = promotion == 1 ? 'Habilidato' : 'Inhabilitado';
+    lcategory.innerHTML = Categories[0]?.name ?? 'No asignado.';
 
   } catch (error) {
     console.log(error);

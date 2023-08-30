@@ -17,18 +17,17 @@ const { sequelize } = require('./database/config');
 const app = express();
 
 
-//configuración del motor de platillas
+//configuración del motor de plantillas
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
 //Carpeta public para archivos estaticos
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "public")));
 
 //procesamiento de datos
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(methodOverride('_method'))
 app.use(cors());
 app.use(
   helmet({
@@ -36,7 +35,7 @@ app.use(
   })
 );
 app.use(morgan("dev"));
-app.use(express.static(path.join(__dirname, "public")));
+
 
 
 //trabajar con las cookies
@@ -46,7 +45,6 @@ app.use(cookieParser());
 sequelize.authenticate()
   .then(() => { 
     console.log('Conexión a base de datos exitosa');
-    sequelize.sync();
  })
   .catch((error) => console.log('Error al conectar a base de datos', error));
 
@@ -54,7 +52,12 @@ sequelize.authenticate()
 const { isAuthenticated } = require('./middleware/is_authenticate');
 
 app.use("/", require("./routes/auth.routes"));
+<<<<<<<<< Temporary merge branch 1
 app.use("/employees", isAuthenticated, require("./routes/employee.routes"));
+app.use("/users", isAuthenticated, require("./routes/users.routes"));
+=========
+app.use("/", isAuthenticated, require("./routes/employee.routes"));
+>>>>>>>>> Temporary merge branch 2
 
 //eliminar la cache para que no se pueda volver atras
 app.use(function (req, res, next) {

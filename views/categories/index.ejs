@@ -1,4 +1,4 @@
-<%- include('../layouts/head.ejs', {title : 'Listado de empleados' }) ;%>
+<%- include('../layouts/head.ejs', {title : 'Listado de categorías' }) ;%>
 
   <body class="h-100 d-flex flex-column">
     <%- include('../layouts/nav.ejs') ;%>
@@ -7,10 +7,12 @@
           <div class="container-fluid py-5 px-md-5 col">
             <header class="d-flex align-items-center justify-content-between">
               <h1>
-                Listado de Empleados
+                Listado de Categorías
               </h1>
               <div>
-                <a class="btn btn-outline-success" href="/employees/create">Nuevo Empleado</a>
+                <button type="button" class="btn btn-outline-success" onclick=createCategory(event)>
+                  Nueva Categoría
+                </button>
                 <a class="btn btn-outline-primary" data-bs-toggle="collapse" href="#collapseSearch" role="button"
                   aria-expanded="false" aria-controls="collapseSearch">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -25,16 +27,9 @@
               <div class="collapse" id="collapseSearch">
                 <div class="card card-body">
                   <form id="formSearch" class="row">
-                    <input placeholder="Apellidos" class="form-control col" type="search" name="sLastName"
-                      id="sLastName">
-                    <input placeholder="Nombres" class="form-control col" type="search" name="sName" id="sName">
-                    <div class="form-control col">
-                      <select class="form-select" name="promotion" id="sPromotion">
-                        <option value="" selected>--Seleccionar Condición Promocion--</option>
-                        <option value="1">Habilitado</option>
-                        <option value="0">Inhabilitado</option>
-                      </select>
-                    </div>
+
+                    <input placeholder="Nombre de la Categoría" class="form-control col" type="search" name="sName"
+                      id="sName">
                     <div class="d-flex flex-row m-2  justify-content-end gap-2">
                       <button type="submit" class="btn btn-outline-primary align-items-end">
                         <span>Buscar</span>
@@ -61,24 +56,52 @@
                   <thead>
                     <tr>
                       <th scope="col">#</th>
-                      <th scope="col">Apellidos</th>
-                      <th scope="col">Nombres</th>
-                      <th scope="col">Edad</th>
-                      <th scope="col">Categoría</th>
-                      <th scope="col">Fecha Promocion</th>
-                      <th scope="col">Condición de ascenso Actual</th>
+                      <th scope="col">Nombre Categoría</th>
+                      <th scope="col">Permanencia</th>
                       <th scope="col">Acciones</th>
                     </tr>
                   </thead>
-                  <tbody id="employeesList">
+                  <tbody id="categoriesList">
 
                   </tbody>
                 </table>
               </div>
             </main>
           </div>
-          <%- include('../layouts/footer.ejs') ;%>
-            <script src="/js/employees/index.js"></script>
-  </body>
+          <!-- Modal -->
+          <div class="modal fade" id="modalCategoryCreate" tabindex="-1" aria-labelledby="modalCategoryCreateLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <form id="createEditCategoryForm" class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="modalCategoryCreateLabel">Nueva Categoría</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="row g-3 needs-validation">
+                    <input type="hidden" id="isCreating">
+                    <div class="col-6">
+                      <label for="name" class="form-label">Nombre de Categoría<small
+                          class=" text-danger">(*)</small></label>
+                      <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="col-6">
+                      <label for="permanency" class="form-label">Años de Permanencia<small
+                          class=" text-danger">(*)</small></label>
+                      <input type="number" class="form-control" id="permanency" name="permanency" required>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                  <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <%- include('../layouts/footer.ejs') ;%>       
+        <script src="/js/categories/index.js"></script>
+        <script src="/js/categories/storeUpdateModal.js"></script>
+      </body>
 
   </html>

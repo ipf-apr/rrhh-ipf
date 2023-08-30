@@ -1,10 +1,9 @@
 'use strict';
 
-const {
-  Model, DataTypes, sequelize
-} = require('../database/config');
 
-const User = require('./user');
+const {
+  DataTypes, sequelize
+} = require('../database/config');
 
 const Employee = sequelize.define('Employee', {
   name: DataTypes.STRING,
@@ -26,6 +25,20 @@ const Employee = sequelize.define('Employee', {
   },
   dateIn: {
     type: DataTypes.DATEONLY
+  },
+  antiquity:{
+    type: DataTypes.VIRTUAL,
+    get() {
+      const today = new Date();
+      const date_in = new Date(this.dateIn);
+      let antiquity = today.getFullYear() - date_in.getFullYear();
+      let m = today.getMonth() - date_in.getMonth();
+
+      if (m < 0 || (m === 0 && today.getDate() < date_in.getDate())) {
+        antiquity--;
+      }
+      return antiquity;
+    }
   },
   promotion: { 
     type: DataTypes.INTEGER, 
@@ -56,5 +69,18 @@ const Employee = sequelize.define('Employee', {
   tableName: 'employees',
   underscored: true
 });
+
+
+console.log('Employee');
+Employee.sync()
+
+const Category = require('./category');
+const CategoryEmployee = require('./categoryEmployee');
+
+// Category.sync();
+// CategoryEmployee.sync();
+
+Employee.belongsToMany(Category, { through: CategoryEmployee });
+Category.belongsToMany(Employee, { through: CategoryEmployee });
 
 module.exports = Employee;

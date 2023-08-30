@@ -1,7 +1,11 @@
 const Employee = require("../models/employee");
+const Category = require("../models/category");
+const User = require("../models/user");
+const { Op } = require("sequelize");
 
 const jwt = require("jsonwebtoken");
 const { promisify } = require("util");
+const CategoryEmployee = require("../models/categoryEmployee");
 
 //VISTAS
 const indexView = (_req, res) => {
@@ -10,7 +14,7 @@ const indexView = (_req, res) => {
 
 const showView = (req, res) => {
   const employeeId = req.params.id;
-  res.render('employees/show', { id: employeeId });
+  res.render("employees/show", { id: employeeId });
 };
 
 const createView = (_req, res) => {
@@ -23,9 +27,32 @@ const editView = (req, res) => {
 };
 
 //APIS
-const index = async (_req, res) => {
+const index = async (req, res) => {
+  const { lastName, name, promotion } = req.query;
+
+  let whereClausule;
+
+  if (Object.keys(req.query).length !== 0) {
+    whereClausule = {
+      lastName: {
+        [Op.like]: `%${lastName}%`,
+      },
+      name: {
+        [Op.like]: `%${name}%`,
+      },
+      promotion,
+    };
+  }
+
   try {
-    const employees = await Employee.findAll();
+    const employees = await Employee.findAll({
+      where: whereClausule,
+      include: {
+        model: Category,
+      },
+      order: [[Category, CategoryEmployee, "datePromotion", "DESC"]],
+    });
+
     if (!employees || employees.length === 0) {
       throw {
         status: 404,
@@ -34,6 +61,7 @@ const index = async (_req, res) => {
     }
     return res.json(employees);
   } catch (error) {
+    console.log(error);
     return res.status(error.status || 500).json({
       message: error.message || "Error interno del servidor",
     });
@@ -44,7 +72,14 @@ const show = async (req, res) => {
   const employeeId = req.params.id;
 
   try {
-    const employee = await Employee.findByPk(employeeId);
+    const employee = await Employee.findByPk(employeeId, {
+      include: {
+        model: Category
+      },
+      order: [[Category, CategoryEmployee, "datePromotion", "DESC"]],
+    });
+
+    console.log(employee);
 
     if (!employee) {
       throw {
@@ -55,12 +90,12 @@ const show = async (req, res) => {
 
     return res.json(employee);
   } catch (error) {
+    console.log(error)
     return res
       .status(error.status || 500)
       .json(error.message || "Error interno del servidor");
   }
 };
-
 
 const store = async (req, res) => {
   const {
@@ -121,7 +156,7 @@ const update = async (req, res) => {
     name,
     phone,
     profileNro,
-    promotion
+    promotion,
   } = req.body;
   try {
     const employee = await Employee.findByPk(employeeId);
@@ -134,7 +169,7 @@ const update = async (req, res) => {
       phone,
       profileNro,
       dateIn,
-      promotion
+      promotion,
     });
     return res.json(employee);
   } catch (error) {
@@ -149,8 +184,8 @@ const destroy = async (req, res) => {
   try {
     const employee = await Employee.destroy({
       where: {
-        id: employeeId
-      }
+        id: employeeId,
+      },
     });
     return res.json({ employee, message: "Empleado eliminado correctamente." });
   } catch (error) {

@@ -1,123 +1,160 @@
-const { error } = require('console');
 const User = require('../models/user');
-const jwt = require('jsonwebtoken');
-const {promisify} = require('util');
-//obteneer usuarios
+const bcryptjs = require("bcryptjs");
+
+
+
+const indexView = (req, res) => {
+  res.render('users/index')
+};
+
+const createView = (req, res) => {
+  res.render('users/create')
+};
+
+const showView = (req, res) => {
+  const userId = req.params.id;
+  res.render('users/show', { id: userId })
+}
+const editView = (req, res) => {
+  const userId = req.params.id;
+  res.render('users/edit', { id: userId })
+}
+
+
 const index = async (req, res) => {
   try {
-      const usurios = await User.findAll({
-          where: {
-              estado: true,
-              id: req.usuario.id
-          }
-      });
+    const users = await User.findAll();
 
-      if (!tareas || tareas.length === 0) {
-          throw ({
-              status: 404,
-              message: 'No hay tareas registradas'
-          })
-      }
+    if (!users || users.length === 0) {
+      throw ({
+        status: 404,
+        message: 'No hay usuarios registrados aún.'
+      })
+    }
 
-      return res.json(tareas);
+    return res.json(users);
   } catch (error) {
-      return res.status(error.status || 500).json({
-          message: error.message || 'Error interno del servidor'
-      });
+    return res.status(error.status || 500).json({
+      message: error.message || 'Error interno del servidor'
+    });
   }
 }
 
-const show = async (req,res)=>{
-    const userId = req.params.id;
+const show = async (req, res) => {
+  const userId = req.params.id;
 
-  await User.findByPk(userId)
-    .then((users)=>{
-        res.render('users/show',{usuarios});
-    })
-    .catch((error)=>{
-        throw error;
-    });
-};
+  try {
+    const user = await User.findByPk(userId);
 
-const created = (req,res)=>{
-    let usuario = User.build();
-    res.render('users/create',{usuarios})
+    if (!user) {
+      throw {
+        status: 404,
+        message: "No existe el usuario con el id " + userId,
+      };
+    }
+
+    return res.json(user);
+  } catch (error) {
+    return res
+      .status(error.status || 500)
+      .json(error.message || "Error interno del servidor");
+  }
 };
 
 const store = async (req, res) => {
-    const {
+  const {
+    name,
+    lastName,
+    username,
+    password,
+    role
+  } = req.body;
+
+  let passHash = await bcryptjs.hash(password, 8);
+
+  try {
+    const user = await User.create({
       name,
       lastName,
       username,
+      password: passHash,
       role
-    } = req.body;
-}  
-// const jwtDecodificado = await promisify(jwt.verify)(
-//   req.cookies.jwt,
-//   process.env.JWT_SECRET
-// );
-// Ctrl para crear una tarea
-const create = async (req, res) => {
+    });
+
+    if (!user) {
+      throw ({
+        status: 400,
+        message: 'No se pudo crear el usuario'
+      })
+    }
+
+    return res.json({user, message : 'El usuario se creó correctamente.'});
+
+  } catch (error) {
+    console.log(error);
+    return res.status(error.status || 500).json(error.message || 'Error interno del servidor');
+  }
+}
+
+
+const update = async (req, res) => {
+  const userId = req.params.id;
   const {
     name,
     lastName,
     username,
     role
   } = req.body;
-
   try {
-      const user = await User.create({
-        name,
-        lastName,
-        username,
-        role,
-        id: req.usuario.id
-      });
-
-      if (!user) {
-          throw ({
-              status: 400,
-              message: 'No se pudo crear la tarea'
-          })
-      }
-
-      return res.json(tarea);
+    const user = await User.findByPk(userId);
+    user.update({
+      name,
+      lastName,
+      username: username,
+      role: role
+    });
+    return res.json({user, message : 'El usuario se editó correctamente.'});
   } catch (error) {
-      console.log(error);
-      return res.status(error.status || 500).json(error.message || 'Error interno del servidor');
+    return res
+      .status(error.status || 500)
+      .json(error.message || "Error interno del servidor");
   }
-}
-const update = async (req, res) => {
-    const userId = req.params.id;
-    const {
-        name,
-        lastName,
-        username,
-        role
-      } = req.body;
-    try {
-      const user = await User.findByPk(userId);
-      user.update({
-        name,
-        lastName,
-        username: username,
-        role:role,
-        userId: jwtDecodificado.id,
-      });
-      res.render("users/show", { usuarios });
-    } catch (error) {
-      throw error;
+};
+
+
+const destroy = async (req, res) => {
+  const userId = req.params.id;
+  try {
+
+    if (userId == 1) {
+      throw ({
+        status: 401,
+        message: 'No podes eliminar el primer usuario administrador.'
+      })
     }
-  };
 
+    const user = await User.destroy({
+      where: {
+        id: userId
+      }
+    });
+    return res.json({ user, message: "Usuario eliminado correctamente." });
 
-  const destroy = (req, res) => {};
+  } catch (error) {
+    return res
+      .status(error.status || 500)
+      .json({status : error.status,message : error.message || "Error interno del servidor"});
+  }
+ };
 
-  module.exports = {
-    index,
-    show,
-    update,
-    created,
-    store,
-    destroy,
-  };
+module.exports = {
+  indexView,
+  createView,
+  showView,
+  editView,
+  index,
+  show,
+  update,
+  store,
+  destroy,
+};
