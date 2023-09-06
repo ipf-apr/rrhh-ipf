@@ -12,6 +12,9 @@ const {
     destroy
 } = require('../controllers/users.controllers')
 
+const validateSchema = require('../middleware/validations')
+const userSchema = require('../models/schemas/user.schema')
+
 
 const router = Router()
 
@@ -23,10 +26,9 @@ router.get('/users/:id/edit', editView)
 
 // API
 router.get('/api/users', index)
-router.post('/api/users', store)
+router.post('/api/users', userSchema, validateSchema,  store)
 router.get('/api/users/:id/show', show)
-router.put('/api/users/:id/update', update)
+router.put('/api/users/:id/update',userSchema, validateSchema, update)
 router.delete('/api/users/:id/destroy', destroy)
 
-console.log(router.route)
 module.exports = router
