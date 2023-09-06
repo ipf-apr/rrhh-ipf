@@ -84,6 +84,7 @@ const Skill = require('./skill');
 
 Employee.belongsToMany(Category, { through: CategoryEmployee });
 Category.belongsToMany(Employee, { through: CategoryEmployee });
+Skill.sync();
 
 Employee.belongsToMany(Skill,{
   through: employeeSkills,
@@ -92,7 +93,7 @@ Employee.belongsToMany(Skill,{
 });
 Skill.belongsToMany(Employee,{
   through:employeeSkills,
-  foreignKey:idSkill,
+  foreignKey:'idSkill',
   as:'employeeskills'
 })
 employeeSkills.sync()
