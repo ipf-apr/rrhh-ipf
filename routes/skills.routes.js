@@ -1,6 +1,6 @@
 const {Router} = require('express');
 
-const {    findAll,
+const {   findAll,
     findOne,
     createSkill,
     skillUpdate,
