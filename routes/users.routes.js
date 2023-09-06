@@ -28,5 +28,4 @@ router.get('/api/users/:id/show', show)
 router.put('/api/users/:id/update', update)
 router.delete('/api/users/:id/destroy', destroy)
 
-console.log(router.route)
 module.exports = router
