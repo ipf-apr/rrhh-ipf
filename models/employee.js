@@ -95,5 +95,6 @@ Skill.belongsToMany(Employee,{
   foreignKey:idSkill,
   as:'employeeskills'
 })
+employeeSkills.sync()
 
 module.exports = Employee;

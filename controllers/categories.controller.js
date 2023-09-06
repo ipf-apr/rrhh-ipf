@@ -64,8 +64,6 @@ const store = async (req, res) => {
     name, permanency
   } = req.body;
 
-  console.log(req.body);
-
   try {
     const [category, created] = await Category.findOrCreate({
       where: { name },
