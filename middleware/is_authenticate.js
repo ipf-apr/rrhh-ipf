@@ -4,18 +4,16 @@ const User = require("../models/user");
 const isAuthenticated = async (req, res, next) => {
   // Leer el token
 
-  let token;
-
-  token = req.header("Authorization");
-  respInJson = req.header("Accept");
-
+  let token = req.header("Authorization");
+  let respInJson = req.header("Accept");
+  
   //esta parte se agregó para las páginas, ya que no se puede agregar el header a la petición GET
   if (!token) {
     token = req.cookies.jwt;
   }
 
   if (!token) {
-    if (respInJson == "application/json") {
+    if (respInJson.includes("application/json")) {
       return res.status(403).json({
         message:
           "No estás autenticado, tenes que iniciar sesión para continuar.",
@@ -50,6 +48,10 @@ const isAuthenticated = async (req, res, next) => {
   } catch (error) {
     console.log("is_authenticate.js error", error);
     if (error instanceof jwt.TokenExpiredError) {
+      if (!respInJson.includes("application/json")) {
+        return res.redirect("/login");
+      }
+
       return res.status(403).json({
         message: "Tu sesión expiró, volvé a iniciar sesión.",
       });
