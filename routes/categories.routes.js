@@ -1,4 +1,6 @@
 const { Router } = require("express");
+const categorySchema = require("../models/schemas/category.schema");
+const validateSchema = require("../middleware/validations");
 
 const {
   indexView, 
@@ -17,8 +19,8 @@ router.get("/categories", indexView);
 // API CRUD
 router.get("/api/categories", index);
 router.get("/api/categories/:id/show", show);
-router.post("/api/categories", store);
-router.put("/api/categories/:id/update", update);
+router.post("/api/categories", categorySchema, validateSchema, store);
+router.put("/api/categories/:id/update", categorySchema, validateSchema, update);
 router.delete("/api/categories/:id/destroy", destroy);
 
 module.exports = router;
