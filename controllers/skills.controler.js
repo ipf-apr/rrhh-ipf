@@ -7,12 +7,6 @@ const findAll = async(req,res)=>{
     const {nameSkill}= req.query;
     try {
         const skills = await Skill.findAll({
-
-            where:{
-                nameSkill:{
-                    [Op.like]:`%${nameSkill}%`
-                }
-            }
         });
         if(!skills || skills.length === 0){
             throw{
