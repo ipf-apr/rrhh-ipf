@@ -11,6 +11,8 @@ const {
   store,
   destroy,
 } = require("../controllers/employees.controller");
+const employeeSchema = require("../models/schemas/employee.schema");
+const validateSchema = require("../middleware/validations");
 
 const router = Router();
 
@@ -23,8 +25,8 @@ router.get("/employees/create", createView);
 // API CRUD
 router.get("/api/employees", index);
 router.get("/api/employees/:id/show", show);
-router.post("/api/employees", store);
-router.put("/api/employees/:id/update", update);
+router.post("/api/employees", employeeSchema, validateSchema, store);
+router.put("/api/employees/:id/update", employeeSchema, validateSchema, update);
 router.delete("/api/employees/:id/destroy", destroy);
 
 module.exports = router;

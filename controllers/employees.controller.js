@@ -103,10 +103,10 @@ const store = async (req, res) => {
     name,
     dni,
     domicilio,
-    fechaNac,
+    dateBirthday,
     phone,
-    nroLegajo,
-    ingreso,
+    profileNro,
+    dateIn,
   } = req.body;
 
   const jwtDecodificado = await promisify(jwt.verify)(
@@ -121,10 +121,10 @@ const store = async (req, res) => {
         lastName,
         name,
         address: domicilio,
-        dateBirthday: fechaNac,
+        dateBirthday,
         phone,
-        profileNro: nroLegajo,
-        dateIn: ingreso,
+        profileNro,
+        dateIn,
         promotion: 1,
         userId: jwtDecodificado.id,
       },
