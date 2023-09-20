@@ -7,7 +7,10 @@ const {
 
 const JobPosition = sequelize.define('JobPosition', {
   position: DataTypes.STRING,  
-  observations: DataTypes.TEXT
+  observations: {
+    type: DataTypes.TEXT,
+    allowNull: true
+  }
 }, {
   sequelize,
   paranoid: true,
