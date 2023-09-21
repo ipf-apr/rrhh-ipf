@@ -8,26 +8,6 @@ const register = async (req, res) => {
   try {
     const { name, lastName, username, password, passwordConfirmation } = req.body;
 
-    if (!name || !lastName) {
-      return res.status(400).json({
-        message: 'Tenes que tu nombre y apellido.',
-      });
-    }
-
-    if (!username || !password) {
-      return res.status(400).json({
-        message: 'Tenes que ingresar el usuario y la contraseña.',
-      });
-    }
-
-    if (password !== passwordConfirmation) {
-
-      return res.status(400).json({
-        message: 'La contraseña y la confirmación no coinciden.',
-      });
-
-    }
-
     let passHash = await bcryptjs.hash(password, 8);
 
     // console.log(passHash);
@@ -38,7 +18,7 @@ const register = async (req, res) => {
       password: passHash,
       role: 'admin',
     });
-    
+
     if (user) {
       return res.json({
         message: 'Usuario Administrador creado correctamente, se redireccionará en unos momentos.',
@@ -57,55 +37,48 @@ const login = async (req, res) => {
   const { username, password } = req.body;
 
   try {
-    if (!username || !password) {
+    const user = await User.findOne({ where: { username } });
 
+    if (!user) {
       return res.status(400).json({
-        message: 'Ingrese un usuario y contraseña.',
-      });
-    } else {
-
-      const user = await User.findOne({
-        where: {
-          username,
-        },
-      });
-
-
-      const validPassword = await bcryptjs.compare(password, user.password);
-
-      if (!user || !validPassword) {
-        return res.status(400).json({
-          message: 'Los datos ingresados no corresponden a nuestros registros.',
-        });
-      } else {
-        const { id, role } = user;
-
-
-        const token = jwt.sign(
-          { id: id, rol: role },
-          process.env.JWT_SECRET,
-          {
-            expiresIn: process.env.JWT_TIEMPO_EXPIRA,
-          });
-
-        //se agregó cookies para poder navegar con autorización, ya que se verifica en todas las páginas protegidas
-        const cookiesOptions = {
-          expires: new Date(
-            Date.now() +
-            process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
-          ),
-          httpOnly: true,
-        };
-        res.cookie("jwt", token, cookiesOptions);
-
-
-        return res.json({
-          message: 'Inicio de sesión correcto, se redireccionará en unos momentos',
-          token,
-        });
-
-      }
+        message: "Las credenciales no corresponden a nuestros registros."
+      })
     }
+    const validPassword = await bcryptjs.compare(password, user.password);
+
+    if (!validPassword) {
+      return res.status(400).json({
+        message: "Los datos ingresados no corresponden a nuestros registros."
+      })
+    }
+
+    const { id, role } = user;
+
+    const token = jwt.sign(
+      { id: id, rol: role },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: process.env.JWT_TIEMPO_EXPIRA,
+      });
+
+    //se agregó cookies para poder navegar con autorización, ya que se verifica en todas las páginas protegidas
+    const cookiesOptions = {
+      expires: new Date(
+        Date.now() +
+        process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
+      ),
+      httpOnly: true,
+    };
+
+    res.cookie("jwt", token, cookiesOptions);
+
+    return res.json({
+      message: 'Inicio de sesión correcto, se redireccionará en unos momentos',
+      token,
+    });
+
+
+
   } catch (error) {
     console.log(error);
     res.status(500).json({
