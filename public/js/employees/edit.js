@@ -1,5 +1,6 @@
-// Funcion para obtener los datos de la tarea cuando se carga la página
 const formEditEmployee = document.querySelector('#formEditEmployee');
+
+const validationErrors = document.querySelector('#validationErrors');
 
 document.addEventListener("DOMContentLoaded", async () => {
     console.log("DOM cargado");
@@ -52,7 +53,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         inputDateBirthday.value = dateBirthday.split('T')[0];
         inputPhone.value = phone;
         inputdateIn.value = dateIn.split('T')[0];
-        promotion == 1 ? inputRadioHabilitado.checked  = true : inputRadioInhabilitado.checked = true;
+        promotion == 1 ? inputRadioHabilitado.checked = true : inputRadioInhabilitado.checked = true;
 
     } catch (error) {
         console.log(error);
@@ -94,7 +95,20 @@ formEditEmployee.addEventListener('submit', async (e) => {
 
         const respToJson = await response.json();
 
-        console.log(respToJson);
+        validationErrors.innerHTML = '';
+
+        if (response.status === 400) {
+            validationErrors.innerHTML = '<p>Ops, tenemos estos errores de validación:</p>';
+            respToJson.errors.forEach(error => {
+                console.log(error)
+                validationErrors.innerHTML += `
+            <li>
+                ${error.msg}
+            </li>
+        `;
+            })
+            return;
+        }
 
         if (response.status !== 201 && response.status !== 200) {
             Swal.fire({
