@@ -24,10 +24,15 @@ const isAuthenticated = async (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-    // Leer el usuario que corresponde al id
-    const user = await User.findByPk(decoded?.id);
+        const decoded = jwt.verify(token, process.env.JWT_SECRET, function (error, decoded) {
+            if (error) {
+                res.clearCookie("jwt");
+                return res.redirect("/login");
+            }
+            return decoded;
+        })
+        // Leer el usuario que corresponde al id
+        const user = await User.findByPk(decoded?.id);
 
     if (!user) {
       return res.status(401).json({
@@ -42,7 +47,7 @@ const isAuthenticated = async (req, res, next) => {
       });
     }
 
-    req.user = user;
+        req.user = user;
 
     next();
   } catch (error) {
