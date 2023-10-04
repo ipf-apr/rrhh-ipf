@@ -22,11 +22,13 @@ router.get("/employees/:id/show", showView);
 router.get("/employees/:id/edit", editView);
 router.get("/employees/create", createView);
 
-// API CRUD
+// API EMPLOYEE
 router.get("/api/employees", index);
 router.get("/api/employees/:id/show", show);
-router.post("/api/employees", employeeSchema, validateSchema, store);
-router.put("/api/employees/:id/update", employeeSchema, validateSchema, update);
+router.post("/api/employees", validateSchema(employeeSchema),  store);
+router.put("/api/employees/:id/update", validateSchema(employeeSchema),  update);
 router.delete("/api/employees/:id/destroy", destroy);
+
+
 
 module.exports = router;

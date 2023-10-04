@@ -11,9 +11,8 @@ const isAuthenticated = async (req, res, next) => {
   if (!token) {
     token = req.cookies.jwt;
   }
-
   if (!token) {
-    if (respInJson.includes("application/json")) {
+    if (respInJson?.includes("application/json")) {
       return res.status(403).json({
         message:
           "No estás autenticado, tenes que iniciar sesión para continuar.",

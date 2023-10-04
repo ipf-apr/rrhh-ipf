@@ -77,10 +77,24 @@ Employee.sync()
 const Category = require('./category');
 const CategoryEmployee = require('./categoryEmployee');
 
+const Skill = require('./skill');
+const EmployeeSkill = require('./employeeSkill');
+
+const JobPosition = require('./jobPosition');
+const EmployeeJobPosition = require('./employeeJobPosition');
+
 // Category.sync();
 // CategoryEmployee.sync();
 
 Employee.belongsToMany(Category, { through: CategoryEmployee });
+Employee.belongsToMany(Skill, { through: EmployeeSkill });
+Employee.belongsToMany(JobPosition, { through: EmployeeJobPosition });
+
+
 Category.belongsToMany(Employee, { through: CategoryEmployee });
+Skill.belongsToMany(Employee, { through: EmployeeSkill });
+JobPosition.belongsToMany(Employee, { through: EmployeeJobPosition });
+
+
 
 module.exports = Employee;

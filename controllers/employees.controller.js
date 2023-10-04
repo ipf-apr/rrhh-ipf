@@ -6,6 +6,7 @@ const { Op } = require("sequelize");
 const jwt = require("jsonwebtoken");
 const { promisify } = require("util");
 const CategoryEmployee = require("../models/categoryEmployee");
+const JobPosition = require("../models/jobPosition");
 
 //VISTAS
 const indexView = (_req, res) => {
@@ -73,13 +74,9 @@ const show = async (req, res) => {
 
   try {
     const employee = await Employee.findByPk(employeeId, {
-      include: {
-        model: Category
-      },
+      include: [Category, JobPosition],
       order: [[Category, CategoryEmployee, "datePromotion", "DESC"]],
     });
-
-    console.log(employee);
 
     if (!employee) {
       throw {

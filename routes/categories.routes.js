@@ -19,8 +19,8 @@ router.get("/categories", indexView);
 // API CRUD
 router.get("/api/categories", index);
 router.get("/api/categories/:id/show", show);
-router.post("/api/categories", categorySchema, validateSchema, store);
-router.put("/api/categories/:id/update", categorySchema, validateSchema, update);
+router.post("/api/categories", validateSchema(categorySchema), store);
+router.put("/api/categories/:id/update", validateSchema(categorySchema), update);
 router.delete("/api/categories/:id/destroy", destroy);
 
 module.exports = router;
