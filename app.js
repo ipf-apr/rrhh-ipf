@@ -1,18 +1,14 @@
 const express = require("express");
-const dotenv = require("dotenv");
 const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const path = require("path");
-const methodOverride = require('method-override')
+const environments = require('./config/environments')
 
-
-//variables de entorno
-dotenv.config({ path: ".env" });
 
 // Se importa la instancia de conexión a la base de datos - (debe ser después de leer las variables de entorno)
-const { sequelize } = require('./database/config');
+const { sequelize } = require('./config/database');
 
 const app = express();
 
@@ -54,6 +50,7 @@ const { isAuthenticated } = require('./middleware/is_authenticate');
 app.use("/", require("./routes/auth.routes"));
 app.use("/", isAuthenticated,  require("./routes/dashboard.routes"));
 app.use("/", isAuthenticated,   require("./routes/employees.routes"));
+app.use("/api", isAuthenticated,   require("./routes/employee.category.routes"));
 app.use("/", isAuthenticated,   require("./routes/users.routes"));
 app.use("/", isAuthenticated,  require("./routes/categories.routes"));
 app.use('/', isAuthenticated, require('./routes/skills.routes'))
@@ -68,6 +65,6 @@ app.use(function (req, res, next) {
 });
 
 //poner el marcha el server
-app.listen(process.env.APP_PORT, () => {
-  console.log(`Servidor en ${process.env.APP_URL}:${process.env.APP_PORT}`);
+app.listen(environments.APP_PORT, () => {
+  console.log(`Servidor en ${environments.APP_URL}:${environments.APP_PORT}`);
 });

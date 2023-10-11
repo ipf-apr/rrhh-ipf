@@ -1,6 +1,6 @@
 const {
   DataTypes, sequelize
-} = require('../database/config');
+} = require('../config/database');
 
 const CategoryEmployee = sequelize.define('CategoryEmployee', {
     employeeId: {

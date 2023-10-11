@@ -1,4 +1,7 @@
 const jwt = require("jsonwebtoken");
+
+const environments = require('../config/environments')
+
 const User = require("../models/user");
 
 const isAuthenticated = async (req, res, next) => {
@@ -23,9 +26,9 @@ const isAuthenticated = async (req, res, next) => {
   }
 
   try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET, function (error, decoded) {
+        const decoded = jwt.verify(token, environments.JWT.JWT_SECRET, function (error, decoded) {
             if (error) {
-                res.clearCookie("jwt");
+                // res.clearCookie("jwt");
                 return res.redirect("/login");
             }
             return decoded;

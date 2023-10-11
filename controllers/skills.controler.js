@@ -6,8 +6,7 @@ const {Op} = require('sequelize');
 const findAll = async(req,res)=>{
     const {nameSkill}= req.query;
     try {
-        const skills = await Skill.findAll({
-        });
+        const skills = await Skill.findAll();
         if(!skills || skills.length === 0){
             throw{
                 status: 404,
@@ -21,9 +20,9 @@ const findAll = async(req,res)=>{
     };
 };
 const findOne = async (req, res)=>{
-    const {id} = req.params.id;
+    const {skillId} = req.params.id;
     try {
-        const skill = Skill.findByPk();
+        const skill = Skill.findByPk(skillId);
         if(!skill){
             throw({
                 status:404,
@@ -57,11 +56,11 @@ const createSkill = async(req,res)=>{
     };
 };
 const skillUpdate = async (req,res)=>{
-    const idSkill = req.params.id;
+    const skillId = req.params.id;
     const {nameSkill} = req.body;
 
     try {
-        const skill = await Skill.findByPk(idSkill);
+        const skill = await Skill.findByPk(skillId);
 
         skill.update({
             nameSkill
@@ -80,11 +79,11 @@ const skillUpdate = async (req,res)=>{
 };
 
 const deleteSkill = async(req,res)=>{
-    const idSkill = req.params.id;
+    const skillId = req.params.id;
     try {
         const skill = await Skill.destroy({
             where:{
-                idSkill
+                skillId
             }
         });
         if(!skill){

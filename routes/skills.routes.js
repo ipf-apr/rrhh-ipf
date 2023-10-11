@@ -14,12 +14,12 @@ const router = Router();
 //APIS
 
 router.get('/api/skills',findAll);
-router.get('/api/skill/:id',findOne);
+router.get('/api/skill/:skillId',findOne);
 router.post('/api/skill/create',validateSchema([
     body('nameSkill').notEmpty().withMessage('El nombre de la habilidad es obligatorio'),
 ]),createSkill);
-router.put('/api/skill/update/:id',skillUpdate);
-router.delete('/api/skill/delete/:id',deleteSkill);
+router.put('/api/skill/update/:skillId',skillUpdate);
+router.delete('/api/skill/delete/:skillId',deleteSkill);
 
 
 module.exports = router;

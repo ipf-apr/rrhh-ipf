@@ -58,7 +58,6 @@ const show = async (req, res) => {
   }
 };
 
-
 const store = async (req, res) => {
   const {
     name, permanency

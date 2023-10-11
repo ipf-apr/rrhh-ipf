@@ -2,7 +2,7 @@
 
 const {
     DataTypes, sequelize
-} = require('../database/config');
+} = require('../config/database');
 
 
 const JobPosition = sequelize.define('JobPosition', {

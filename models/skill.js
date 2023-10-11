@@ -1,4 +1,5 @@
-const {DataTypes, sequelize} = require("../database/config");
+const {DataTypes, sequelize} = require('../config/database');
+
 
 const Skill = sequelize.define('Skill',{
     idSkill:{

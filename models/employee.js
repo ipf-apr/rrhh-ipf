@@ -3,7 +3,7 @@
 
 const {
   DataTypes, sequelize
-} = require('../database/config');
+} = require('../config/database');
 
 const Employee = sequelize.define('Employee', {
   name: DataTypes.STRING,

@@ -1,10 +1,12 @@
+const { promisify } = require("util");
+const jwt = require("jsonwebtoken");
+const { Op } = require("sequelize");
+const environments = require('../config/environments')
+
+
 const Employee = require("../models/employee");
 const Category = require("../models/category");
-const User = require("../models/user");
-const { Op } = require("sequelize");
 
-const jwt = require("jsonwebtoken");
-const { promisify } = require("util");
 const CategoryEmployee = require("../models/categoryEmployee");
 const JobPosition = require("../models/jobPosition");
 
@@ -108,7 +110,7 @@ const store = async (req, res) => {
 
   const jwtDecodificado = await promisify(jwt.verify)(
     req.cookies.jwt,
-    process.env.JWT_SECRET
+    environments.JWT.JWT_SECRET
   );
 
   try {
