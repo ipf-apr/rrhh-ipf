@@ -54,6 +54,7 @@ app.use("/api", isAuthenticated,   require("./routes/employee.category.routes"))
 app.use("/", isAuthenticated,   require("./routes/users.routes"));
 app.use("/", isAuthenticated,  require("./routes/categories.routes"));
 app.use('/', isAuthenticated, require('./routes/skills.routes'))
+app.use('/', isAuthenticated, require('./routes/jobPositions.routes'))
 //eliminar la cache para que no se pueda volver atras
 app.use(function (req, res, next) {
   if (!req.username) {

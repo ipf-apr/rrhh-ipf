@@ -1,0 +1,100 @@
+<%- include('../layouts/head.ejs', {title : 'Listado de Puestos Laborales' }) ;%>
+
+  <body class="h-100 d-flex flex-column">
+    <%- include('../layouts/nav.ejs') ;%>
+      <div id="height-cuerpo" class="row">
+        <%- include('../layouts/menu-aside.ejs') ;%>
+          <div class="container-fluid py-5 px-md-5 col">
+            <header class="d-flex align-items-center justify-content-between">
+              <h1>
+                Listado de Puestos Laborales
+              </h1>
+              <div>
+                <button type="button" class="btn btn-outline-success" onclick=createJobPosition(event)>
+                  Nuevo Puesto Laboral
+                </button>
+                <a class="btn btn-outline-primary" data-bs-toggle="collapse" href="#collapseSearch" role="button"
+                  aria-expanded="false" aria-controls="collapseSearch">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-search" viewBox="0 0 16 16">
+                    <path
+                      d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                  </svg>
+                </a>
+              </div>
+            </header>
+            <main class="col">
+              <div class="collapse" id="collapseSearch">
+                <div class="card card-body">
+                  <form id="formSearch" class="row">
+                    <input placeholder="Nombre del Puesto Laboral" class="form-control col" type="search" name="sName"
+                      id="sName">
+                    <div class="d-flex flex-row m-2  justify-content-end gap-2">
+                      <button type="submit" class="btn btn-outline-primary align-items-end">
+                        <span>Buscar</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                          class="bi bi-search" viewBox="0 0 16 16">
+                          <path
+                            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                        </svg>
+                      </button>
+                      <a id="btnCleanSearch" class="btn btn-outline-danger align-items-end">
+                        <span>Limpiar</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                          class="bi bi-x" viewBox="0 0 16 16">
+                          <path
+                            d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                        </svg>
+                      </a>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <div class="overflow-auto">
+                <table class="table table-striped table-hover">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Nombre Puesto Laboral</th>
+                      <th scope="col">Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody id="jobPositionsList">
+
+                  </tbody>
+                </table>
+              </div>
+            </main>
+          </div>
+          <!-- Modal -->
+          <div class="modal fade" id="modalJobPositionCreate" tabindex="-1" aria-labelledby="modalJobPositionCreateLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <form id="createEditJobPositionForm" class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="modalJobPositionCreateLabel">Nuevo Puesto Laboral</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="row g-3 needs-validation">
+                    <input type="hidden" id="isCreating">
+                    <div class="col-6">
+                      <label for="position" class="form-label">Nombre de Puesto Laboral<small
+                          class=" text-danger">(*)</small></label>
+                      <input type="text" class="form-control" id="position" name="position" required>
+                    </div>                   
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                  <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <%- include('../layouts/footer.ejs') ;%>       
+        <script src="/js/jobPositions/index.js"></script>
+        <script src="/js/jobPositions/storeUpdateModal.js"></script>
+      </body>
+
+  </html>

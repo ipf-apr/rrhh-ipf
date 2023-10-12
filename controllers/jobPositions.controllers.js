@@ -1,6 +1,12 @@
 const JobPosition = require("../models/jobPosition");
 const { Op } = require("sequelize");
 
+
+//VISTAS
+const indexView = (req,res) => {
+  res.render('jobPositions/index.ejs')
+}
+
 //APIS
 const index = async (req, res) => {
   const { position } = req.query;
@@ -19,7 +25,7 @@ const index = async (req, res) => {
     const jobPosition = await JobPosition.findAll({
       where: whereCondition,
     });
-    console.log();
+    
     if (!jobPosition || jobPosition.length === 0) {
       throw {
         status: 404,
@@ -137,6 +143,7 @@ const destroy = async (req, res) => {
 };
 
 module.exports = {
+  indexView,
   index,
   show,
   update,

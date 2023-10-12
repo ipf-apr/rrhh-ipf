@@ -25,11 +25,11 @@ const showUsers = (users) => {
     return;
   }
 
-  users.forEach((user) => {
+  users.forEach((user, index) => {
     usersList.innerHTML += `
                 <tr>
                     <th scope="row">
-                      ${user.id}
+                      ${index + 1}
                     </th>
                     <td>
                       ${user.lastName}
@@ -44,9 +44,15 @@ const showUsers = (users) => {
                       ${user.role}
                     </td>
                     <td>
-                      <a href="/users/${user.id}/edit" class="btn btn-outline-success">Editar</a>
-                      <a href="/users/${user.id}/show" class="btn btn-outline-primary">Ver</a>
-                      <button onclick=deleteUser(event) class="btn btn-outline-danger" data-id="${user.id}">Eliminar</button>
+                      <a href="/users/${
+                        user.id
+                      }/edit" class="btn btn-outline-success">Editar</a>
+                      <a href="/users/${
+                        user.id
+                      }/show" class="btn btn-outline-primary">Ver</a>
+                      <button onclick=deleteUser(event) class="btn btn-outline-danger" data-id="${
+                        user.id
+                      }">Eliminar</button>
                     </td>
                  </tr>
             `;
@@ -56,25 +62,27 @@ const showUsers = (users) => {
 const deleteUser = async (event) => {
   const id = event.target.dataset.id;
 
-
   Swal.fire({
-    title: 'Estás seguro?',
+    title: "Estás seguro?",
     text: `Estás por eliminar a un usuario del sistema!`,
-    icon: 'warning',
+    icon: "warning",
     showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
-    confirmButtonText: 'Estoy seguro!',
-    cancelButtonText: 'Cancelar'
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Estoy seguro!",
+    cancelButtonText: "Cancelar",
   }).then(async (result) => {
     if (result.isConfirmed) {
-
       try {
-        const res = await fetch(`http://localhost:8000/api/users/${id}/destroy`, {
-          headers: {
-            Authorization: localStorage.getItem("token"),
-          }, method: 'DELETE'
-        });
+        const res = await fetch(
+          `http://localhost:8000/api/users/${id}/destroy`,
+          {
+            headers: {
+              Authorization: localStorage.getItem("token"),
+            },
+            method: "DELETE",
+          }
+        );
 
         const data = await res.json();
 
@@ -82,38 +90,33 @@ const deleteUser = async (event) => {
 
         if (data.status === 401) {
           Swal.fire({
-            icon: 'error',
-            title: 'Acción no autorizada.',
+            icon: "error",
+            title: "Acción no autorizada.",
             text: data.message,
           });
-          return;  
+          return;
         }
 
         Swal.fire({
-          icon: 'success',
-          title: 'Usuario eliminado',
+          icon: "success",
+          title: "Usuario eliminado",
           text: data.message,
         });
 
         setTimeout(() => {
           window.location.reload();
         }, 2200);
-
       } catch (error) {
         console.log(error);
         Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
+          icon: "error",
+          title: "Oops...",
           text: error.message,
-        })
+        });
       }
     }
-  })
-
-
-
-}
-
+  });
+};
 
 document.addEventListener("DOMContentLoaded", async () => {
   console.log("DOM Cargado");

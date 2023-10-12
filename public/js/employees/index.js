@@ -86,7 +86,7 @@ const showEmployees = (employees) => {
     return;
   }
 
-  employees.forEach((employee) => {
+  employees.forEach((employee, index) => {
     // console.log(employee);
     const dateIn = employee.Categories[0]?.CategoryEmployee.datePromotion;
     let date;
@@ -96,7 +96,7 @@ const showEmployees = (employees) => {
     employeesList.innerHTML += `
                 <tr>
                     <th scope="row">
-                      ${employee.id}
+                      ${index+1}
                     </th>
                     <td>
                       ${employee.lastName}
