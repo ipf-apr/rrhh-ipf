@@ -3,8 +3,7 @@ const formSearch = document.querySelector("#formSearch");
 const btnCleanSearch = document.querySelector("#btnCleanSearch");
 
 btnCleanSearch.addEventListener("click", async (e) => {
-  const position = document.querySelector("#sName").value;
-
+  const position = document.querySelector("#sName").value = '';
   try {
     const jobPositions = await fetchJobPositions({ position });
     if (jobPositions.length != 0) {
@@ -25,7 +24,6 @@ formSearch.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const position = document.querySelector("#sName").value;
-
   try {
     const jobPositions = await fetchJobPositions({ position });
     if (jobPositions.length != 0) {
@@ -45,7 +43,7 @@ formSearch.addEventListener("submit", async (e) => {
 const fetchJobPositions = async (formData) => {
 
   const searchParams = {
-    position: formData?.name ?? '%'
+    position: formData?.position ?? '%'
   };
 
 
