@@ -7,7 +7,7 @@ const {
     update,
     store,
     destroy
-} = require('../controllers/jobPositions.controllers')
+} = require('../controllers/jobPositions.controller')
 const jobPositionSchema = require('../models/schemas/jobPosition.schema')
 const validateSchema = require('../middleware/validations')
 

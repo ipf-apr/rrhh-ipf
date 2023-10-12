@@ -5,7 +5,7 @@ const {
   update,
   store,
   destroy,
-} = require("../controllers/employee.category.controllers");
+} = require("../controllers/employee.category.controller");
 const employeeCategorySchema = require("../models/schemas/categoryEmployee.schema");
 const validateSchema = require("../middleware/validations");
 
