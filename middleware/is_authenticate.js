@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const environments = require('../config/environments')
 
 const User = require("../models/user");
+const verifyJWT = require("../utils/verifyJWT");
 
 const isAuthenticated = async (req, res, next) => {
   // Leer el token
@@ -26,16 +27,10 @@ const isAuthenticated = async (req, res, next) => {
   }
 
   try {
-        const decoded = jwt.verify(token, environments.JWT.JWT_SECRET, function (error, decoded) {
-            if (error) {
-                // res.clearCookie("jwt");
-                return res.redirect("/login");
-            }
-            return decoded;
-        })
+        const jwt = await verifyJWT(token);
         // Leer el usuario que corresponde al id
-        const user = await User.findByPk(decoded?.id);
-
+        const user = await User.findByPk(jwt?.id);
+        
     if (!user) {
       return res.status(401).json({
         message: "Token no válido - usuario no existe en la base de datos",
@@ -53,9 +48,10 @@ const isAuthenticated = async (req, res, next) => {
 
     next();
   } catch (error) {
-    console.log("is_authenticate.js error", error);
     if (error instanceof jwt.TokenExpiredError) {
-      if (!respInJson.includes("application/json")) {
+      console.log("is_authenticate.js error", error);
+      if (!respInJson?.includes("application/json")) {
+              
         return res.redirect("/login");
       }
 
@@ -63,6 +59,7 @@ const isAuthenticated = async (req, res, next) => {
         message: "Tu sesión expiró, volvé a iniciar sesión.",
       });
     }
+    console.log(error);
     return res.status(500).json({
       message: "Error de inesperado del servidor.",
     });
