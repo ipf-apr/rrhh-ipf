@@ -1,7 +1,7 @@
 const {Router} = require('express');
 
 
-const {   findAll,
+const {   indexView, findAll,
     findOne,
     createSkill,
     skillUpdate,
@@ -11,15 +11,20 @@ const validateSchema = require('../middleware/validations');
 
 const router = Router();
 
+
+//VISTAS
+router.get("/skills", indexView);
+
+
 //APIS
 
 router.get('/api/skills',findAll);
-router.get('/api/skill/:skillId',findOne);
-router.post('/api/skill/create',validateSchema([
+router.post('/api/skills',validateSchema([
     body('nameSkill').notEmpty().withMessage('El nombre de la habilidad es obligatorio'),
 ]),createSkill);
-router.put('/api/skill/update/:skillId',skillUpdate);
-router.delete('/api/skill/delete/:skillId',deleteSkill);
+router.get('/api/skills/:skillId',findOne);
+router.put('/api/skills/:skillId/update',skillUpdate);
+router.delete('/api/skills/:skillId/destroy',deleteSkill);
 
 
 module.exports = router;

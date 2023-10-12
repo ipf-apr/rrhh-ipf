@@ -114,7 +114,7 @@ const createCategory = async (event) => {
     myModal.hide();
     createEditCategoryForm.reset();
   
-    if (!respToJson.category.id) {
+    if (!isCreating.value) {
       categoriesList.innerHTML += `
         <tr>
             <th scope="row">

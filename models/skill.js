@@ -18,4 +18,6 @@ const Skill = sequelize.define('Skill',{
     tableName:'skills'
 });
 
+Skill.sync()
+
 module.exports = Skill;
