@@ -23,13 +23,13 @@ const fetchEmployees = async (formData) => {
       Authorization: localStorage.getItem("token"),
     },
   });
-
+  
   if (response.status === 404) {
     return [];
   }
-
-  const data = response.json();
-
+  
+  const data = await response.json();
+  
   return data;
 };
 

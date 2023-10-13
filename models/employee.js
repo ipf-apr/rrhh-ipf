@@ -83,8 +83,8 @@ const EmployeeSkill = require('./employeeSkill');
 const JobPosition = require('./jobPosition');
 const EmployeeJobPosition = require('./employeeJobPosition');
 
-// Category.sync();
-// CategoryEmployee.sync();
+Category.sync();
+CategoryEmployee.sync();
 
 Employee.belongsToMany(Category, { through: CategoryEmployee });
 Employee.belongsToMany(Skill, { through: EmployeeSkill });

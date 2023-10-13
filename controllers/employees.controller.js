@@ -49,10 +49,8 @@ const index = async (req, res) => {
 
   try {
     const employees = await Employee.findAll({
-      where: whereClausule,
-      include: {
-        model: Category,
-      },
+      where: whereClausule    ,
+      include: [Category],
       order: [[Category, CategoryEmployee, "datePromotion", "DESC"]],
     });
 
@@ -62,6 +60,7 @@ const index = async (req, res) => {
         message: "No hay empleados registrados aún.",
       };
     }
+
     return res.json(employees);
   } catch (error) {
     console.log(error);

@@ -9,8 +9,6 @@ const categoryEmployee = checkSchema({
   employeeId: {       
     custom: {
       options: async (value, { req }) => {
-        console.log('const { employeeId } = req.params;');
-        console.log(value);
         const { employeeId } = req.params;
         return await Employee.findByPk(employeeId).then(
           (emp) => {
@@ -30,7 +28,6 @@ const categoryEmployee = checkSchema({
         const { categoryId } = req.params;
         return await Category.findByPk(categoryId).then(
           (category) => {
-            console.log(user);
             if (!category) {
               throw new Error(
                 "La categoría NO existe en la base de datos del sistema."

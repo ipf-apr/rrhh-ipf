@@ -32,5 +32,5 @@ const CategoryEmployee = sequelize.define('CategoryEmployee', {
 });
 
 console.log('CategoryEmployee');
-CategoryEmployee.sync();
+// CategoryEmployee.sync();
 module.exports = CategoryEmployee;

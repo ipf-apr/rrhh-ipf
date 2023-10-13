@@ -17,7 +17,7 @@ const index = async (req, res) => {
     const categories = await Category.findAll({
       where: {
         name: {
-          [Op.like]: `%${name}%`
+          [Op.like]: `%${name?? ''}%`
         }
       }
     });
