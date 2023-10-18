@@ -1,11 +1,14 @@
+const { promisify } = require("util");
+const jwt = require("jsonwebtoken");
+const { Op } = require("sequelize");
+const environments = require('../config/environments')
+
+
 const Employee = require("../models/employee");
 const Category = require("../models/category");
-const User = require("../models/user");
-const { Op } = require("sequelize");
 
-const jwt = require("jsonwebtoken");
-const { promisify } = require("util");
 const CategoryEmployee = require("../models/categoryEmployee");
+const JobPosition = require("../models/jobPosition");
 
 //VISTAS
 const indexView = (_req, res) => {
@@ -46,10 +49,8 @@ const index = async (req, res) => {
 
   try {
     const employees = await Employee.findAll({
-      where: whereClausule,
-      include: {
-        model: Category,
-      },
+      where: whereClausule    ,
+      include: [Category],
       order: [[Category, CategoryEmployee, "datePromotion", "DESC"]],
     });
 
@@ -59,6 +60,7 @@ const index = async (req, res) => {
         message: "No hay empleados registrados aún.",
       };
     }
+
     return res.json(employees);
   } catch (error) {
     console.log(error);
@@ -73,13 +75,9 @@ const show = async (req, res) => {
 
   try {
     const employee = await Employee.findByPk(employeeId, {
-      include: {
-        model: Category
-      },
+      include: [Category, JobPosition],
       order: [[Category, CategoryEmployee, "datePromotion", "DESC"]],
     });
-
-    console.log(employee);
 
     if (!employee) {
       throw {
@@ -111,7 +109,7 @@ const store = async (req, res) => {
 
   const jwtDecodificado = await promisify(jwt.verify)(
     req.cookies.jwt,
-    process.env.JWT_SECRET
+    environments.JWT.JWT_SECRET
   );
 
   try {

@@ -5,6 +5,8 @@ const permanencyForm = document.querySelector("#permanency");
 const isCreating = document.querySelector("#isCreating");
 const myModal = new bootstrap.Modal(document.querySelector('#modalCategoryCreate'));
 
+const validationErrors = document.querySelector('#validationErrors')
+
 const createCategory = async (event) => {
 
     myModal.show();
@@ -96,13 +98,19 @@ const createCategory = async (event) => {
   
     console.log(respToJson);
   
-    if (response.status !== 201 && response.status !== 200) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: respToJson.message,
-      });
-      return;
+    validationErrors.innerHTML ='';
+    
+    if(response.status === 400) {
+        validationErrors.innerHTML ='<p>Ops, tenemos estos errores de validación:</p>';
+        respToJson.errors.forEach(error => {
+            console.log(error)
+            validationErrors.innerHTML += `
+            <li>
+                ${error.msg}
+            </li>
+        `;
+        })
+        return;
     }
   
     Swal.fire({
@@ -114,7 +122,7 @@ const createCategory = async (event) => {
     myModal.hide();
     createEditCategoryForm.reset();
   
-    if (!respToJson.category.id) {
+    if (!isCreating.value) {
       categoriesList.innerHTML += `
         <tr>
             <th scope="row">

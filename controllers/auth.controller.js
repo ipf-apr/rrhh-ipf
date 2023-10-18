@@ -1,12 +1,13 @@
-const jwt = require("jsonwebtoken");
+
 const bcryptjs = require("bcryptjs");
 const User = require("../models/user");
-
+const environments = require('../config/environments');
+const generateJWT = require("../utils/createJWT");
 
 
 const register = async (req, res) => {
   try {
-    const { name, lastName, username, password, passwordConfirmation } = req.body;
+    const { name, lastName, username, password, rol = 'user' } = req.body;
 
     let passHash = await bcryptjs.hash(password, 8);
 
@@ -16,12 +17,17 @@ const register = async (req, res) => {
       lastName: lastName,
       username: username,
       password: passHash,
-      role: 'admin',
+      role: rol,
     });
 
+    const { id, role } = user;
+
+    const token = await generateJWT({ id: id, rol: role })
+
     if (user) {
-      return res.json({
-        message: 'Usuario Administrador creado correctamente, se redireccionará en unos momentos.',
+      return res.status(201).json({
+        message: 'Usuario creado correctamente',
+        token
       });
     }
 
@@ -54,18 +60,13 @@ const login = async (req, res) => {
 
     const { id, role } = user;
 
-    const token = jwt.sign(
-      { id: id, rol: role },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: process.env.JWT_TIEMPO_EXPIRA,
-      });
+    const token = await generateJWT({ id: id, rol: role })
 
     //se agregó cookies para poder navegar con autorización, ya que se verifica en todas las páginas protegidas
     const cookiesOptions = {
       expires: new Date(
         Date.now() +
-        process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
+        environments.JWT.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
       ),
       httpOnly: true,
     };
@@ -73,7 +74,7 @@ const login = async (req, res) => {
     res.cookie("jwt", token, cookiesOptions);
 
     return res.json({
-      message: 'Inicio de sesión correcto, se redireccionará en unos momentos',
+      message: 'Inicio de sesión correcto',
       token,
     });
 

@@ -2,7 +2,7 @@
 
 const {
     DataTypes, sequelize
-} = require('../database/config');
+} = require('../config/database');
 
 
 const Category = sequelize.define('Category', {

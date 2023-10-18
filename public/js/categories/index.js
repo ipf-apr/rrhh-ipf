@@ -3,9 +3,9 @@ const formSearch = document.querySelector("#formSearch");
 const btnCleanSearch = document.querySelector("#btnCleanSearch");
 
 btnCleanSearch.addEventListener("click", async (e) => {
-  document.querySelector("#sName").value = '';
+  document.querySelector("#sName").value = "";
 
-  const name = '%';
+  const name = "%";
 
   try {
     const categories = await fetchCategories({ name });
@@ -20,8 +20,7 @@ btnCleanSearch.addEventListener("click", async (e) => {
       text: error.message,
     });
   }
-
-})
+});
 
 formSearch.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -43,19 +42,19 @@ formSearch.addEventListener("submit", async (e) => {
   }
 });
 
-
 const fetchCategories = async (formData) => {
-
   const searchParams = {
-    name: formData?.name ?? ''
+    name: formData?.name ?? "",
   };
 
-
-  const response = await fetch("http://localhost:8000/api/categories?" + new URLSearchParams(searchParams), {
-    headers: {
-      Authorization: localStorage.getItem("token"),
-    },
-  });
+  const response = await fetch(
+    "http://localhost:8000/api/categories?" + new URLSearchParams(searchParams),
+    {
+      headers: {
+        Authorization: localStorage.getItem("token"),
+      },
+    }
+  );
 
   if (response.status === 404) {
     return [];
@@ -76,11 +75,11 @@ const showCategories = (categories) => {
     return;
   }
 
-  categories.forEach((category) => {
+  categories.forEach((category, index) => {
     categoriesList.innerHTML += `
                 <tr>
                     <th scope="row">
-                      ${category.id}
+                      ${index + 1}
                     </th>
                     <td>
                       ${category.name}
@@ -89,14 +88,19 @@ const showCategories = (categories) => {
                       ${category.permanency} años
                     </td>
                     <td>
-                      <button onclick=editCategory(event) class="btn btn-outline-success" data-id="${category.id}" data-name="${category.name}" data-permanency="${category.permanency}">Editar</button>
-                      <button onclick=deleteCategory(event) class="btn btn-outline-danger" data-id="${category.id}">Eliminar</button>
+                      <button onclick=editCategory(event) class="btn btn-outline-success" data-id="${
+                        category.id
+                      }" data-name="${category.name}" data-permanency="${
+      category.permanency
+    }">Editar</button>
+                      <button onclick=deleteCategory(event) class="btn btn-outline-danger" data-id="${
+                        category.id
+                      }">Eliminar</button>
                     </td>
                  </tr>
             `;
   });
 };
-
 
 document.addEventListener("DOMContentLoaded", async () => {
   console.log("DOM Cargado");

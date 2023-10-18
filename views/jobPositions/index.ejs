@@ -1,4 +1,4 @@
-<%- include('../layouts/head.ejs', {title : 'Listado de categorías' }) ;%>
+<%- include('../layouts/head.ejs', {title : 'Listado de Puestos Laborales' }) ;%>
 
   <body class="h-100 d-flex flex-column">
     <%- include('../layouts/nav.ejs') ;%>
@@ -7,11 +7,11 @@
           <div class="container-fluid py-5 px-md-5 col">
             <header class="d-flex align-items-center justify-content-between">
               <h1>
-                Listado de Categorías
+                Listado de Puestos Laborales
               </h1>
               <div>
-                <button type="button" class="btn btn-outline-success" onclick=createCategory(event)>
-                  Nueva Categoría
+                <button type="button" class="btn btn-outline-success" onclick=createJobPosition(event)>
+                  Nuevo Puesto Laboral
                 </button>
                 <a class="btn btn-outline-primary" data-bs-toggle="collapse" href="#collapseSearch" role="button"
                   aria-expanded="false" aria-controls="collapseSearch">
@@ -27,8 +27,7 @@
               <div class="collapse" id="collapseSearch">
                 <div class="card card-body">
                   <form id="formSearch" class="row">
-
-                    <input placeholder="Nombre de la Categoría" class="form-control col" type="search" name="sName"
+                    <input placeholder="Nombre del Puesto Laboral" class="form-control col" type="search" name="sName"
                       id="sName">
                     <div class="d-flex flex-row m-2  justify-content-end gap-2">
                       <button type="submit" class="btn btn-outline-primary align-items-end">
@@ -56,12 +55,11 @@
                   <thead>
                     <tr>
                       <th scope="col">#</th>
-                      <th scope="col">Nombre Categoría</th>
-                      <th scope="col">Permanencia</th>
+                      <th scope="col">Nombre Puesto Laboral</th>
                       <th scope="col">Acciones</th>
                     </tr>
                   </thead>
-                  <tbody id="categoriesList">
+                  <tbody id="jobPositionsList">
 
                   </tbody>
                 </table>
@@ -69,28 +67,22 @@
             </main>
           </div>
           <!-- Modal -->
-          <div class="modal fade" id="modalCategoryCreate" tabindex="-1" aria-labelledby="modalCategoryCreateLabel"
+          <div class="modal fade" id="modalJobPositionCreate" tabindex="-1" aria-labelledby="modalJobPositionCreateLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
-              <form id="createEditCategoryForm" class="modal-content">
+              <form id="createEditJobPositionForm" class="modal-content">
                 <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="modalCategoryCreateLabel">Nueva Categoría</h1>
+                  <h1 class="modal-title fs-5" id="modalJobPositionCreateLabel">Nuevo Puesto Laboral</h1>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                  <div id="validationErrors"  class="text-danger my-2"></div>
-                  <div class="row g-3">
+                  <div class="row g-3 needs-validation">
                     <input type="hidden" id="isCreating">
                     <div class="col-6">
-                      <label for="name" class="form-label">Nombre de Categoría<small
+                      <label for="position" class="form-label">Nombre de Puesto Laboral<small
                           class=" text-danger">(*)</small></label>
-                      <input type="text" class="form-control" id="name" name="name" required>
-                    </div>
-                    <div class="col-6">
-                      <label for="permanency" class="form-label">Años de Permanencia<small
-                          class=" text-danger">(*)</small></label>
-                      <input type="number" class="form-control" id="permanency" name="permanency" required>
-                    </div>
+                      <input type="text" class="form-control" id="position" name="position" required>
+                    </div>                   
                   </div>
                 </div>
                 <div class="modal-footer">
@@ -101,8 +93,8 @@
             </div>
           </div>
           <%- include('../layouts/footer.ejs') ;%>       
-        <script src="/js/categories/index.js"></script>
-        <script src="/js/categories/storeUpdateModal.js"></script>
+        <script src="/js/jobPositions/index.js"></script>
+        <script src="/js/jobPositions/storeUpdateModal.js"></script>
       </body>
 
   </html>

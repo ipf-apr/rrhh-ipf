@@ -16,10 +16,12 @@ const categorySchema = checkSchema({
         const { id } = req.params;
         return await Category.findOne({ where: { name: value } }).then(
           (category) => {
-            if (category?.id != id) {
-              throw new Error(
-                "La categoría ya existe en la base de datos del sistema."
-              );
+            if (category) {
+              if (category?.id != id) {
+                throw new Error(
+                  "La categoría ya existe en la base de datos del sistema."
+                );
+              }
             }
           }
         );
