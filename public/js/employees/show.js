@@ -1,4 +1,4 @@
-const formAddCategoryToEmployee = document.querySelector('#formAddCategoryToEmployee')
+
 
 const lfullName = document.querySelector("#fullName");
 const ldni = document.querySelector("#dni");
@@ -9,15 +9,6 @@ const lphone = document.querySelector("#phone");
 const ldateIn = document.querySelector("#dateIn");
 const lantiquity = document.querySelector("#antiquity");
 const lpromotion = document.querySelector("#promotion");
-
-const ljobPosition = document.querySelector("#jobPosition");
-
-
-const myModal = new bootstrap.Modal(
-  document.querySelector("#modalAddCategoryToEmployee")
-);
-
-
 
 const employeeId = id.dataset.id;
 // Funcion para obtener los datos de la tarea cuando se carga la página
@@ -33,6 +24,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     //ESTE MÉTODO ESTÁ EN SU RESPECTIVO ARCHIVO.
     const categories = await fetchEmployeeCategories(employeeId);
     showEmployeeCategories(categories.data);
+
+    //ESTE MÉTODO ESTÁ EN SU RESPECTIVO ARCHIVO.
+    const jobPosition = await fetchEmployeeJobPosition(employeeId);    
+    showEmployeeJobPosition(jobPosition.data);
+    
   } catch (error) {
     console.log(error);
     Swal.fire({

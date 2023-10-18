@@ -9,6 +9,9 @@
             <main class="row gap-2">
               <div class="col rounded shadow p-3">
                 <a class="btn btn-outline-success relative float-end" id="btnEdit">Editar</a>
+                <div>
+                  <img class="rounded" src="https://i.pravatar.cc/200" alt="">
+                </div>
                 <div class="d-flex fs-6">
                   <span id="fullName" class="fs-2"></span>
                 </div>
@@ -47,9 +50,10 @@
               </div>
               <div class="col">
                 <div class="rounded shadow p-2 mb-2">
-                  <strong>Categorías:</strong>
-                  <button onclick=addCategoryToEmployee(event) data-id="<%= id  %>"
-                    class="btn btn-success float-end">+</button>
+                  <div class="d-flex justify-content-between align-items-center ">
+                    <strong>Categorías:</strong>
+                    <button onclick=addCategoryToEmployee(event) data-id="<%= id  %>" class="btn btn-success">+</button>
+                  </div>
                   <div class="mx-3" id="categories">
                     <div class="d-flex justify-content-center">
                       <div class="spinner-border" role="status">
@@ -57,9 +61,18 @@
                     </div>
                   </div>
                 </div>
-                <div class="d-flex rounded shadow p-2 mb-2">
-                  <strong>Puesto laboral actual:</strong>
-                  <p id="jobPosition" class="mx-3"></p>
+                <div class="rounded shadow p-2 mb-2">
+                  <div class="d-flex justify-content-between align-items-center ">
+                    <strong>Puesto laboral actual:</strong>
+                    <button onclick=addJobPositionToEmployee(event) data-id="<%= id  %>"
+                      class="btn btn-success">+</button>
+                  </div>
+                  <div id="jobPosition" class="mx-3">
+                    <div class="d-flex justify-content-center">
+                      <div class="spinner-border" role="status">
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <div class="rounded shadow p-2 mb-2">
                   <strong>Habilidades / Skills: (h)</strong>
@@ -72,7 +85,7 @@
               </div>
             </main>
           </div>
-          <!-- Modal -->
+          <!-- Modal AddCategoryToEmployee -->
           <div class="modal fade" id="modalAddCategoryToEmployee" tabindex="-1"
             aria-labelledby="modalAddCategoryToEmployeeLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
@@ -104,10 +117,39 @@
               </form>
             </div>
           </div>
+          <!-- Modal AddCategoryToEmployee -->
+          <div class="modal fade" id="modalAddJobPositionToEmployee" tabindex="-1"
+            aria-labelledby="modalAddJobPositionToEmployeeLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <form id="formAddJobPositionToEmployee" class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="modalAddJobPositionToEmployeeLabel">Agregar Puesto a Empleado</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="row g-3">
+                    <input type="hidden" id="isCreating">
+                    <div id="validationErrorsAddJobPositions"></div>
+                    <div class="col-12">
+                      <label for="selectJobPosition" class="form-label">Puestos Laborales<small
+                          class=" text-danger">(*)</small></label>
+                      <select class="form-select" name="selectJobPositions" id="selectJobPositions"></select>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                  <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+              </form>
+            </div>
+          </div>
           <%- include('../layouts/footer.ejs') ;%>
             <script src="/js/employees/show.js"></script>
             <script src="/js/employees/category/indexCategoryEmployee.js"></script>
             <script src="/js/employees/category/storeCategoryEmployee.js"></script>
+            <script src="/js/employees/jobPosition/indexEmployeeJobPosition.js"></script>
+            <script src="/js/employees/jobPosition/storeEmployeeJobPosition.js"></script>
   </body>
 
   </html>

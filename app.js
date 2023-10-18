@@ -52,6 +52,7 @@ app.use("/", require("./routes/auth.routes"));
 app.use("/", isAuthenticated,  require("./routes/dashboard.routes"));
 app.use("/", isAuthenticated,   require("./routes/employees.routes"));
 app.use("/api", isAuthenticated,   require("./routes/employee.category.routes"));
+app.use("/api", isAuthenticated,   require("./routes/employee.jobPosition.routes"));
 app.use("/", isAuthenticated,   require("./routes/users.routes"));
 app.use("/", isAuthenticated,  require("./routes/categories.routes"));
 app.use('/', isAuthenticated, require('./routes/skills.routes'))
