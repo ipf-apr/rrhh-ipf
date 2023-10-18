@@ -1,8 +1,8 @@
-const {
-  DataTypes, sequelize
-} = require('../config/database');
+const { DataTypes, sequelize } = require("../config/database");
 
-const CategoryEmployee = sequelize.define('CategoryEmployee', {
+const CategoryEmployee = sequelize.define(
+  "CategoryEmployee",
+  {
     employeeId: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -23,14 +23,14 @@ const CategoryEmployee = sequelize.define('CategoryEmployee', {
       type: DataTypes.DATEONLY,
       allowNull: false,
     },
-}, {
-    sequelize,
-    paranoid: true,
-    modelName: 'CategoryEmployee',
-    tableName: 'category_employee',
-    underscored: true
-});
+  },
+  {
+    modelName: "CategoryEmployee",
+    tableName: "category_employee",
+    underscored: true,
+  }
+);
 
-console.log('CategoryEmployee');
+console.log("CategoryEmployee");
 // CategoryEmployee.sync();
 module.exports = CategoryEmployee;

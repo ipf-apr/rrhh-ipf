@@ -59,14 +59,16 @@ const employeeSchema = checkSchema({
     custom: {
       options: async (value, { req }) => {
         const { id } = req.params;
-        console.log('const { id } = req.params;')
+        console.log("const { id } = req.params;");
         console.log(value);
         return await Employee.findOne({ where: { profileNro: value } }).then(
           (employee) => {
-            if (employee?.id != id) {
-              throw new Error(
-                "El número de perfíl ya existe en la base de datos del sistema."
-              );
+            if (employee) {
+              if (employee?.id != id) {
+                throw new Error(
+                  "El número de perfíl ya existe en la base de datos del sistema."
+                );
+              }
             }
           }
         );
