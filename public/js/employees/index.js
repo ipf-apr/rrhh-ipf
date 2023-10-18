@@ -23,13 +23,13 @@ const fetchEmployees = async (formData) => {
       Authorization: localStorage.getItem("token"),
     },
   });
-
+  
   if (response.status === 404) {
     return [];
   }
-
-  const data = response.json();
-
+  
+  const data = await response.json();
+  
   return data;
 };
 
@@ -86,7 +86,7 @@ const showEmployees = (employees) => {
     return;
   }
 
-  employees.forEach((employee) => {
+  employees.forEach((employee, index) => {
     // console.log(employee);
     const dateIn = employee.Categories[0]?.CategoryEmployee.datePromotion;
     let date;
@@ -96,7 +96,7 @@ const showEmployees = (employees) => {
     employeesList.innerHTML += `
                 <tr>
                     <th scope="row">
-                      ${employee.id}
+                      ${index+1}
                     </th>
                     <td>
                       ${employee.lastName}

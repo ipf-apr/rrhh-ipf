@@ -46,13 +46,20 @@
                 </div>
               </div>
               <div class="col">
-                <div class="d-flex rounded shadow p-2 mb-2">
-                  <strong>Categoría:</strong>
-                  <p class="mx-3" id="category"></p>
+                <div class="rounded shadow p-2 mb-2">
+                  <strong>Categorías:</strong>
+                  <button onclick=addCategoryToEmployee(event) data-id="<%= id  %>"
+                    class="btn btn-success float-end">+</button>
+                  <div class="mx-3" id="categories">
+                    <div class="d-flex justify-content-center">
+                      <div class="spinner-border" role="status">
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <div class="d-flex rounded shadow p-2 mb-2">
-                  <strong>Puesto laboral:</strong>
-                  <p class="mx-3">Puesto Laboral(h)</p>
+                  <strong>Puesto laboral actual:</strong>
+                  <p id="jobPosition" class="mx-3"></p>
                 </div>
                 <div class="rounded shadow p-2 mb-2">
                   <strong>Habilidades / Skills: (h)</strong>
@@ -65,8 +72,42 @@
               </div>
             </main>
           </div>
+          <!-- Modal -->
+          <div class="modal fade" id="modalAddCategoryToEmployee" tabindex="-1"
+            aria-labelledby="modalAddCategoryToEmployeeLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <form id="formAddCategoryToEmployee" class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="modalAddCategoryToEmployeeLabel">Nueva Categoría de Empleado</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="row g-3">
+                    <input type="hidden" id="isCreating">
+                    <div id="validationErrorsAddCategories"></div>
+                    <div class="col-12">
+                      <label for="selectCategories" class="form-label">Categoría de Empleado<small
+                          class=" text-danger">(*)</small></label>
+                      <select class="form-select" name="selectCategories" id="selectCategories"></select>
+                    </div>
+                    <div class="col-12">
+                      <label for="datePromotion" class="form-label">Año de promoción<small
+                          class=" text-danger">(*)</small></label>
+                      <input class="form-control" id="datePromotion" type="date">
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                  <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+              </form>
+            </div>
+          </div>
           <%- include('../layouts/footer.ejs') ;%>
             <script src="/js/employees/show.js"></script>
+            <script src="/js/employees/category/indexCategoryEmployee.js"></script>
+            <script src="/js/employees/category/storeCategoryEmployee.js"></script>
   </body>
 
   </html>

@@ -1,7 +1,6 @@
-const {DataTypes,sequelize} = require('../database/config');
-const employee = require('./employee');
-const skills = require('./skill')
-const employeeSkills= sequelize.define('employeeSkills',{
+const {DataTypes,sequelize} = require('../config/database');
+
+const EmployeeSkill= sequelize.define('EmployeeSkill',{
     idEployeeSkills:{
         type:DataTypes.INTEGER,
         primaryKey:true,
@@ -27,6 +26,7 @@ const employeeSkills= sequelize.define('employeeSkills',{
     sequelize,
     paranoid:true,
     modelName:'employeeSkill',
-    tableName:'employeeSkills'
+    tableName:'EmployeeSkill'
 });
-module.exports = employeeSkills;
+
+module.exports = EmployeeSkill;

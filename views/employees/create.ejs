@@ -1,28 +1,29 @@
-<%- include('../layouts/head.ejs', {title : 'Carga de empleado'}) ;%>
+<%- include('../layouts/head.ejs', {title : 'Carga de empleado' }) ;%>
 
-<body>
-  <%- include('../layouts/nav.ejs');%>
-    <div id="height-cuerpo" class="row">
-      <%- include('../layouts/menu-aside.ejs') ;%>
-        <div class="container-fluid p-5 mb-2 col">
-          <header>
-            <h1>
-              Crear Empleado
-            </h1>
-            <br><br>
-          </header>
-          <main>
-            <form action="#" id="formNewEmployee" class="row g-3">
-              <%- include('partials/_form.ejs') ;%>
-              <div class="col-12">
-                  <button class="btn btn-primary" type="submit">Crear</button>
-                  <button class="btn btn-secondary" onclick="history.back()">Cancelar</button>
-                </div>
-            </form>
-          </main>
-        </div>
-        <%- include('../layouts/footer.ejs') ;%>
-    <script src="/js/employees/store.js"></script>
-</body>
+  <body>
+    <%- include('../layouts/nav.ejs');%>
+      <div id="height-cuerpo" class="row">
+        <%- include('../layouts/menu-aside.ejs') ;%>
+          <div class="container-fluid p-5 mb-2 col">
+            <header>
+              <h1>
+                Crear Empleado
+              </h1>
+              <ul id="validationErrors" class="text-danger">
+              </ul>
+            </header>
+            <main>
+              <form action="#" id="formNewEmployee" class="row g-3">
+                <%- include('partials/_form.ejs') ;%>
+                  <div class="col-12">
+                    <button class="btn btn-primary" type="submit">Crear</button>
+                    <button class="btn btn-secondary" onclick="history.back()">Cancelar</button>
+                  </div>
+              </form>
+            </main>
+          </div>
+          <%- include('../layouts/footer.ejs') ;%>
+            <script src="/js/employees/store.js"></script>
+  </body>
 
-</html>
+  </html>

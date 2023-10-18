@@ -1,7 +1,7 @@
 'use strict';
 
 const {DataTypes, sequelize
-} = require('../database/config');
+} = require('../config/database');
 
 const User = sequelize.define('User', {
   name: DataTypes.STRING,

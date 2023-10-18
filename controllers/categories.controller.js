@@ -17,7 +17,7 @@ const index = async (req, res) => {
     const categories = await Category.findAll({
       where: {
         name: {
-          [Op.like]: `%${name}%`
+          [Op.like]: `%${name?? ''}%`
         }
       }
     });
@@ -57,7 +57,6 @@ const show = async (req, res) => {
       .json(error.message || "Error interno del servidor");
   }
 };
-
 
 const store = async (req, res) => {
   const {
