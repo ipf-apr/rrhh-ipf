@@ -20,8 +20,6 @@ const {
           }
       }
   }, {
-      sequelize,
-      paranoid: true,
       modelName: 'EmployeeJobPosition',
       tableName: 'employee_job_position',
       underscored: true

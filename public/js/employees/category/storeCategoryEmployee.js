@@ -1,7 +1,12 @@
 
+const formAddCategoryToEmployee = document.querySelector('#formAddCategoryToEmployee')
 
 const selectCategories = document.querySelector("#selectCategories");
 const validationErrorsAddCategories = document.querySelector('#validationErrorsAddCategories')
+
+const myModal = new bootstrap.Modal(
+  document.querySelector("#modalAddCategoryToEmployee")
+);
 
 
 

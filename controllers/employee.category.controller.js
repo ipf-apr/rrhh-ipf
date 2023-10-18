@@ -30,9 +30,32 @@ const index = async (req, res) => {
   }
 };
 
-const update = (req, res) => {
+const update = async (req, res) => {
   const { employeeId, categoryId } = req.params;
-  //TODO
+  const { datePromotion } = req.body;
+  try {
+
+    const categoryEmployee = await CategoryEmployee.findOne({
+      where: {
+        employeeId,
+        categoryId
+      },
+    });   
+
+    categoryEmployee.update({
+      datePromotion
+    })
+
+
+    return res.json({ categoryEmployee, message: 'La Categoría de este empleado se editó correctamente.' });
+
+  } catch (error) {
+    console.log(error);
+    res.status(error.status || 500).json({
+      message:
+        error.message || "Error desconocido, consulte con el administrador.",
+    });
+  }
 
 };
 
