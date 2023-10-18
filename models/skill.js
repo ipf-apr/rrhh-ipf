@@ -1,12 +1,7 @@
 const {DataTypes, sequelize} = require('../config/database');
 
 
-const Skill = sequelize.define('Skill',{
-    idSkill:{
-        type:DataTypes.INTEGER,
-        primaryKey:true,
-        autoIncrement:true
-    },
+const Skill = sequelize.define('Skill',{    
     nameSkill:{
         type:DataTypes.STRING,
         allowNull:false,
@@ -18,6 +13,5 @@ const Skill = sequelize.define('Skill',{
     tableName:'skills'
 });
 
-Skill.sync()
 
 module.exports = Skill;

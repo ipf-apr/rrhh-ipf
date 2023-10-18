@@ -20,6 +20,5 @@ const JobPosition = sequelize.define('JobPosition', {
 });
 
 console.log('JobPosition');
-JobPosition.sync()
 
 module.exports = JobPosition;

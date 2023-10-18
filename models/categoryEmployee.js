@@ -3,21 +3,11 @@ const { DataTypes, sequelize } = require("../config/database");
 const CategoryEmployee = sequelize.define(
   "CategoryEmployee",
   {
-    employeeId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-            model: 'employees',
-            key: 'id'
-        }
-    },
-    categoryId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-            model: 'categories',
-            key: 'id'
-        }
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      allowNull: false
     },
     datePromotion: {
       type: DataTypes.DATEONLY,
@@ -32,5 +22,4 @@ const CategoryEmployee = sequelize.define(
 );
 
 console.log("CategoryEmployee");
-// CategoryEmployee.sync();
 module.exports = CategoryEmployee;
