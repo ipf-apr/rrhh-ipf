@@ -1,0 +1,22 @@
+18/10/2023 22:22:35 - ReferenceError: next is not defined
+    at G:\Escritorio\TSDSMP_final\rrhh-ipf\app.js:66:5
+    at Layer.handle [as handle_request] (G:\Escritorio\TSDSMP_final\rrhh-ipf\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (G:\Escritorio\TSDSMP_final\rrhh-ipf\node_modules\express\lib\router\index.js:328:13)
+    at G:\Escritorio\TSDSMP_final\rrhh-ipf\node_modules\express\lib\router\index.js:286:9
+    at Function.process_params (G:\Escritorio\TSDSMP_final\rrhh-ipf\node_modules\express\lib\router\index.js:346:12)
+    at next (G:\Escritorio\TSDSMP_final\rrhh-ipf\node_modules\express\lib\router\index.js:280:10)
+    at cookieParser (G:\Escritorio\TSDSMP_final\rrhh-ipf\node_modules\cookie-parser\index.js:71:5)
+    at Layer.handle [as handle_request] (G:\Escritorio\TSDSMP_final\rrhh-ipf\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (G:\Escritorio\TSDSMP_final\rrhh-ipf\node_modules\express\lib\router\index.js:328:13)
+    at G:\Escritorio\TSDSMP_final\rrhh-ipf\node_modules\express\lib\router\index.js:286:9
+18/10/2023 22:23:03 - ReferenceError: next is not defined
+    at G:\Escritorio\TSDSMP_final\rrhh-ipf\app.js:66:5
+    at Layer.handle [as handle_request] (G:\Escritorio\TSDSMP_final\rrhh-ipf\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (G:\Escritorio\TSDSMP_final\rrhh-ipf\node_modules\express\lib\router\index.js:328:13)
+    at G:\Escritorio\TSDSMP_final\rrhh-ipf\node_modules\express\lib\router\index.js:286:9
+    at Function.process_params (G:\Escritorio\TSDSMP_final\rrhh-ipf\node_modules\express\lib\router\index.js:346:12)
+    at next (G:\Escritorio\TSDSMP_final\rrhh-ipf\node_modules\express\lib\router\index.js:280:10)
+    at cookieParser (G:\Escritorio\TSDSMP_final\rrhh-ipf\node_modules\cookie-parser\index.js:71:5)
+    at Layer.handle [as handle_request] (G:\Escritorio\TSDSMP_final\rrhh-ipf\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (G:\Escritorio\TSDSMP_final\rrhh-ipf\node_modules\express\lib\router\index.js:328:13)
+    at G:\Escritorio\TSDSMP_final\rrhh-ipf\node_modules\express\lib\router\index.js:286:9

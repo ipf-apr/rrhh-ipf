@@ -5,7 +5,9 @@ const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const path = require("path");
 const environments = require('./config/environments')
+const storeLog = require('./helpers/storeLogs')
 
+const handleErrors = require("./middlewares/handleErrors");
 
 // Se importa la instancia de conexión a la base de datos - (debe ser después de leer las variables de entorno)
 const { sequelize } = require('./config/database');
@@ -30,7 +32,14 @@ app.use(
     contentSecurityPolicy : false
   })
 );
-app.use(morgan("dev"));
+app.use(morgan("combined", {
+  stream: {
+    write: (message) => {
+      storeLog(message, __dirname, 'logs')
+    }
+  }
+}));
+
 
 
 
@@ -38,15 +47,15 @@ app.use(morgan("dev"));
 app.use(cookieParser());
 
 // Se ejecuta una instancia de conexión a la base de datos
-sequelize.sync({force : true})
-  .then(() => { 
-    console.log('Conexión a base de datos exitosa');
-  })
-  .catch((error) => console.log('Error al conectar a base de datos', error));
+require('./models/associations')
+sequelize.sync({force : false})
+.then(() => { 
+  console.log('Conexión a base de datos exitosa');
+})
+.catch((error) => console.log('Error al conectar a base de datos', error));
   
-  require('./models/associations')
 
-const { isAuthenticated } = require('./middleware/is_authenticate');
+const { isAuthenticated } = require('./middlewares/is_authenticate');
 
 app.use("/", require("./routes/auth.routes"));
 app.use("/", isAuthenticated,  require("./routes/dashboard.routes"));
@@ -57,15 +66,17 @@ app.use("/", isAuthenticated,   require("./routes/users.routes"));
 app.use("/", isAuthenticated,  require("./routes/categories.routes"));
 app.use('/', isAuthenticated, require('./routes/skills.routes'))
 app.use('/', isAuthenticated, require('./routes/jobPositions.routes'))
-//eliminar la cache para que no se pueda volver atras
+//eliminar la cache para que no se pueda volver atrás
 app.use(function (req, res, next) {
   if (!req.username) {
     res.header("Cache-Control", "private, no-cache, no-store, must-revalidate");
     next();
   }
-
+  
   res.status(404).render("errors/404.ejs");
 });
+// TODO: implementar en rutas.
+app.use(handleErrors)
 
 //poner el marcha el server
 app.listen(environments.APP_PORT, () => {

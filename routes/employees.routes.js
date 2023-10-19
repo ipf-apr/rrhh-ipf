@@ -12,7 +12,7 @@ const {
   destroy,
 } = require("../controllers/employees.controller");
 const employeeSchema = require("../models/schemas/employee.schema");
-const validateSchema = require("../middleware/validations");
+const validateSchema = require("../middlewares/validations");
 
 const router = Router();
 

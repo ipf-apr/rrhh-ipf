@@ -80,7 +80,7 @@ const showEmployees = (employees) => {
   if (employees.length === 0) {
     employeesList.innerHTML = `
         <tr>
-            <td colspan="6" class="text-center">No hay empleados registrados aún.</td>
+            <td colspan="8" class="text-center">No hay empleados registrados aún.</td>
         </tr>
     `;
     return;
