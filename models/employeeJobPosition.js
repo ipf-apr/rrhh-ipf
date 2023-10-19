@@ -1,32 +1,21 @@
 const {
     DataTypes, sequelize
-  } = require('../config/database');
-  
-  const EmployeeJobPosition = sequelize.define('EmployeeJobPosition', {
-      employeeId: {
-          type: DataTypes.INTEGER,
-          allowNull: false,
-          references: {
-              model: 'employees',
-              key: 'id'
-          }
+} = require('../config/database');
+
+const EmployeeJobPosition = sequelize.define('EmployeeJobPosition', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false
       },
-      jobPositionId: {
-          type: DataTypes.INTEGER,
-          allowNull: false,
-          references: {
-              model: 'job_positions',
-              key: 'id'
-          }
-      }
-  }, {
-      sequelize,
-      paranoid: true,
-      modelName: 'EmployeeJobPosition',
-      tableName: 'employee_job_position',
-      underscored: true
-  });
-  
-  console.log('EmployeeJobPosition');
-  EmployeeJobPosition.sync();
-  module.exports = EmployeeJobPosition;
+}, {
+    sequelize,
+    paranoid: true,
+    modelName: 'EmployeeJobPosition',
+    tableName: 'employee_job_position',
+    underscored: true
+});
+
+console.log('EmployeeJobPosition');
+module.exports = EmployeeJobPosition;

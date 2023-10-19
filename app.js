@@ -38,12 +38,13 @@ app.use(morgan("dev"));
 app.use(cookieParser());
 
 // Se ejecuta una instancia de conexión a la base de datos
-sequelize.authenticate()
+sequelize.sync({force : true})
   .then(() => { 
     console.log('Conexión a base de datos exitosa');
- })
+  })
   .catch((error) => console.log('Error al conectar a base de datos', error));
-
+  
+  require('./models/associations')
 
 const { isAuthenticated } = require('./middleware/is_authenticate');
 
@@ -51,6 +52,7 @@ app.use("/", require("./routes/auth.routes"));
 app.use("/", isAuthenticated,  require("./routes/dashboard.routes"));
 app.use("/", isAuthenticated,   require("./routes/employees.routes"));
 app.use("/api", isAuthenticated,   require("./routes/employee.category.routes"));
+app.use("/api", isAuthenticated,   require("./routes/employee.jobPosition.routes"));
 app.use("/", isAuthenticated,   require("./routes/users.routes"));
 app.use("/", isAuthenticated,  require("./routes/categories.routes"));
 app.use('/', isAuthenticated, require('./routes/skills.routes'))

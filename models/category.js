@@ -20,6 +20,5 @@ const Category = sequelize.define('Category', {
 });
 
 console.log('Category');
-Category.sync()
 
 module.exports = Category;
