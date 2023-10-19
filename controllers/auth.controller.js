@@ -94,6 +94,7 @@ const login = async (req, res) => {
     return res.json({
       message: 'Inicio de sesión correcto',
       token,
+      rol: role
     });
 
 

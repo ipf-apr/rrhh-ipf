@@ -21,13 +21,14 @@ formLogin.addEventListener('submit', async (e) => {
         return Swal.fire('Error', message, 'error');
     }
 
-    const { message, token } = await response.json();
+    const { message, token, rol } = await response.json();
 
     console.log(message, token);
     Swal.fire('Correcto', message, 'success');
 
     // Se almacena el token en el local storage
     localStorage.setItem('token', token);
+    localStorage.setItem('rol', rol);
 
     setTimeout(() => {
         window.location.href = '/';
