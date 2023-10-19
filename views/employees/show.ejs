@@ -76,6 +76,9 @@
                 </div>
                 <div class="rounded shadow p-2 mb-2">
                   <strong>Habilidades / Skills: (h)</strong>
+                  <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalCategoryCreate" >
+                    +
+                   </button>
                   <ul>
                     <li>Excel avanzado</li>
                     <li>Word avanzado</li>
@@ -142,6 +145,35 @@
                   <button type="submit" class="btn btn-primary">Guardar</button>
                 </div>
               </form>
+            </div>
+          </div>
+          <!-- Modal AddSkillsToEmployee -->
+          <div class="modal fade" id="modalCategoryCreate" tabindex="-1" aria-labelledby="modalCategoryCreateLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="modalCategoryCreateLabel">Habilidades</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="" id="formSKills">
+                <div class="modal-body">
+                  <div class="col-12">
+                    <label for="selectSkills" class="form-label">Habilidades<small
+                        class=" text-danger">(*)</small></label>
+                    <select class="form-select" name="selectCategories" id="selectCategories"></select>
+                  </div>
+                    <div class="mb-3">
+                      <label for="dni" class="form-label">Habilidad</label>
+                      <input type="text" class="form-control" id="dni" name="dni" placeholder="41176787">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                  <button class="btn btn-secondary" type="reset">Borrar Campos</button>
+                  <button  id="cargarPersona" type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+              </form>
+              </div>
             </div>
           </div>
           <%- include('../layouts/footer.ejs') ;%>
