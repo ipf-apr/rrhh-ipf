@@ -19,6 +19,8 @@ const editSkill = async (event) => {
   myModal.show();
 };
 
+
+
 const deleteSkill = async (event) => {
   const id = event.target.dataset.id;
 
