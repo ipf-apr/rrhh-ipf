@@ -7,6 +7,7 @@ const isAuthenticated = async (req, res, next) => {
   // Leer el token
 
   let token = req.header("Authorization");
+  console.log(token);
   let respInJson = req.header("Accept")?.includes("application/json");
   
   //esta parte se agregó para las páginas, ya que no se puede agregar el header a la petición GET

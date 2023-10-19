@@ -65,7 +65,8 @@ app.use("/api", isAuthenticated,   require("./routes/employee.jobPosition.routes
 app.use("/", isAuthenticated,   require("./routes/users.routes"));
 app.use("/", isAuthenticated,  require("./routes/categories.routes"));
 app.use('/', isAuthenticated, require('./routes/skills.routes'))
-app.use('/', isAuthenticated, require('./routes/jobPositions.routes'))
+app.use('/', isAuthenticated, require('./routes/jobPositions.routes'));
+app.use('/', isAuthenticated, require('./routes/employee.skills.routes'));
 //eliminar la cache para que no se pueda volver atrás
 app.use(function (req, res, next) {
   if (!req.username) {

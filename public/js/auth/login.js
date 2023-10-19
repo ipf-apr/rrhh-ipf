@@ -23,7 +23,7 @@ formLogin.addEventListener('submit', async (e) => {
 
     const { message, token } = await response.json();
 
-
+    console.log(message, token);
     Swal.fire('Correcto', message, 'success');
 
     // Se almacena el token en el local storage
