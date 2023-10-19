@@ -17,7 +17,8 @@ Employee.belongsTo(User, {
 });
 
 Employee.belongsToMany(Category, { through: CategoryEmployee });
-Employee.belongsToMany(Skill, { through: EmployeeSkill });
+Employee.belongsToMany(Skill, { through: EmployeeSkill,as: 'employeeSkills'});
+Skill.belongsToMany(Employee, { through: EmployeeSkill, as: 'employeeSkills' });  
 Employee.belongsToMany(JobPosition, { through: EmployeeJobPosition });
 
 

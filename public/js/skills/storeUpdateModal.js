@@ -102,7 +102,7 @@ createEditSkillForm.addEventListener("submit", async (e) => {
       text: respToJson.message,
     });
     return;
-  }
+  };
 
   Swal.fire({
     icon: "success",

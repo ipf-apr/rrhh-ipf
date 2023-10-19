@@ -7,7 +7,7 @@ const { index, store} = require("../controllers/employee.skills.controller");
 
 //APIS SKILLS
 
-router.get('/employee/:employeeId/skills', index);
-router.post('/employee/:employeeId/skills/:skillId/store', store);
+router.get('/api/employee/:employeeId/skills', index);
+router.post('/api/employee/:employeeId/skills/:skillId/store', store);
 
-module.export = router;
+module.exports = router;

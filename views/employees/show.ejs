@@ -79,10 +79,8 @@
                   <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalCategoryCreate" >
                     +
                    </button>
-                  <ul>
-                    <li>Excel avanzado</li>
-                    <li>Word avanzado</li>
-                    <li>Electricista</li>
+                  <ul id="listSkills">
+
                   </ul>
                 </div>
               </div>
@@ -160,17 +158,15 @@
                   <div class="col-12">
                     <label for="selectSkills" class="form-label">Habilidades<small
                         class=" text-danger">(*)</small></label>
-                    <select class="form-select" name="selectCategories" id="selectCategories"></select>
+                    <select class="form-select" name="selectCategories" id="selectSkills">
+
+                    </select>
                   </div>
-                    <div class="mb-3">
-                      <label for="dni" class="form-label">Habilidad</label>
-                      <input type="text" class="form-control" id="dni" name="dni" placeholder="41176787">
-                    </div>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                   <button class="btn btn-secondary" type="reset">Borrar Campos</button>
-                  <button  id="cargarPersona" type="submit" class="btn btn-primary">Guardar</button>
+                  <button  id="btnSaveSkill" type="submit" class="btn btn-primary">Guardar</button>
                 </div>
               </form>
               </div>
@@ -182,6 +178,7 @@
             <script src="/js/employees/category/storeCategoryEmployee.js"></script>
             <script src="/js/employees/jobPosition/indexEmployeeJobPosition.js"></script>
             <script src="/js/employees/jobPosition/storeEmployeeJobPosition.js"></script>
+            <script src="/js/skills/formSKills.js"></script>
   </body>
 
   </html>

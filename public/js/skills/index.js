@@ -47,7 +47,7 @@ const fetchSkills = async (formData) => {
   };
 
 
-  const response = await fetch("http://localhost:8000/api/skills?" + new URLSearchParams(searchParams), {
+  const response = await fetch("http://localhost:8000/api/skills", {
     headers: {
       Authorization: localStorage.getItem("token"),
     },
@@ -89,7 +89,6 @@ const showSkills = (skills) => {
             `;
   });
 };
-
 
 document.addEventListener("DOMContentLoaded", async () => {
   console.log("DOM Cargado");

@@ -2,40 +2,51 @@ const Skill = require('../models/skill');
 const Employee = require('../models/employee');
 const EmployeeSkill = require('../models/employeeSkill');
 
-const index = async( req,res) =>{
-    const {employeeId} = req.params;
-
+const index = async (req, res) => {
+    const { employeeId } = req.params;
+  
     try {
-        
-        const employee = await Employee.findByPk(employeeId,{
-            include:[Skill],
-            order:[[Skill,'name','ASC']]
-        });
-
-        if(!employee){
-            throw{
-                status:404,
-                message:'EL empleado no existe'
+      const employee = await Employee.findByPk(employeeId, {
+        include: [
+          {
+            model: Skill,
+            as: 'employeeSkills', 
+            through: {
+              attributes: [] 
             }
+          }
+        ]
+      });
+  
+      if (!employee) {
+        throw {
+          status: 404,
+          message: 'El empleado no existe',
         };
-
-        return res.json({
-            data:employee.Skills
-        })
-
+      }
+  
+      return res.json({
+        data: employee.employeeSkills, 
+      });
     } catch (error) {
-        console.log(error);
-        return res.status(500).json({message:'Error interno del servidor!'})
+      console.log(error);
+      return res.status(500).json({ message: 'Error interno del servidor' });
     }
-};
+  };
+  
 const store = async (req,res)=>{
-    const {employeeId,skillId} = req.params;
-
+    const {employeeId} = req.params;
+    const {skillId} = req.body;
     try {
+        const employee = await Employee.findOne({
+            employee_id: employeeId, 
+        });
+        const skill = await Skill.findByPk(skillId);
+        console.log(skill)
         let employeeSkill = await EmployeeSkill.findOne({
             where:{
-                employeeId,
-                skillId,
+                employee_id:employeeId,
+                skill_id:skillId,
             }
         });
 
@@ -44,26 +55,14 @@ const store = async (req,res)=>{
                 message:'La skill ya fue agregada a este empleado'
             })
         }else{
-            employeeSkill = await EmployeeSkill.create({
-                idEmployee: employeeId,
-                idSkill: skillId,
-            });
-            
+            await employee.addEmployeeSkill(skill);
+            return res.status(201).json({message:'La skill fue agregada'})
         };
-
-        if(!employeeSkill){
-            throw{
-                status:400,
-                message:'Error al agregar la skill'
-            }
-        };
-        return res.status(201).json({message:'La skill fue agregada'})
     } catch (error) {
         console.log(error);
         return res.status(500).json({message:'Error interno del servidor!'})
     }
 };
-
 module.exports = {
     store,
     index
