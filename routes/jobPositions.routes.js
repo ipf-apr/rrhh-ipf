@@ -9,7 +9,7 @@ const {
     destroy
 } = require('../controllers/jobPositions.controller')
 const jobPositionSchema = require('../models/schemas/jobPosition.schema')
-const validateSchema = require('../middleware/validations')
+const validateSchema = require('../middlewares/validations')
 
 
 const router = Router()

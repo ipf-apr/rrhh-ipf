@@ -12,7 +12,7 @@ const {
   destroy,
 } = require("../controllers/users.controller");
 
-const validateSchema = require("../middleware/validations");
+const validateSchema = require("../middlewares/validations");
 const userSchema = require("../models/schemas/user.schema");
 
 const router = Router();
