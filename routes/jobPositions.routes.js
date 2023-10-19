@@ -9,7 +9,7 @@ const {
     destroy
 } = require('../controllers/jobPositions.controller')
 const jobPositionSchema = require('../models/schemas/jobPosition.schema')
-const validateSchema = require('../middleware/validations')
+const validateSchema = require('../middlewares/validations')
 
 
 const router = Router()
@@ -18,10 +18,10 @@ const router = Router()
 router.get("/job-positions", indexView);
 
 // API
-router.get('/api/job-positions', index)
-router.post('/api/job-positions', validateSchema(jobPositionSchema),  store)
-router.get('/api/job-positions/:id/show', show)
-router.put('/api/job-positions/:id/update', validateSchema(jobPositionSchema),  update)
-router.delete('/api/job-positions/:id/destroy', destroy)
+router.get('/api/jobPositions', index)
+router.post('/api/jobPositions', validateSchema(jobPositionSchema),  store)
+router.get('/api/jobPositions/:id/show', show)
+router.put('/api/jobPositions/:id/update', validateSchema(jobPositionSchema),  update)
+router.delete('/api/jobPositions/:id/destroy', destroy)
 
 module.exports = router

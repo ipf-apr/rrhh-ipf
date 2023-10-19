@@ -24,15 +24,6 @@ const User = sequelize.define('User', {
 })
 
 console.log('User');
-User.sync();
-const Employee = require('./employee');
-
-User.hasMany(Employee);
-Employee.belongsTo(User, {
-  foreignKey: {
-    name: 'userId'
-  }
-});
 
 module.exports = User;
 

@@ -1,5 +1,5 @@
 <form  id="formRegisterAdmin" class="col-11 col-lg-4 text-start p-4 rounded border border-2 shadow-sm mx-auto gap-2">
-    
+    <ul id="validationErrors" class="text-danger "></ul>
     <div class="col mt-2">
       <label  class="form-label">Apellido <small class="text-danger">(*)</small></label>
       <input type="text" class="form-control" name="lastName" id="lastName" placeholder="Ingrese su apellido" required>
@@ -24,7 +24,6 @@
     </div>
       
     <div class="col my-3">
-      <input type="text" name="rol" id="rol" class="hidden" value="admin">
       <label class="form-label text-danger">El sistema no posee usuarios activos, por lo que se procederá a crear usuario con el ROL de Administrador</label>
     </div>
     <div class="col-12">

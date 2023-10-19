@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const categorySchema = require("../models/schemas/category.schema");
-const validateSchema = require("../middleware/validations");
+const validateSchema = require("../middlewares/validations");
 
 const {
   indexView, 

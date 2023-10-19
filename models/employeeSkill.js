@@ -1,32 +1,17 @@
-const {DataTypes,sequelize} = require('../config/database');
+const { DataTypes, sequelize } = require('../config/database');
 
-const EmployeeSkill= sequelize.define('EmployeeSkill',{
-    idEployeeSkills:{
-        type:DataTypes.INTEGER,
-        primaryKey:true,
-        autoIncrement:true,
-    },
-    idEmployee:{
+const EmployeeSkill = sequelize.define('EmployeeSkill', {
+
+    id: {
         type: DataTypes.INTEGER,
-        allowNull:false,
-        references:{
-            model:'Employee',
-            key: 'id'
-        }
-    },
-    idSkill:{
-        type:DataTypes.INTEGER,
-        allowNull:false,
-        references:{
-            model:'Skill',
-            key:'idSkill'
-        }
-    }
-},{
-    sequelize,
-    paranoid:true,
-    modelName:'employeeSkill',
-    tableName:'EmployeeSkill'
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false
+      },
+}, {
+    modelName: 'EmployeeSkill',
+    tableName: 'employee_skill',
+    underscored: true
 });
 
 module.exports = EmployeeSkill;

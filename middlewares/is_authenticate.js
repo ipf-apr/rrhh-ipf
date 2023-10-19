@@ -1,7 +1,5 @@
 const jwt = require("jsonwebtoken");
 
-const environments = require('../config/environments')
-
 const User = require("../models/user");
 const verifyJWT = require("../utils/verifyJWT");
 
@@ -9,14 +7,14 @@ const isAuthenticated = async (req, res, next) => {
   // Leer el token
 
   let token = req.header("Authorization");
-  let respInJson = req.header("Accept");
+  let respInJson = req.header("Accept")?.includes("application/json");
   
   //esta parte se agregó para las páginas, ya que no se puede agregar el header a la petición GET
   if (!token) {
     token = req.cookies.jwt;
   }
   if (!token) {
-    if (respInJson?.includes("application/json")) {
+    if (respInJson) {
       return res.status(403).json({
         message:
           "No estás autenticado, tenes que iniciar sesión para continuar.",
@@ -32,9 +30,14 @@ const isAuthenticated = async (req, res, next) => {
         const user = await User.findByPk(jwt?.id);
         
     if (!user) {
-      return res.status(401).json({
-        message: "Token no válido - usuario no existe en la base de datos",
-      });
+      if (respInJson) {
+          return res.status(401).json({
+            message: "Token no válido - usuario no existe en la base de datos",
+          });
+      } else {
+        res.clearCookie('jwt')
+        return res.redirect("/login");
+      }
     }
 
     // Verificar si el usuario está activo
@@ -44,14 +47,13 @@ const isAuthenticated = async (req, res, next) => {
       });
     }
 
-        req.user = user;
+    req.user = user;
 
     next();
   } catch (error) {
     if (error instanceof jwt.TokenExpiredError) {
       console.log("is_authenticate.js error", error);
-      if (!respInJson?.includes("application/json")) {
-              
+      if (!respInJson) {              
         return res.redirect("/login");
       }
 

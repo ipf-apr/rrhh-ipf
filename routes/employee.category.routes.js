@@ -7,7 +7,7 @@ const {
   destroy,
 } = require("../controllers/employee.category.controller");
 const employeeCategorySchema = require("../models/schemas/categoryEmployee.schema");
-const validateSchema = require("../middleware/validations");
+const validateSchema = require("../middlewares/validations");
 
 const router = Router();
 

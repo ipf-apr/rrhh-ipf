@@ -3,7 +3,7 @@ const { Router } = require('express');
 
 const skillController = require('../controllers/skills.controller');
 const skillSchema = require('../models/schemas/skill.schema')
-const validateSchema = require('../middleware/validations');
+const validateSchema = require('../middlewares/validations');
 
 const router = Router();
 

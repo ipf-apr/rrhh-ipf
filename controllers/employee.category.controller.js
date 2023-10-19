@@ -30,10 +30,32 @@ const index = async (req, res) => {
   }
 };
 
-const update = (req, res) => {
+const update = async (req, res) => {
   const { employeeId, categoryId } = req.params;
-  //TODO
+  const { datePromotion } = req.body;
+  try {
+    const categoryEmployee = await CategoryEmployee.findOne({
+      where: {
+        employeeId,
+        categoryId,
+      },
+    });
 
+    categoryEmployee.update({
+      datePromotion,
+    });
+
+    return res.json({
+      categoryEmployee,
+      message: "La Categoría de este empleado se editó correctamente.",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(error.status || 500).json({
+      message:
+        error.message || "Error desconocido, consulte con el administrador.",
+    });
+  }
 };
 
 const store = async (req, res) => {
@@ -41,28 +63,21 @@ const store = async (req, res) => {
   const { datePromotion } = req.body;
 
   try {
-    
-    let categoryEmployee = await CategoryEmployee.findOne({
+    const [categoryEmployee, created] = await CategoryEmployee.findOrCreate({
       where: {
-        employeeId,
-        categoryId,
+        EmployeeId: employeeId,
+        CategoryId: categoryId,
+      },
+      defaults: {
         datePromotion,
       },
-    });   
-    
-    
-    if (categoryEmployee?.employeeId === +employeeId) {
+    });
 
+    if (!created) {
       return res.status(200).json({
         message: "La categoría ya estaba agregada a este empleado.",
       });
-
-    } else {      
-      categoryEmployee = await sequelize.query(
-        `INSERT INTO category_employee (employee_id,category_id,date_promotion) VALUES (${employeeId},${categoryId},'${datePromotion}');`
-      );
     }
-
     if (!categoryEmployee) {
       throw {
         status: 400,

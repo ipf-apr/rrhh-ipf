@@ -5,7 +5,7 @@ const router = Router();
 const authController = require("../controllers/auth.controller");
 
 const registerSchema = require("../models/schemas/auth.register.schema");
-const validateSchema = require("../middleware/validations");
+const validateSchema = require("../middlewares/validations");
 const loginSchema = require("../models/schemas/auth.login.schema");
 
 router.get("/login", authController.loginPage);
