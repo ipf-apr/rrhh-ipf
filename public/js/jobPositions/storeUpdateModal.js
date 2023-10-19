@@ -36,7 +36,7 @@ const deleteJobPosition = async (event) => {
     if (result.isConfirmed) {
       try {
         const res = await fetch(
-          `http://localhost:8000/api/job-positions/${id}/destroy`,
+          `http://localhost:8000/api/jobPositions/${id}/destroy`,
           {
             method: "DELETE",
           }
@@ -75,10 +75,10 @@ createEditJobPositionForm.addEventListener("submit", async (e) => {
   let url, method;
 
   if (!isCreating.value) {
-    url = "http://localhost:8000/api/job-positions";
+    url = "http://localhost:8000/api/jobPositions";
     method = "POST";
   } else {
-    url = `http://localhost:8000/api/job-positions/${isCreating.value}/update`;
+    url = `http://localhost:8000/api/jobPositions/${isCreating.value}/update`;
     method = "PUT";
   }
 

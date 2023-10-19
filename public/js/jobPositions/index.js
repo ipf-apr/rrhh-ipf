@@ -47,7 +47,7 @@ const fetchJobPositions = async (formData) => {
   };
 
 
-  const response = await fetch("http://localhost:8000/api/job-positions?" + new URLSearchParams(searchParams), {
+  const response = await fetch("http://localhost:8000/api/jobPositions?" + new URLSearchParams(searchParams), {
     headers: {
       Authorization: localStorage.getItem("token"),
     },

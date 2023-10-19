@@ -9,9 +9,7 @@ const EmployeeJobPosition = sequelize.define('EmployeeJobPosition', {
         autoIncrement: true,
         allowNull: false
       },
-}, {
-    sequelize,
-    paranoid: true,
+}, {    
     modelName: 'EmployeeJobPosition',
     tableName: 'employee_job_position',
     underscored: true

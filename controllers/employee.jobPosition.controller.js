@@ -62,23 +62,17 @@ const index = async (req, res) => {
   
     try {
       
-      let employeeJobPosition = await EmployeeJobPosition.findOne({
+      const [employeeJobPosition, created] = await EmployeeJobPosition.findOrCreate({
         where: {
-          employeeId,jobPositionId
-        },
-      });   
-      
-      
-      if (employeeJobPosition?.employeeId === +employeeId) {
+          EmployeeId: employeeId,
+          JobPositionId: jobPositionId,
+        }
+      });
   
+      if (!created) {
         return res.status(200).json({
-          message: "El Puesto Laboral ya estaba agregada a este empleado.",
+          message: "El puesto laboral ya esta agregado a este empleado.",
         });
-  
-      } else {      
-        employeeJobPosition = await sequelize.query(
-          `INSERT INTO employee_job_position (employee_id,job_position_id) VALUES (${employeeId},${jobPositionId});`
-        );
       }
   
       if (!employeeJobPosition) {
