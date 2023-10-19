@@ -39,7 +39,7 @@ app.use(cookieParser());
 
 // Se ejecuta una instancia de conexión a la base de datos
 require('./models/associations')
-sequelize.sync({force : true})
+sequelize.sync({force : false})
   .then(() => { 
     console.log('Conexión a base de datos exitosa');
   })

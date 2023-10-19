@@ -10,7 +10,6 @@ formRegisterAdmin.addEventListener('submit', async (e) => {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
     const passwordConfirmation = document.getElementById('passwordConfirmation').value;
-    const role = document.getElementById('rol').value;
 
     const response = await fetch('http://localhost:8000/api/register', {
         method: 'POST',
@@ -23,7 +22,7 @@ formRegisterAdmin.addEventListener('submit', async (e) => {
             username,
             password,
             passwordConfirmation,
-            role
+            
         }),
     });
 
