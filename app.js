@@ -38,13 +38,13 @@ app.use(morgan("dev"));
 app.use(cookieParser());
 
 // Se ejecuta una instancia de conexión a la base de datos
+require('./models/associations')
 sequelize.sync({force : true})
   .then(() => { 
     console.log('Conexión a base de datos exitosa');
   })
   .catch((error) => console.log('Error al conectar a base de datos', error));
   
-  require('./models/associations')
 
 const { isAuthenticated } = require('./middleware/is_authenticate');
 

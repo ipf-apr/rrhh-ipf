@@ -7,11 +7,19 @@ const generateJWT = require("../utils/createJWT");
 
 const register = async (req, res) => {
   try {
-    const { name, lastName, username, password, rol = 'user' } = req.body;
+    
+    const exist = await User.count();
+
+    let rol = 'user';
+
+    if (!exist) {
+      rol = 'admin'
+    }
+    
+    const { name, lastName, username, password } = req.body;
 
     let passHash = await bcryptjs.hash(password, 8);
 
-    // console.log(passHash);
     const user = await User.create({
       name: name,
       lastName: lastName,
@@ -23,6 +31,16 @@ const register = async (req, res) => {
     const { id, role } = user;
 
     const token = await generateJWT({ id: id, rol: role })
+    //se agregó cookies para poder navegar con autorización, ya que se verifica en todas las páginas protegidas
+    const cookiesOptions = {
+      expires: new Date(
+        Date.now() +
+        environments.JWT.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
+      ),
+      httpOnly: true,
+    };
+
+    res.cookie("jwt", token, cookiesOptions);
 
     if (user) {
       return res.status(201).json({

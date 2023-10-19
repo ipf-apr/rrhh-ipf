@@ -68,7 +68,7 @@ const registerSchema = checkSchema({
                 }
             },
         },
-    }
+    },
 });
 
 module.exports = registerSchema;
