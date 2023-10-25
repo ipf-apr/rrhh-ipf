@@ -1,5 +1,9 @@
 const btnSaveSkill = document.getElementById('btnSaveSkill');
 const listSkills = document.getElementById('listSkills');
+const modalAddSkillToEmployee = new bootstrap.Modal(
+  document.querySelector("#modalCategoryCreate")
+);
+
 
 const listSkill = async ()=>{
   try {
@@ -58,19 +62,16 @@ const skillShow = async () => {
     const url = window.location.href;
     const parts = url.split("/");
     const id = parts[parts.length - 2];
-    formData = {
-        skillId:selectSkills
-    }
     const response = await fetch(`/api/employee/${id}/skills/${selectSkills}/store`, {
         method:'POST',
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
       });
     
       const respToJson = await response.json();
     
+      console.log('respToJson from Skills');
       console.log(respToJson);
     
       if (response.status !== 201 && response.status !== 200) {
@@ -88,9 +89,7 @@ const skillShow = async () => {
         text: respToJson.message,
       });
       listSkill();
-      myModal.hide();
-      console.log('isCreating.value');
-      console.log(isCreating.value);
+      modalAddSkillToEmployee.hide();
 })
 
 document.addEventListener('DOMContentLoaded',()=>{

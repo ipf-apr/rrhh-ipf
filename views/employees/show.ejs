@@ -75,10 +75,13 @@
                   </div>
                 </div>
                 <div class="rounded shadow p-2 mb-2">
-                  <strong>Habilidades / Skills: (h)</strong>
-                  <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalCategoryCreate" >
-                    +
-                   </button>
+                  <div class="d-flex justify-content-between align-items-center ">
+                    <strong>Habilidades / Skills:</strong>
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                      data-bs-target="#modalCategoryCreate">
+                      +
+                    </button>
+                  </div>
                   <ul id="listSkills">
 
                   </ul>
@@ -146,7 +149,8 @@
             </div>
           </div>
           <!-- Modal AddSkillsToEmployee -->
-          <div class="modal fade" id="modalCategoryCreate" tabindex="-1" aria-labelledby="modalCategoryCreateLabel" aria-hidden="true">
+          <div class="modal fade" id="modalCategoryCreate" tabindex="-1" aria-labelledby="modalCategoryCreateLabel"
+            aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
                 <div class="modal-header">
@@ -154,21 +158,21 @@
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="" id="formSKills">
-                <div class="modal-body">
-                  <div class="col-12">
-                    <label for="selectSkills" class="form-label">Habilidades<small
-                        class=" text-danger">(*)</small></label>
-                    <select class="form-select" name="selectCategories" id="selectSkills">
+                  <div class="modal-body">
+                    <div class="col-12">
+                      <label for="selectSkills" class="form-label">Habilidades<small
+                          class=" text-danger">(*)</small></label>
+                      <select class="form-select" name="selectCategories" id="selectSkills">
 
-                    </select>
+                      </select>
+                    </div>
                   </div>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                  <button class="btn btn-secondary" type="reset">Borrar Campos</button>
-                  <button  id="btnSaveSkill" type="submit" class="btn btn-primary">Guardar</button>
-                </div>
-              </form>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button class="btn btn-secondary" type="reset">Borrar Campos</button>
+                    <button id="btnSaveSkill" type="submit" class="btn btn-primary">Guardar</button>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
