@@ -1,4 +1,5 @@
 
+
 const bcryptjs = require("bcryptjs");
 const User = require("../models/user");
 const environments = require('../config/environments');
@@ -7,16 +8,8 @@ const generateJWT = require("../utils/createJWT");
 
 const register = async (req, res) => {
   try {
-    
-    const exist = await User.count();
-
-    let rol = 'user';
-
-    if (!exist) {
-      rol = 'admin'
-    }
-    
-    const { name, lastName, username, password } = req.body;
+       
+    const { name, lastName, username, password, rol = 'user' } = req.body;    
 
     let passHash = await bcryptjs.hash(password, 8);
 

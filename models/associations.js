@@ -1,3 +1,5 @@
+const bcryptjs = require("bcryptjs");
+
 const User = require('./user');
 const Employee = require('./employee');
 const Category = require('./category');
@@ -33,7 +35,7 @@ async function createFirstUser(){
       name: 'Administrador',
       lastName: 'Administrador',
       username: 'admin',
-      password: 'password',
+      password: await bcryptjs.hash('password', 8),
       role: 'admin'
     })
   }
