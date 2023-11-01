@@ -35,29 +35,32 @@ const index = async (req, res) => {
   };
   
 const store = async (req,res)=>{
-    const {employeeId} = req.params;
-    const {skillId} = req.body;
+    const {employeeId, skillId} = req.params;
     try {
-        const employee = await Employee.findOne({
-            employee_id: employeeId, 
-        });
-        const skill = await Skill.findByPk(skillId);
-        console.log(skill)
-        let employeeSkill = await EmployeeSkill.findOne({
-            where:{
-                employee_id:employeeId,
-                skill_id:skillId,
-            }
-        });
 
-        if(employeeSkill?.idSKill === +skillId){
-            return res.status(200).json({
-                message:'La skill ya fue agregada a este empleado'
-            })
-        }else{
-            await employee.addEmployeeSkill(skill);
-            return res.status(201).json({message:'La skill fue agregada'})
+      const [categoryEmployee, created] = await EmployeeSkill.findOrCreate({
+        where: {
+          EmployeeId: employeeId,
+          SkillId: skillId,
+        }
+      });
+  
+      if (!created) {
+        return res.status(200).json({
+          message: "La habilidad ya fue agregada a este empleado.",
+        });
+      }
+      if (!categoryEmployee) {
+        throw {
+          status: 400,
+          message: "No se pudo relacionar la habilidad al empleado",
         };
+      }
+  
+      return res.status(201).json({
+        message: "Habilidad agregada al empleado correctamente",
+      });
+
     } catch (error) {
         console.log(error);
         return res.status(500).json({message:'Error interno del servidor!'})

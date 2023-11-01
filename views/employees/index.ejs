@@ -24,13 +24,30 @@
             <main class="col">
               <div class="collapse" id="collapseSearch">
                 <div class="card card-body">
-                  <form id="formSearch" class="row">
-                    <input placeholder="Apellidos" class="form-control col" type="search" name="sLastName"
-                      id="sLastName">
-                    <input placeholder="Nombres" class="form-control col" type="search" name="sName" id="sName">
-                    <div class="form-control col">
-                      <select class="form-select" name="promotion" id="sPromotion">
+                  <form id="formSearch" class="row  gap-2">
+                    <div class="row gap-2">
+                      <input placeholder="Apellidos" class="form-control col" type="search" name="sLastName"
+                        id="sLastName">
+                      <input placeholder="Nombres" class="form-control col" type="search" name="sName" id="sName">
+                      <select class="form-select col" name="promotion" id="sPromotion">
                         <option value="" selected>--Seleccionar Condición Promocion--</option>
+                        <option value="1">Habilitado</option>
+                        <option value="0">Inhabilitado</option>
+                      </select>
+                    </div>
+                    <div class="row gap-2 visually-hidden ">
+                      <select class="form-select col" name="promotion" id="sJobPosition">
+                        <option value="" selected>--Seleccionar Puesto Laboral-</option>
+                        <option value="1">Habilitado</option>
+                        <option value="0">Inhabilitado</option>
+                      </select>
+                      <select class="form-select col" name="promotion" id="sSkill">
+                        <option value="" selected>--Seleccionar Habilidad--</option>
+                        <option value="1">Habilitado</option>
+                        <option value="0">Inhabilitado</option>
+                      </select>
+                      <select class="form-select col" name="promotion" id="sCategory">
+                        <option value="" selected>--Seleccionar Categoría--</option>
                         <option value="1">Habilitado</option>
                         <option value="0">Inhabilitado</option>
                       </select>
