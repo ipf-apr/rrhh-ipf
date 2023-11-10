@@ -38,6 +38,8 @@ const register = async (req, res) => {
     if (user) {
       return res.status(201).json({
         message: 'Usuario creado correctamente',
+        rol : user.role,
+        fullName : user.fullName,
         token
       });
     }
@@ -86,8 +88,9 @@ const login = async (req, res) => {
 
     return res.json({
       message: 'Inicio de sesión correcto',
-      token,
-      rol: role
+      rol : user.role,
+      fullName : user.fullName,
+      token
     });
 
 
