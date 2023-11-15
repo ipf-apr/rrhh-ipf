@@ -8,6 +8,7 @@ const environments = require('./config/environments')
 const storeLog = require('./helpers/storeLogs')
 
 const handleErrors = require("./middlewares/handleErrors");
+const createFirstUser = require('./helpers/createFirstUser')
 
 // Se importa la instancia de conexión a la base de datos - (debe ser después de leer las variables de entorno)
 const { sequelize } = require('./config/database');
@@ -51,6 +52,7 @@ require('./models/associations')
 sequelize.sync({force : false})
 .then(() => { 
   console.log('Conexión a base de datos exitosa');
+  createFirstUser();
 })
 .catch((error) => console.log('Error al conectar a base de datos', error));
   
