@@ -6,14 +6,12 @@ const verifyJWT = require("../utils/verifyJWT");
 const isAuthenticated = async (req, res, next) => {
   // Leer el token
 
-  let token = req.header("Authorization");
-  console.log(token);
-  let respInJson = req.header("Accept")?.includes("application/json");
+  const  token =  req.cookies.jwt || req.header("Authorization");
+
+  const respInJson = req.header("Accept")?.includes("application/json");
   
   //esta parte se agregó para las páginas, ya que no se puede agregar el header a la petición GET
-  if (!token) {
-    token = req.cookies.jwt;
-  }
+  
   if (!token) {
     if (respInJson) {
       return res.status(403).json({

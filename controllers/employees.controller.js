@@ -100,8 +100,10 @@ const store = async (req, res) => {
     dateIn,
   } = req.body;
 
+  const token = req.cookies.jwt || req.header("Authorization")
+
   const jwtDecodificado = await promisify(jwt.verify)(
-    req.cookies.jwt,
+    token,
     environments.JWT.JWT_SECRET
   );
 

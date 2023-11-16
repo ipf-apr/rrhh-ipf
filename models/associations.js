@@ -28,17 +28,3 @@ Category.belongsToMany(Employee, { through: CategoryEmployee });
 Skill.belongsToMany(Employee, { through: EmployeeSkill });
 JobPosition.belongsToMany(Employee, { through: EmployeeJobPosition });
 
-async function createFirstUser(){
-  const exist = await User.count();
-  if (exist === 0) {
-    await User.create({
-      name: 'Administrador',
-      lastName: 'Administrador',
-      username: 'admin',
-      password: await bcryptjs.hash('password', 8),
-      role: 'admin'
-    })
-  }
-}
-
-createFirstUser();
