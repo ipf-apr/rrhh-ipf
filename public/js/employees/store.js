@@ -29,9 +29,16 @@ formNewEmployee.addEventListener('submit', async (e) => {
             dateIn
         }),
     });
-
+    //Manejo de las imagenes de los empleados
+    const formData = new FormData;
+    const imageRoute = document.querySelector('#imageRoute').files[0];
+    formData.append('imageRoute', imageRoute);
     const respToJson = await response.json();
-
+    const id = respToJson.id;
+    const res = await fetch(`http://localhost:8000/api/employees/${id}/image`,{
+        method: 'POST',
+        body: formData
+    });
     const text = respToJson.message
 
     validationErrors.innerHTML ='';

@@ -6,7 +6,7 @@ const cookieParser = require("cookie-parser");
 const path = require("path");
 const environments = require('./config/environments')
 const storeLog = require('./helpers/storeLogs')
-
+const fs = require('fs')
 const handleErrors = require("./middlewares/handleErrors");
 const createFirstUser = require('./helpers/createFirstUser')
 
@@ -40,8 +40,10 @@ app.use(morgan("combined", {
     }
   }
 }));
-
-
+//Si la carpeta uploads no existe, se crea
+if (!fs.existsSync(__dirname + "/public/uploads")) {
+  fs.mkdirSync(__dirname + "/public/uploads");
+}
 
 
 //trabajar con las cookies

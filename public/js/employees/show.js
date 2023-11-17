@@ -9,7 +9,7 @@ const lphone = document.querySelector("#phone");
 const ldateIn = document.querySelector("#dateIn");
 const lantiquity = document.querySelector("#antiquity");
 const lpromotion = document.querySelector("#promotion");
-
+const lprofile = document.querySelector("#profile");
 const employeeId = id.dataset.id;
 // Funcion para obtener los datos de la tarea cuando se carga la página
 document.addEventListener("DOMContentLoaded", async () => {
@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   document.getElementById("btnEdit").href = `/employees/${employeeId}/edit`;
   try {
     const employee = await fetchEmployee(employeeId);
+    console.log(employee);
     showEmployeeData(employee);
 
     //ESTE MÉTODO ESTÁ EN SU RESPECTIVO ARCHIVO.
@@ -57,7 +58,7 @@ const fetchEmployee = async (employeeId) => {
 const showEmployeeData = (employee) => {
 
 
-
+  lprofile.src = `/uploads/${employee.image}`;
   lfullName.innerHTML = employee.fullName;
   ldni.innerHTML = employee.dni;
   lprofileNro.innerHTML = employee.profileNro;

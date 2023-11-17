@@ -43,6 +43,9 @@ const Employee = sequelize.define('Employee', {
   promotion: { 
     type: DataTypes.INTEGER, 
     defaultValue: 1 
+  },image:{
+    type: DataTypes.STRING,
+    allowNull: true,
   },
   age: {
     type: DataTypes.VIRTUAL,
