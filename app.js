@@ -8,17 +8,36 @@ const environments = require('./config/environments')
 const storeLog = require('./helpers/storeLogs')
 const fs = require('fs')
 const handleErrors = require("./middlewares/handleErrors");
-const createFirstUser = require('./helpers/createFirstUser')
+const createFirstUser = require('./helpers/createFirstUser');
+const { createServer } = require('http'); 
+const socketIO = require('socket.io');
 
 // Se importa la instancia de conexión a la base de datos - (debe ser después de leer las variables de entorno)
 const { sequelize } = require('./config/database');
 
 const app = express();
-
+const httpServer = createServer(app);
+const io = socketIO(httpServer);
 
 //configuración del motor de plantillas
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
+
+//configuracion de socket.io
+io.on('connection', (socket) => {
+  console.log('Un usuario se ha conectado');
+//Evento del cliente
+socket.on('login',(userData)=>{
+  console.log(`Usuario ${userData.username} se ha conectado`);
+});
+//desconexión del cliente
+socket.on('disconnect',()=>{
+  console.log('Usuario desconectado');
+});
+});
+
+
+
 
 //Carpeta public para archivos estaticos
 app.use(express.static(path.join(__dirname, "public")));
@@ -84,6 +103,6 @@ app.use(function (req, res, next) {
 app.use(handleErrors)
 
 //poner el marcha el server
-app.listen(environments.APP_PORT, () => {
+httpServer.listen(environments.APP_PORT, () => {
   console.log(`Servidor en ${environments.APP_URL}:${environments.APP_PORT}`);
 });
