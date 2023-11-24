@@ -4,6 +4,7 @@
 const {
   DataTypes, sequelize
 } = require('../config/database');
+const environments = require('../config/environments');
 
 const Employee = sequelize.define('Employee', {
   name: DataTypes.STRING,
@@ -26,7 +27,7 @@ const Employee = sequelize.define('Employee', {
   dateIn: {
     type: DataTypes.DATEONLY
   },
-  antiquity:{
+  antiquity: {
     type: DataTypes.VIRTUAL,
     get() {
       const today = new Date();
@@ -40,10 +41,10 @@ const Employee = sequelize.define('Employee', {
       return antiquity;
     }
   },
-  promotion: { 
-    type: DataTypes.INTEGER, 
-    defaultValue: 1 
-  },image:{
+  promotion: {
+    type: DataTypes.INTEGER,
+    defaultValue: 1
+  }, image: {
     type: DataTypes.STRING,
     allowNull: true,
   },
@@ -61,7 +62,16 @@ const Employee = sequelize.define('Employee', {
       return age;
     }
   },
-  userId:{
+  imageUrl: {
+    type: DataTypes.VIRTUAL,
+    get() {
+      if (this.image) {
+        return `${environments.APP_URL}:${environments.APP_PORT}/uploads/${this.image}`;
+      }
+      return `${environments.APP_URL}:${environments.APP_PORT}/uploads/default.png`;
+    }
+  },
+  userId: {
     type: DataTypes.INTEGER,
     allowNull: false
   }
