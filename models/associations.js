@@ -1,5 +1,3 @@
-const bcryptjs = require("bcryptjs");
-
 const User = require('./user');
 const Employee = require('./employee');
 const Category = require('./category');
