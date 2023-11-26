@@ -62,11 +62,15 @@ const show = async (req, res) => {
 };
 
 const store = async (req, res) => {
-  const { position } = req.body;
+  const { position, observations } = req.body;
 
   try {
     const [jobPosition, created] = await JobPosition.findOrCreate({
       where: { position },
+      defaults: {
+        position,
+        observations,
+      },
     });
 
     if (!created) {
@@ -98,7 +102,7 @@ const store = async (req, res) => {
 
 const update = async (req, res) => {
   const jobPositionId = req.params.id;
-  const { position } = req.body;
+  const { position, observations } = req.body;
   try {
     const jobPosition = await JobPosition.findByPk(jobPositionId);
 
@@ -111,6 +115,7 @@ const update = async (req, res) => {
 
     jobPosition.update({
       position,
+      observations,
     });
     return res.json({
       jobPosition,
