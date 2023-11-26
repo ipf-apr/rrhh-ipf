@@ -37,7 +37,7 @@ const store = async (req, res) => {
   const { employeeId, skillId } = req.params;
   try {
 
-    const [categoryEmployee, created] = await EmployeeSkill.findOrCreate({
+    const [skillEmployee, created] = await EmployeeSkill.findOrCreate({
       where: {
         EmployeeId: employeeId,
         SkillId: skillId,
@@ -49,7 +49,7 @@ const store = async (req, res) => {
         message: "La habilidad ya fue agregada a este empleado.",
       });
     }
-    if (!categoryEmployee) {
+    if (!skillEmployee) {
       throw {
         status: 400,
         message: "No se pudo relacionar la habilidad al empleado",
@@ -57,7 +57,7 @@ const store = async (req, res) => {
     }
 
     return res.status(201).json({
-      categoryEmployee,
+      skillEmployee,
       message: "Habilidad agregada al empleado correctamente",
     });
 

@@ -19,9 +19,8 @@ const index = async (req, res) => {
       };
     }
 
-    return res.json({
-      data: employee.Categories,
-    });
+    return res.json(employee.Categories,
+    );
   } catch (error) {
     console.log(error);
     return res
@@ -86,6 +85,7 @@ const store = async (req, res) => {
     }
 
     return res.status(201).json({
+      categoryEmployee,
       message: "Categoría agregada al empleado correctamente",
     });
   } catch (error) {
