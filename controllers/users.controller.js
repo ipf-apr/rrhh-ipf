@@ -66,7 +66,7 @@ const store = async (req, res) => {
     name,
     lastName,
     username,
-    password,
+    password = 'password',
     role
   } = req.body;
 
