@@ -11,11 +11,18 @@ const indexView = (_req, res) => {
 const findAll = async (req, res) => {
   const { nameSkill } = req.query;
   try {
-    const skills = await Skill.findAll();
+    const skills = await Skill.findAll({
+      where: {
+        nameSkill: {
+          [Op.like]: `%${nameSkill ?? ''}%`
+        }
+      }
+    });
+
     if (!skills || skills.length === 0) {
       throw {
         status: 404,
-        message: "No se encuentra la habilidad ingresada!",
+        message: "No hay habilidades registradas aún.",
       };
     }
     return res.status(200).json(skills);
@@ -83,7 +90,7 @@ const skillUpdate = async (req, res) => {
         message: "Error al actualizar la Habilidad!",
       };
     }
-    return res.status(200).json({skill, message: "Actualizado con Éxito!" });
+    return res.status(200).json({ skill, message: "Actualizado con Éxito!" });
   } catch (error) {
     console.log(error);
     return res
