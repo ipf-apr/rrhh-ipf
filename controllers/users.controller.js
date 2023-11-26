@@ -25,7 +25,7 @@ const index = async (req, res) => {
   try {
     const users = await User.findAll(
       {
-        attributes: ['id', 'name', 'lastName', 'username', 'role']
+        attributes: ['id', 'name', 'lastName', 'username', 'role', 'fullName']
       }
     );
 
@@ -49,7 +49,7 @@ const show = async (req, res) => {
 
   try {
     const user = await User.findByPk(userId, {
-      attributes: ['id', 'name', 'lastName', 'username', 'role']
+      attributes: ['id', 'name', 'lastName', 'username', 'role', 'fullName']
     });
 
     if (!user) {
