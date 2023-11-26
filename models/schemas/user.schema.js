@@ -37,8 +37,8 @@ const userSchema = checkSchema({
         const { id } = req.params;
         return await User.findOne({ where: { username: value } }).then(
           (user) => {
-            console.log(user);
-            if (user?.id != id) {
+            console.log(user?.id);
+            if (user && user?.id != id) {
               throw new Error(
                 "El usuario ya existe en la base de datos del sistema."
               );

@@ -23,7 +23,11 @@ const editView = (req, res) => {
 
 const index = async (req, res) => {
   try {
-    const users = await User.findAll();
+    const users = await User.findAll(
+      {
+        attributes: ['id', 'name', 'lastName', 'username', 'role']
+      }
+    );
 
     if (!users || users.length === 0) {
       throw ({
@@ -44,7 +48,9 @@ const show = async (req, res) => {
   const userId = req.params.id;
 
   try {
-    const user = await User.findByPk(userId);
+    const user = await User.findByPk(userId, {
+      attributes: ['id', 'name', 'lastName', 'username', 'role']
+    });
 
     if (!user) {
       throw {
@@ -88,7 +94,7 @@ const store = async (req, res) => {
       })
     }
 
-    return res.json({user, message : 'El usuario se creó correctamente.'});
+    return res.json({ user, message: 'El usuario se creó correctamente.' });
 
   } catch (error) {
     console.log(error);
@@ -113,7 +119,7 @@ const update = async (req, res) => {
       username: username,
       role: role
     });
-    return res.json({user, message : 'El usuario se editó correctamente.'});
+    return res.json({ user, message: 'El usuario se editó correctamente.' });
   } catch (error) {
     return res
       .status(error.status || 500)
@@ -143,9 +149,9 @@ const destroy = async (req, res) => {
   } catch (error) {
     return res
       .status(error.status || 500)
-      .json({status : error.status,message : error.message || "Error interno del servidor"});
+      .json({ status: error.status, message: error.message || "Error interno del servidor" });
   }
- };
+};
 
 module.exports = {
   indexView,
