@@ -161,7 +161,10 @@ const update = async (req, res) => {
     promotion,
   } = req.body;
   try {
-    const employee = await Employee.findByPk(employeeId);
+    const employee = await Employee.findByPk(employeeId, {
+      include: [Category],
+      order: [[Category, CategoryEmployee, "datePromotion", "DESC"]],
+    });
     employee.update({
       lastName,
       name,
