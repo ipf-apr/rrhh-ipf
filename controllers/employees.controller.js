@@ -33,33 +33,35 @@ const editView = (req, res) => {
 const index = async (req, res) => {
   const { lastName, name, promotion } = req.query;
 
-  let whereClausule;
+  let whereClausule = {};
 
   if (Object.keys(req.query).length !== 0) {
-    whereClausule = {
-      lastName: {
-        [Op.like]: `%${lastName}%`,
-      },
-      name: {
-        [Op.like]: `%${name}%`,
-      },
-      promotion,
-    };
-  }
+
+    if (lastName) {
+      whereClausule.lastName = {
+        [Op.like]: `%${lastName}%`
+      }
+    }
+    if (name) {
+      whereClausule.name = {
+        [Op.like]: `%${name}%`
+      }
+    }
+    if (promotion) {
+      whereClausule.promotion = promotion
+    }
+
+  };
+
+
+  console.log(whereClausule)
 
   try {
     const employees = await Employee.findAll({
-      where: whereClausule    ,
+      where: whereClausule,
       include: [Category],
       order: [[Category, CategoryEmployee, "datePromotion", "DESC"]],
     });
-
-    if (!employees || employees.length === 0) {
-      throw {
-        status: 404,
-        message: "No hay empleados registrados aún.",
-      };
-    }
 
     return res.json(employees);
   } catch (error) {
