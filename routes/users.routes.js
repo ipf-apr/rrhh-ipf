@@ -14,6 +14,7 @@ const {
 
 const validateSchema = require("../middlewares/validations");
 const userSchema = require("../models/schemas/user.schema");
+const { isAdmin } = require("../middlewares/is_admin");
 
 const router = Router();
 
@@ -28,6 +29,6 @@ router.get("/api/users", index);
 router.post("/api/users", validateSchema(userSchema), store);
 router.get("/api/users/:id/show", show);
 router.put("/api/users/:id/update", validateSchema(userSchema), update);
-router.delete("/api/users/:id/destroy", destroy);
+router.delete("/api/users/:id/destroy", isAdmin, destroy);
 
 module.exports = router;

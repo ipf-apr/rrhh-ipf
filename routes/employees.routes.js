@@ -13,7 +13,8 @@ const {
 } = require("../controllers/employees.controller");
 const employeeSchema = require("../models/schemas/employee.schema");
 const validateSchema = require("../middlewares/validations");
-const imageEmploye = require('../controllers/employe.image.controllers')
+const imageEmploye = require('../controllers/employe.image.controllers');
+const { isAdmin } = require("../middlewares/is_admin");
 
 const router = Router();
 
@@ -29,7 +30,7 @@ router.get("/api/employees/:id/show", show);
 router.post('/api/employees/:id/image', upload.single('imageRoute'), imageEmploye);
 router.post("/api/employees", validateSchema(employeeSchema),store);
 router.put("/api/employees/:id/update", validateSchema(employeeSchema),  update);
-router.delete("/api/employees/:id/destroy", destroy);
+router.delete("/api/employees/:id/destroy", isAdmin, destroy);
 
 
 

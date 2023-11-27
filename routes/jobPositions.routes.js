@@ -10,6 +10,7 @@ const {
 } = require('../controllers/jobPositions.controller')
 const jobPositionSchema = require('../models/schemas/jobPosition.schema')
 const validateSchema = require('../middlewares/validations')
+const { isAdmin } = require('../middlewares/is_admin')
 
 
 const router = Router()
@@ -22,6 +23,6 @@ router.get('/api/jobPositions', index)
 router.post('/api/jobPositions', validateSchema(jobPositionSchema),  store)
 router.get('/api/jobPositions/:id/show', show)
 router.put('/api/jobPositions/:id/update', validateSchema(jobPositionSchema),  update)
-router.delete('/api/jobPositions/:id/destroy', destroy)
+router.delete('/api/jobPositions/:id/destroy', isAdmin, destroy)
 
 module.exports = router

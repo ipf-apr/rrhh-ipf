@@ -77,6 +77,7 @@ sequelize
   .catch((error) => console.log("Error al conectar a base de datos", error));
 
 const { isAuthenticated } = require("./middlewares/is_authenticate");
+const { isAdmin } = require("./middlewares/is_admin");
 
 app.use("/", require("./routes/auth.routes"));
 app.use("/", isAuthenticated, require("./routes/dashboard.routes"));
@@ -87,11 +88,11 @@ app.use(
   isAuthenticated,
   require("./routes/employee.jobPosition.routes")
 );
-app.use("/", isAuthenticated, require("./routes/users.routes"));
+app.use("/", isAuthenticated, require("./routes/employee.skills.routes"));
 app.use("/", isAuthenticated, require("./routes/categories.routes"));
 app.use("/", isAuthenticated, require("./routes/skills.routes"));
 app.use("/", isAuthenticated, require("./routes/jobPositions.routes"));
-app.use("/", isAuthenticated, require("./routes/employee.skills.routes"));
+app.use("/", isAuthenticated, isAdmin, require("./routes/users.routes"));
 //eliminar la cache para que no se pueda volver atrás
 app.use(function (req, res, next) {
   if (!req.username) {

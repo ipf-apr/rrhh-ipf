@@ -4,6 +4,7 @@ const { Router } = require('express');
 const skillController = require('../controllers/skills.controller');
 const skillSchema = require('../models/schemas/skill.schema')
 const validateSchema = require('../middlewares/validations');
+const { isAdmin } = require('../middlewares/is_admin');
 
 const router = Router();
 
@@ -18,7 +19,7 @@ router.get('/api/skills', skillController.findAll);
 router.post('/api/skills', validateSchema(skillSchema), skillController.createSkill);
 router.get('/api/skills/:skillId', skillController.findOne);
 router.put('/api/skills/:skillId/update', validateSchema(skillSchema), skillController.skillUpdate);
-router.delete('/api/skills/:skillId/destroy', skillController.deleteSkill);
+router.delete('/api/skills/:skillId/destroy', isAdmin, skillController.deleteSkill);
 
 
 module.exports = router;
