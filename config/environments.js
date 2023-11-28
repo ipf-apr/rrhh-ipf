@@ -14,6 +14,7 @@ const environments = {
     DB_DATABASE: process.env.DB_DATABASE,
     DB_DIALECT: process.env.DB_DIALECT,
     DB_SQLITE_PATH: process.env.DB_SQLITE_PATH,
+    UTC: process.env.UTC ?? '-03:00',
   },
   JWT: {
     JWT_SECRET: process.env.JWT_SECRET,

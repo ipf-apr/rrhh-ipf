@@ -9,7 +9,8 @@ const sequelize = new Sequelize(
     environments.DB.DB_PASSWORD,
     {
         host: environments.DB.DB_HOST,
-        dialect: environments.DB.DB_DIALECT // 'mysql' | 'mariadb' | 'postgres' | 'mssql'
+        dialect: environments.DB.DB_DIALECT, // 'mysql' | 'mariadb' | 'postgres' | 'mssql'
+        timezone: environments.DB.UTC
     });
 
 // Se exportan la conexión a MySQL, Model y DataTypes para poder usarlas en los modelos
