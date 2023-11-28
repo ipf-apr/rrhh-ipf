@@ -100,11 +100,11 @@ const skillUpdate = async (req, res) => {
 };
 
 const deleteSkill = async (req, res) => {
-  const skillId = req.params.id;
+  const { skillId } = req.params;
   try {
     const skill = await Skill.destroy({
       where: {
-        skillId,
+        id: skillId
       },
     });
     if (!skill) {
