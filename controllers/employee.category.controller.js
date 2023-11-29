@@ -84,8 +84,15 @@ const store = async (req, res) => {
       };
     }
 
+    const category = await Category.findByPk(categoryId);
+
+    category.datePromotion = datePromotion;
+
+    console.log(category)
+
     return res.status(201).json({
-      categoryEmployee,
+      category,
+      datePromotion,
       message: "Categoría agregada al empleado correctamente",
     });
   } catch (error) {
