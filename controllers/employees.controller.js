@@ -31,7 +31,7 @@ const editView = (req, res) => {
 
 //APIS
 const index = async (req, res) => {
-  const { lastName, name, promotion, position} = req.query;
+  const { lastName, name, promotion, position, category } = req.query;
 
   let whereClausule = {};
 
@@ -52,6 +52,9 @@ const index = async (req, res) => {
     }
     if (position) {
       whereClausule["$jobPositions.id$"] = position
+    }
+    if (category) {
+      whereClausule["$categories.id$"] = category
     }
 
   };
