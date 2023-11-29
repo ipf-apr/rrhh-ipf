@@ -1,5 +1,5 @@
 'use strict';
-
+const fs = require('fs');
 
 const {
   DataTypes, sequelize
@@ -65,7 +65,7 @@ const Employee = sequelize.define('Employee', {
   imageUrl: {
     type: DataTypes.VIRTUAL,
     get() {
-      if (this.image) {
+      if (this.image && fs.existsSync(`${__dirname}/../public/uploads/${this.image}`)) {       
         return `${environments.APP_URL}:${environments.APP_PORT}/uploads/${this.image}`;
       }
       return `${environments.APP_URL}:${environments.APP_PORT}/uploads/default.png`;

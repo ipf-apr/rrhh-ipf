@@ -1,4 +1,5 @@
 const Employee = require("../models/employee");
+const { unlink } = require("fs");
 
 const imageEmployee = async (req, res) => {
   const employeeId = req.params.id;
@@ -13,16 +14,17 @@ const imageEmployee = async (req, res) => {
     }
 
     // Actualizar solo el campo de imagen
-    await Employee.update(
-      {
-        image: filename,
-      },
-      {
-        where: {
-          id: employeeId, 
-        },
-      }
-    );
+    if (employee.image) {
+      unlink(`${__dirname}/../public/uploads/${employee.image}`, (err) => {
+        
+        console.log('path/file.txt was deleted');
+      });
+    }
+
+
+    employee.image = filename;
+
+    await employee.save();
 
     return res.json({ message: "Imagen actualizada correctamente", employee });
   } catch (error) {
