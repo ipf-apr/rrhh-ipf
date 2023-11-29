@@ -83,8 +83,10 @@ const store = async (req, res) => {
       };
     }
 
+    const jobPosition = await JobPosition.findByPk(jobPositionId);
+
     return res.status(201).json({
-      employeeJobPosition,
+      jobPosition,
       message: "Puesto Laboral agregado al empleado correctamente",
     });
   } catch (error) {
