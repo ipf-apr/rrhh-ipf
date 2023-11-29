@@ -6,6 +6,7 @@ const environments = require('../config/environments')
 
 const Employee = require("../models/employee");
 const Category = require("../models/category");
+const Skill = require("../models/skill");
 
 const CategoryEmployee = require("../models/categoryEmployee");
 const JobPosition = require("../models/jobPosition");
@@ -31,7 +32,7 @@ const editView = (req, res) => {
 
 //APIS
 const index = async (req, res) => {
-  const { lastName, name, promotion, position, category } = req.query;
+  const { lastName, name, promotion, position, category, skill } = req.query;
 
   let whereClausule = {};
 
@@ -56,16 +57,21 @@ const index = async (req, res) => {
     if (category) {
       whereClausule["$categories.id$"] = category
     }
+    if (skill) {
+      whereClausule["$employeeSkills.id$"] = skill
+    }
 
   };
 
 
   console.log(whereClausule)
 
+  
+
   try {
     const employees = await Employee.findAll({
       where: whereClausule,
-      include: [Category, JobPosition],
+      include: [Category, JobPosition, 'employeeSkills'],
       order: [[Category, CategoryEmployee, "datePromotion", "DESC"]],
     });
 
