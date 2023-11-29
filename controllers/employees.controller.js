@@ -31,7 +31,7 @@ const editView = (req, res) => {
 
 //APIS
 const index = async (req, res) => {
-  const { lastName, name, promotion } = req.query;
+  const { lastName, name, promotion, position} = req.query;
 
   let whereClausule = {};
 
@@ -50,6 +50,9 @@ const index = async (req, res) => {
     if (promotion) {
       whereClausule.promotion = promotion
     }
+    if (position) {
+      whereClausule["$jobPositions.id$"] = position
+    }
 
   };
 
@@ -59,7 +62,7 @@ const index = async (req, res) => {
   try {
     const employees = await Employee.findAll({
       where: whereClausule,
-      include: [Category],
+      include: [Category, JobPosition],
       order: [[Category, CategoryEmployee, "datePromotion", "DESC"]],
     });
 
