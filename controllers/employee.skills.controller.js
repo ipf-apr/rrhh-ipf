@@ -56,8 +56,10 @@ const store = async (req, res) => {
       };
     }
 
+    const skill = await Skill.findByPk(skillId);
+
     return res.status(201).json({
-      skillEmployee,
+      skill,
       message: "Habilidad agregada al empleado correctamente",
     });
 
