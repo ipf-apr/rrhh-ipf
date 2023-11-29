@@ -36,7 +36,6 @@ const index = async (req, res) => {
   const { lastName, name, promotion, position, category, skill } = req.query;
 
   let whereClausule = {};
-  let whereCategoryClausule = {};
 
   if (Object.keys(req.query).length !== 0) {
 
@@ -53,12 +52,6 @@ const index = async (req, res) => {
     if (promotion) {
       whereClausule.promotion = promotion
     }
-    // if (position) {
-    //   whereClausule["$jobPositions.id$"] = position
-    // }
-    // if (category) {
-    //   whereCategoryClausule.id = category
-    // }
     if (skill) {
       whereClausule["$employeeSkills.id$"] = skill
     }
@@ -70,11 +63,15 @@ const index = async (req, res) => {
   try {
     const employees = await Employee.findAll({
       where: whereClausule,
-      include: [{
-        model: Category,
-      }, JobPosition, 'employeeSkills'],
-      order: [[Category, CategoryEmployee, "datePromotion", "DESC"], [JobPosition, EmployeeJobPosition, "id", "DESC"]],
-
+      include: [
+        Category,
+        JobPosition,
+        'employeeSkills'
+      ],
+      order: [
+        [Category, CategoryEmployee, "datePromotion", "DESC"],
+        [JobPosition, EmployeeJobPosition, "id", "DESC"]
+      ],
     });
 
     if (category && position) {
@@ -84,7 +81,7 @@ const index = async (req, res) => {
       return res.json(newEmployees);
     }
 
-    if (category || position) {
+    if (category) {
       const newEmployees = employees.filter(employee => {
         return employee.Categories[0]?.id == category
       })
@@ -97,9 +94,6 @@ const index = async (req, res) => {
       })
       return res.json(newEmployees);
     }
-
-
-
     return res.json(employees);
   } catch (error) {
     console.log(error);
