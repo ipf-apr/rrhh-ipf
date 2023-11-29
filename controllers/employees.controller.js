@@ -10,6 +10,7 @@ const Skill = require("../models/skill");
 
 const CategoryEmployee = require("../models/categoryEmployee");
 const JobPosition = require("../models/jobPosition");
+const EmployeeJobPosition = require("../models/employeeJobPosition");
 
 //VISTAS
 const indexView = (_req, res) => {
@@ -35,6 +36,7 @@ const index = async (req, res) => {
   const { lastName, name, promotion, position, category, skill } = req.query;
 
   let whereClausule = {};
+  let whereCategoryClausule = {};
 
   if (Object.keys(req.query).length !== 0) {
 
@@ -51,29 +53,52 @@ const index = async (req, res) => {
     if (promotion) {
       whereClausule.promotion = promotion
     }
-    if (position) {
-      whereClausule["$jobPositions.id$"] = position
-    }
-    if (category) {
-      whereClausule["$categories.id$"] = category
-    }
+    // if (position) {
+    //   whereClausule["$jobPositions.id$"] = position
+    // }
+    // if (category) {
+    //   whereCategoryClausule.id = category
+    // }
     if (skill) {
       whereClausule["$employeeSkills.id$"] = skill
     }
 
   };
 
-
   console.log(whereClausule)
-
-  
 
   try {
     const employees = await Employee.findAll({
       where: whereClausule,
-      include: [Category, JobPosition, 'employeeSkills'],
-      order: [[Category, CategoryEmployee, "datePromotion", "DESC"]],
+      include: [{
+        model: Category,
+      }, JobPosition, 'employeeSkills'],
+      order: [[Category, CategoryEmployee, "datePromotion", "DESC"], [JobPosition, EmployeeJobPosition, "id", "DESC"]],
+
     });
+
+    if (category && position) {
+      const newEmployees = employees.filter(employee => {
+        return employee.Categories[0]?.id == category && employee.JobPositions[0]?.id == position
+      })
+      return res.json(newEmployees);
+    }
+
+    if (category || position) {
+      const newEmployees = employees.filter(employee => {
+        return employee.Categories[0]?.id == category
+      })
+      return res.json(newEmployees);
+    }
+
+    if (position) {
+      const newEmployees = employees.filter(employee => {
+        return employee.JobPositions[0]?.id == position
+      })
+      return res.json(newEmployees);
+    }
+
+
 
     return res.json(employees);
   } catch (error) {
