@@ -26,7 +26,8 @@ const isAuthenticated = async (req, res, next) => {
   try {
         const jwt = await verifyJWT(token);
         // Leer el usuario que corresponde al id
-        const user = await User.findByPk(jwt?.id);
+        
+        const user = req.user ?? await User.findByPk(jwt?.id);
         
     if (!user) {
       if (respInJson) {
