@@ -1,8 +1,7 @@
 const { promisify } = require("util");
 const jwt = require("jsonwebtoken");
 const { Op } = require("sequelize");
-const environments = require('../config/environments')
-
+const environments = require("../config/environments");
 
 const Employee = require("../models/employee");
 const Category = require("../models/category");
@@ -33,65 +32,66 @@ const editView = (req, res) => {
 
 //APIS
 const index = async (req, res) => {
-  const { lastName, name, promotion, position, category, skill } = req.query;
+  const { lastName, name, gender, promotion, position, category, skill } =
+    req.query;
 
   let whereClausule = {};
 
   if (Object.keys(req.query).length !== 0) {
-
     if (lastName) {
       whereClausule.lastName = {
-        [Op.like]: `%${lastName}%`
-      }
+        [Op.like]: `%${lastName}%`,
+      };
     }
     if (name) {
       whereClausule.name = {
-        [Op.like]: `%${name}%`
-      }
+        [Op.like]: `%${name}%`,
+      };
     }
     if (promotion) {
-      whereClausule.promotion = promotion
+      whereClausule.promotion = promotion;
+    }
+    if (gender) {
+      whereClausule.gender = gender;
     }
     if (skill) {
-      whereClausule["$employeeSkills.id$"] = skill
+      whereClausule["$employeeSkills.id$"] = skill;
     }
+  }
 
-  };
-
-  console.log(whereClausule)
+  console.log(whereClausule);
 
   try {
     const employees = await Employee.findAll({
       where: whereClausule,
-      include: [
-        Category,
-        JobPosition,
-        'employeeSkills'
-      ],
+      include: [Category, JobPosition, "employeeSkills"],
       order: [
         [Category, CategoryEmployee, "datePromotion", "DESC"],
-        [JobPosition, EmployeeJobPosition, "id", "DESC"]
+        [JobPosition, EmployeeJobPosition, "id", "DESC"],
       ],
     });
 
     if (category && position) {
-      const newEmployees = employees.filter(employee => {
-        return employee.Categories[0]?.id == category && employee.JobPositions[0]?.id == position
-      })
+      const newEmployees = employees.filter((employee) => {
+        return (
+          employee.Categories[0]?.id == category &&
+          employee.JobPositions[0]?.id == position
+        );
+      });
       return res.json(newEmployees);
     }
 
     if (category) {
-      const newEmployees = employees.filter(employee => {
-        return employee.Categories[0]?.id == category
-      })
+      const newEmployees = employees.filter((employee) => {
+        return employee.Categories[0]?.id == category;
+      });
       return res.json(newEmployees);
     }
 
     if (position) {
-      const newEmployees = employees.filter(employee => {
-        return employee.JobPositions[0]?.id == position
-      })
+      const newEmployees = employees.filter((employee) => {
+        return employee.JobPositions[0]?.id == position;
+      });
       return res.json(newEmployees);
     }
     return res.json(employees);
@@ -121,7 +121,7 @@ const show = async (req, res) => {
 
     return res.json(employee);
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return res
       .status(error.status || 500)
       .json(error.message || "Error interno del servidor");
@@ -133,6 +133,7 @@ const store = async (req, res) => {
     lastName,
     name,
     dni,
+    gender,
     domicilio,
     dateBirthday,
     phone,
@@ -140,7 +141,7 @@ const store = async (req, res) => {
     dateIn,
   } = req.body;
 
-  const token = req.cookies.jwt || req.header("Authorization")
+  const token = req.cookies.jwt || req.header("Authorization");
 
   const jwtDecodificado = await promisify(jwt.verify)(
     token,
@@ -153,6 +154,7 @@ const store = async (req, res) => {
       defaults: {
         lastName,
         name,
+        gender,
         address: domicilio,
         dateBirthday,
         phone,
@@ -167,6 +169,13 @@ const store = async (req, res) => {
       throw {
         status: 400,
         message: "No se pudo crear el empleado.",
+      };
+    }
+
+    if (!created) {
+      throw {
+        status: 400,
+        message: "Ya existe un empleado con el dni " + dni,
       };
     }
 
@@ -185,6 +194,7 @@ const update = async (req, res) => {
     dateBirthday,
     dateIn,
     dni,
+    gender,
     lastName,
     name,
     phone,
@@ -202,6 +212,7 @@ const update = async (req, res) => {
       dateBirthday,
       address,
       dni,
+      gender,
       phone,
       profileNro,
       dateIn,
