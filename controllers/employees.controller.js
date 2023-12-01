@@ -32,7 +32,7 @@ const editView = (req, res) => {
 
 //APIS
 const index = async (req, res) => {
-  const { lastName, name, gender, promotion, position, category, skill } =
+  const { lastName, name, dni, gender, promotion, position, category, skill } =
     req.query;
 
   let whereClausule = {};
@@ -46,6 +46,11 @@ const index = async (req, res) => {
     if (name) {
       whereClausule.name = {
         [Op.like]: `%${name}%`,
+      };
+    }
+    if (dni) {
+      whereClausule.dni = {
+        [Op.like]: `%${dni}%`,
       };
     }
     if (promotion) {
