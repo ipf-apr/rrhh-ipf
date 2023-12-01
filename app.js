@@ -80,7 +80,7 @@ const { isAuthenticated } = require("./middlewares/is_authenticate");
 const { isAdmin } = require("./middlewares/is_admin");
 
 app.use("/", require("./routes/auth.routes"));
-app.use("/", isAuthenticated, require("./routes/dashboard.routes"));
+app.use("/api", isAuthenticated, require("./routes/dashboard.routes"));
 app.use("/", isAuthenticated, require("./routes/employees.routes"));
 app.use("/api", isAuthenticated, require("./routes/employee.category.routes"));
 app.use(
