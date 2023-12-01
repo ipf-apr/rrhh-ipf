@@ -33,6 +33,17 @@ const employeeSchema = checkSchema({
         "El campo dni admite un mínimo de 8 y un máximo de 10 caracteres.",
     },
   },
+  gender: {
+    notEmpty: {
+      errorMessage:
+        "El campo género es obligatorio, tenes que seleccionar uno.",
+    },
+    isIn: {
+      options: [["m", "f", "x", "o"]],
+      errorMessage:
+        "El campo género admite los valores Masculino, Femenino, No Binario y Otro.",
+    },
+  },
   phone: {
     notEmpty: {
       errorMessage: "El campo número de teléfono es obligatorio",
@@ -59,8 +70,6 @@ const employeeSchema = checkSchema({
     custom: {
       options: async (value, { req }) => {
         const { id } = req.params;
-        console.log("const { id } = req.params;");
-        console.log(value);
         return await Employee.findOne({ where: { profileNro: value } }).then(
           (employee) => {
             if (employee) {
