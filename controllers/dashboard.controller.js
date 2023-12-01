@@ -8,10 +8,16 @@ const index = async (req, res) => {
             limit: 6
         });
 
+        const employeesByGender = await Employee.count({
+            group: ['gender']
+        })
+
         res.json({
-            lastsEmployees
+            lastsEmployees,
+            employeesByGender
         });
     } catch (error) {
+        console.log(error)
         res.status(500).json({
             error: 'Internal Server Error'
         });
