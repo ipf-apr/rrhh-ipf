@@ -32,7 +32,7 @@ const editView = (req, res) => {
 
 //APIS
 const index = async (req, res) => {
-  const { lastName, name, dni, gender, promotion, position, category, skill } =
+  const { lastName, name, dni, gender, promotion, selectedJobPosition, selectedCategory, selectedSkill } =
     req.query;
 
   let whereClausule = {};
@@ -59,8 +59,8 @@ const index = async (req, res) => {
     if (gender) {
       whereClausule.gender = gender;
     }
-    if (skill) {
-      whereClausule["$employeeSkills.id$"] = skill;
+    if (selectedSkill) {
+      whereClausule["$employeeSkills.id$"] = selectedSkill;
     }
   }
 
@@ -76,26 +76,26 @@ const index = async (req, res) => {
       ],
     });
 
-    if (category && position) {
+    if (selectedCategory && selectedJobPosition) {
       const newEmployees = employees.filter((employee) => {
         return (
-          employee.Categories[0]?.id == category &&
-          employee.JobPositions[0]?.id == position
+          employee.Categories[0]?.id == selectedCategory &&
+          employee.JobPositions[0]?.id == selectedJobPosition
         );
       });
       return res.json(newEmployees);
     }
 
-    if (category) {
+    if (selectedCategory) {
       const newEmployees = employees.filter((employee) => {
-        return employee.Categories[0]?.id == category;
+        return employee.Categories[0]?.id == selectedCategory;
       });
       return res.json(newEmployees);
     }
 
-    if (position) {
+    if (selectedJobPosition) {
       const newEmployees = employees.filter((employee) => {
-        return employee.JobPositions[0]?.id == position;
+        return employee.JobPositions[0]?.id == selectedJobPosition;
       });
       return res.json(newEmployees);
     }
