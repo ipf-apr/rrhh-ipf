@@ -10,6 +10,7 @@ const Skill = require("../models/skill");
 const CategoryEmployee = require("../models/categoryEmployee");
 const JobPosition = require("../models/jobPosition");
 const EmployeeJobPosition = require("../models/employeeJobPosition");
+const getDateForSqlFromAge = require("../helpers/getDateForSqlFromUTC");
 
 //VISTAS
 const indexView = (_req, res) => {
@@ -32,8 +33,17 @@ const editView = (req, res) => {
 
 //APIS
 const index = async (req, res) => {
-  const { lastName, name, dni, gender, promotion, selectedJobPosition, selectedCategory, selectedSkill } =
-    req.query;
+  const {
+    lastName,
+    name,
+    dni,
+    gender,
+    promotion,
+    age: ageBetween,
+    selectedJobPosition,
+    selectedCategory,
+    selectedSkill,
+  } = req.query;
 
   let whereClausule = {};
 
@@ -61,6 +71,26 @@ const index = async (req, res) => {
     }
     if (selectedSkill) {
       whereClausule["$employeeSkills.id$"] = selectedSkill;
+    }
+    if (ageBetween) {
+      if (ageBetween == "30+") {
+        whereClausule.dateBirthday = {
+          [Op.lte]: new Date(
+            new Date().setFullYear(new Date().getFullYear() - 30)
+          ),
+        };
+      } else {
+        const age = ageBetween.split("-");
+        console.log()
+        const dateLast = getDateForSqlFromAge((Number(age[1]) + 1));
+        const dateFirst = getDateForSqlFromAge(age[0]);
+
+        console.log(dateFirst, dateLast)
+
+        whereClausule.dateBirthday = {
+          [Op.between]: [dateLast,dateFirst],
+        };
+      }
     }
   }
 
