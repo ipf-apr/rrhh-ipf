@@ -73,7 +73,8 @@ const index = async (req, res) => {
       whereClausule["$employeeSkills.id$"] = selectedSkill;
     }
     if (ageBetween) {
-      if (ageBetween == "30+") {
+      console.log('ageBetween', ageBetween);
+      if (ageBetween == "30+" || ageBetween == 30) {
         whereClausule.dateBirthday = {
           [Op.lte]: new Date(
             new Date().setFullYear(new Date().getFullYear() - 30)
@@ -81,7 +82,6 @@ const index = async (req, res) => {
         };
       } else {
         const age = ageBetween.split("-");
-        console.log()
         const dateLast = getDateForSqlFromAge((Number(age[1]) + 1));
         const dateFirst = getDateForSqlFromAge(age[0]);
 

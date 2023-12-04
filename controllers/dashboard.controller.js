@@ -1,3 +1,4 @@
+const groupByRangeAge = require("../helpers/groupByRangeAge");
 const Employee = require("../models/employee");
 const JobPosition = require("../models/jobPosition");
 
@@ -15,22 +16,22 @@ const index = async (req, res) => {
 
     const [employeesByJobPosition] = await Employee.sequelize.query(
       `select COUNT(employee_job_position.employee_id) AS employeeByJobPosition,
-		  job_positions.id as jobPositionId,
-        job_positions.position as jobPosition
+              job_positions.id as jobPositionId,
+              job_positions.position as jobPosition
         from employee_job_position INNER join 
-        (select MAX(employee_job_position.id) as id_aggregate, 
-        employee_job_position.employee_id 
-        from employee_job_position group by employee_job_position.employee_id) as latestOfMany 
-        on latestOfMany.id_aggregate = employee_job_position.id 
-        and latestOfMany.employee_id = employee_job_position.employee_id
+              (select MAX(employee_job_position.id) as id_aggregate, 
+              employee_job_position.employee_id 
+              from employee_job_position group by employee_job_position.employee_id) as latestOfMany 
+          on latestOfMany.id_aggregate = employee_job_position.id 
+          and latestOfMany.employee_id = employee_job_position.employee_id
         RIGHT JOIN job_positions ON employee_job_position.job_position_id = job_positions.id
         LEFT JOIN employees ON employee_job_position.employee_id = employees.id 
         WHERE employees.deleted_at IS NULL AND job_positions.deleted_at IS NULL
-GROUP BY jobPosition, jobPositionId
-ORDER BY jobPosition ASC`
+        GROUP BY jobPosition, jobPositionId
+        ORDER BY jobPosition ASC`
     );
 
-    const [ employeesBySkills ] = await Employee.sequelize.query(`
+    const [employeesBySkills] = await Employee.sequelize.query(`
     select skills.id as skillId,
 		  COUNT(employee_skill.employee_id) AS employeeBySkill,
         skills.nameSkill as skill
@@ -38,15 +39,21 @@ ORDER BY jobPosition ASC`
         RIGHT JOIN skills ON employee_skill.skill_id = skills.id
         LEFT JOIN employees ON employee_skill.employee_id = employees.id 
         WHERE employees.deleted_at IS NULL AND skills.deletedAt IS NULL
-GROUP BY skillId
-ORDER BY skillId ASC`)
-    
+    GROUP BY skillId
+    ORDER BY skillId ASC`);
+
+    const employeesByDateBirthday = await Employee.findAll({
+      attributes: ['id', 'dateBirthday', 'age']
+    });
+
+    const employeesByRangeAge = groupByRangeAge(employeesByDateBirthday);
 
     res.json({
       lastsEmployees,
       employeesByGender,
       employeesByJobPosition,
-      employeesBySkills
+      employeesBySkills,
+      employeesByRangeAge
     });
   } catch (error) {
     console.log(error);
@@ -56,6 +63,9 @@ ORDER BY skillId ASC`)
   }
 };
 
+
+
 module.exports = {
   index,
 };
+
