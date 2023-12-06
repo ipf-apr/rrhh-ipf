@@ -58,9 +58,26 @@ const employeeSchema = checkSchema({
     isISO8601: {
       errorMessage: "El campo fecha de nacimiento debe ser una fecha",
     },
-    isBefore: {
-      date: "01-01-2005",
-      errorMessage: "La persona debe ser mayor de edad",
+    custom: {
+      options: async (value, { req }) => {
+        const today = new Date();
+        const date_b = new Date(value);
+        let age = today.getFullYear() - date_b.getFullYear();
+        let m = today.getMonth() - date_b.getMonth();
+
+        if (m < 0 || (m === 0 && today.getDate() < date_b.getDate())) {
+          age--;
+        }
+
+        console.log(age)
+        if (age >= 18) {
+          return true;
+        }
+
+        throw new Error(
+          "La persona debe ser mayor de edad para poder registrarla en el sistema."
+        );
+      },
     },
   },
   profileNro: {
