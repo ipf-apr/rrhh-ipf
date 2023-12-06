@@ -4,6 +4,9 @@ const JobPosition = require("../models/jobPosition");
 
 const index = async (req, res) => {
   try {
+
+    const totalEmployees = await Employee.count();
+
     const lastsEmployees = await Employee.findAll({
       attributes: ["id", "name", "image", "imageUrl", "createdAt"],
       order: [["createdAt", "DESC"]],
@@ -49,6 +52,7 @@ const index = async (req, res) => {
     const employeesByRangeAge = groupByRangeAge(employeesByDateBirthday);
 
     res.json({
+      totalEmployees,
       lastsEmployees,
       employeesByGender,
       employeesByJobPosition,
